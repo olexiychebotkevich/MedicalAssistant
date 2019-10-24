@@ -1,21 +1,60 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { actionCreators } from '../store/Counter';
+import { Menu, Icon } from 'antd';
+import 'antd/dist/antd.css';
+import React, { Component } from 'react';
 
-const Counter = props => (
-  <div>
-    <h1>Counter</h1>
+const { SubMenu } = Menu;
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      current: 'mail',
+    }
+  }
 
-    <p>This is a simple example of a React component.</p>
+  handleClick = e => {
+    console.log('click ', e);
+    this.setState({
+      current: e.key,
+    });
+  };
+  render() {
+    return (
+      
+        <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+          <Menu.Item key="mail">
+            <Icon type="mail" />
+            Navigation One
+        </Menu.Item>
+          <Menu.Item key="app" disabled>
+            <Icon type="appstore" />
+            Navigation Two
+        </Menu.Item>
+          <SubMenu
+            title={
+              <span className="submenu-title-wrapper">
+                <Icon type="setting" />
+                Navigation Three - Submenu
+            </span>
+            }
+          >
+            <Menu.ItemGroup title="Item 1">
+              <Menu.Item key="setting:1">Option 1</Menu.Item>
+              <Menu.Item key="setting:2">Option 2</Menu.Item>
+            </Menu.ItemGroup>
+            <Menu.ItemGroup title="Item 2">
+              <Menu.Item key="setting:3">Option 3</Menu.Item>
+              <Menu.Item key="setting:4">Option 4</Menu.Item>
+            </Menu.ItemGroup>
+          </SubMenu>
+          <Menu.Item key="alipay">
+            <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
+              Navigation Four - Link
+          </a>
+          </Menu.Item>
+        </Menu>
+      
+    );
+  }
+}
 
-    <p>Current count: <strong>{props.count}</strong></p>
-
-    <button className="btn btn-primary" onClick={props.increment}>Increment</button>
-  </div>
-);
-
-export default connect(
-  state => state.counter,
-  dispatch => bindActionCreators(actionCreators, dispatch)
-)(Counter);
+export default Counter;
