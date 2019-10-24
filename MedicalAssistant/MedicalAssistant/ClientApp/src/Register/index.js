@@ -17,40 +17,6 @@ const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 
 
-const residences = [
-    {
-        value: 'zhejiang',
-        label: 'Zhejiang',
-        children: [
-            {
-                value: 'hangzhou',
-                label: 'Hangzhou',
-                children: [
-                    {
-                        value: 'xihu',
-                        label: 'West Lake',
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        value: 'jiangsu',
-        label: 'Jiangsu',
-        children: [
-            {
-                value: 'nanjing',
-                label: 'Nanjing',
-                children: [
-                    {
-                        value: 'zhonghuamen',
-                        label: 'Zhong Hua Men',
-                    },
-                ],
-            },
-        ],
-    },
-];
 
 
 
@@ -106,13 +72,13 @@ class RegistrationForm extends Component {
     };
 
     render() {
-         const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 8 },
+                sm: { span: 4 },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -127,7 +93,7 @@ class RegistrationForm extends Component {
                 },
                 sm: {
                     span: 16,
-                    offset: 8,
+                    offset: 10,
                 },
             },
         };
