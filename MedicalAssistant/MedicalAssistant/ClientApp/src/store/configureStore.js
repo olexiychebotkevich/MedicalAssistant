@@ -4,6 +4,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import { createBrowserHistory } from 'history';
+import {usersReducer} from '../RegistrationPage/reducer'
 
 
 // Create browser history to use in the Redux store
@@ -14,6 +15,7 @@ export default function configureStore(history, initialState) {
   const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
+    usersReducer,
 
   };
 

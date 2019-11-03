@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, Icon,Typography  } from 'antd';
 import 'antd/dist/antd.css';
 
-const { SubMenu } = Menu;
+
 const { Text  } = Typography;
 
 class NavigMenu extends Component {

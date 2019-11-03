@@ -1,22 +1,37 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
+import { push } from 'connected-react-router';
+import get from 'lodash.get';
+import moment from 'moment';
 import {
     Form,
     Input,
     Tooltip,
     Icon,
-    Cascader,
     Select,
     Row,
     Col,
-    Checkbox,
     Button,
-    AutoComplete,
+    DatePicker,
 } from 'antd';
 const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
+const dateFormat = 'DD/MM/YYYY';
 
 
+
+
+const propTypes = {
+    registrUser: PropTypes.func.isRequired,
+    IsLoading: PropTypes.bool.isRequired,
+    IsFailed: PropTypes.bool.isRequired,
+    IsSuccess: PropTypes.bool.isRequired,
+    registration: PropTypes.object.isRequired,
+};
+
+const defaultProps = {};
 
 
 
@@ -25,18 +40,42 @@ class RegistrationForm extends Component {
         super(props);
         this.state = {
             confirmDirty: false,
-            autoCompleteResult: [],
+            loading: false,
+            registration: {}
+
         }
-      }
+    }
+
+
+    static getDerivedStateFromProps = (props, state) => {
+        //Тута пописати і змінити
+        ///333333333333
+        //4444444444444
+        //5555555555555
+        //console.log('---nextProps---', props);
+        return {
+            loading: props.IsLoading,
+            registration: { ...props.registration }
+        };
+    }
 
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                const usermodel = {
+                    Password: values.password,
+                    Email: values.email,
+                    UserName: values.username,
+                    UserSurname: values.usersurname,
+                    PhoneNumber: values.prefix + values.phone
+                };
+                console.log('Received values of form: ', usermodel);
+                this.props.registrUser(usermodel);
             }
         });
+
     };
 
     handleConfirmBlur = e => {
@@ -61,19 +100,34 @@ class RegistrationForm extends Component {
         callback();
     };
 
-    handleWebsiteChange = value => {
-        let autoCompleteResult;
-        if (!value) {
-            autoCompleteResult = [];
-        } else {
-            autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-        }
-        this.setState({ autoCompleteResult });
-    };
+    //  validateDate = (rule, value, callback) => {
+    //     let errors;
+      
+    //     if (!value) {
+    //         callback('Required!');
+         
+    //     } else if (
+    //       moment(value).format(dateFormat) < moment(Date.now()).format(dateFormat)
+    //     ) {
+    //         callback("Invalid date!");
+    //     }
+      
+    //     return errors;
+    //   };
+
+    // handleWebsiteChange = value => {
+    //     let autoCompleteResult;
+    //     if (!value) {
+    //         autoCompleteResult = [];
+    //     } else {
+    //         autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
+    //     }
+    //     this.setState({ autoCompleteResult });
+    // };
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { autoCompleteResult } = this.state;
+        // const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
             labelCol: {
@@ -104,10 +158,9 @@ class RegistrationForm extends Component {
                 <Option value="38">+38</Option>
             </Select>,
         );
+      
+       
 
-        const websiteOptions = autoCompleteResult.map(website => (
-            <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-        ));
 
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
@@ -133,8 +186,8 @@ class RegistrationForm extends Component {
                                 message: 'Please input your password!',
                             },
                             {
-                                min:8,
-                                message:"The field Password  must contain 8 symbols!"
+                                min: 8,
+                                message: "The field Password  must contain 8 symbols!"
                             },
                             {
                                 validator: this.validateToNextPassword,
@@ -150,8 +203,8 @@ class RegistrationForm extends Component {
                                 message: 'Please confirm your password!',
                             },
                             {
-                                min:8,
-                                message:"The field Confirm Password must contain 8 symbols!"
+                                min: 8,
+                                message: "The field Confirm Password must contain 8 symbols!"
                             },
                             {
                                 validator: this.compareToFirstPassword,
@@ -162,24 +215,39 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Nickname&nbsp;
-                            <Tooltip title="What do you want others to call you?">
+                            Name&nbsp;
+                            <Tooltip title="Your name">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
                         </span>
                     }
                 >
-                    {getFieldDecorator('nickname', {
-                        rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                    {getFieldDecorator('username', {
+                        rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
-        
+
+                <Form.Item
+                    label={
+                        <span>
+                            Surname&nbsp;
+                            <Tooltip title="Your surname?">
+                                <Icon type="question-circle-o" />
+                            </Tooltip>
+                        </span>
+                    }
+                >
+                    {getFieldDecorator('usersurname', {
+                        rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
+                    })(<Input />)}
+                </Form.Item>
+
                 <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', {
-                        rules: [{ required: true,message: 'Please input your phone number!' },{min:10,message:"The field Phone number must contain 10 numbers!"}],
+                        rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
-         
+                {/*          
                 <Form.Item label="Captcha" extra="We must make sure that your are a human.">
                     <Row gutter={8}>
                         <Col span={12}>
@@ -191,17 +259,67 @@ class RegistrationForm extends Component {
                             <Button>Get captcha</Button>
                         </Col>
                     </Row>
+                </Form.Item> */}
+
+
+                <Form.Item label="Date of birth">
+                    {getFieldDecorator('DateofBirth', {
+                        initialValue: moment(),
+                        rules: [
+                            {
+                                type: 'object',
+                                required: true,
+                                message: 'Please input Date of birth',
+                                whitespace: true,
+                            },
+                        ],
+                    })(<DatePicker initialValue={moment()} format={dateFormat} />)}
+
                 </Form.Item>
-               
+         
+
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
                         Register
                     </Button>
                 </Form.Item>
+          
             </Form>
         );
     }
 }
-const WrappedRegistrationForm = Form.create({ name: 'register' })(RegistrationForm);
+const mapState = (state) => {
+    return {
+        IsLoading: get(state, 'usersReducer.registration.loading'),
+        IsFailed: get(state, 'usersReducer.registration.failed'),
+        IsSuccess: get(state, 'usersReducer.registration.success'),
+        registration:
+        {
+            IsLoading: get(state, 'usersReducer.registration.loading'),
+            IsFailed: get(state, 'usersReducer.registration.failed'),
+            IsSuccess: get(state, 'usersReducer.registration.success'),
+        },
 
-export default WrappedRegistrationForm;
+
+
+    }
+}
+
+const mapDispatch = {
+
+    registrUser: (user) => {
+        return usersActions.registrUser(user);
+    },
+    push: (url) => {
+        return (dispatch) => {
+            dispatch(push(url));
+        }
+    }
+}
+
+
+const WrappedRegistrationForm = Form.create({ name: 'register' })(RegistrationForm);
+WrappedRegistrationForm.propTypes = propTypes;
+WrappedRegistrationForm.defaultProps = defaultProps;
+
+export default connect(mapState, mapDispatch)(WrappedRegistrationForm);

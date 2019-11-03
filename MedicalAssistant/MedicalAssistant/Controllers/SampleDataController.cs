@@ -40,5 +40,11 @@ namespace MedicalAssistant.Controllers
                 }
             }
         }
+
+        [HttpGet("test")]
+        public IActionResult Test()
+        {
+            return Ok("Hello World");
+        }
     }
 }
