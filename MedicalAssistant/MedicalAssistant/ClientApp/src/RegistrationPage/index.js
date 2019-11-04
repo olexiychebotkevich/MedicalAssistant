@@ -6,6 +6,9 @@ import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import moment from 'moment';
+import jsonp from 'fetch-jsonp';
+import querystring from 'querystring';
+import axios from 'axios';
 import {
     Form,
     Input,
@@ -16,10 +19,27 @@ import {
     Col,
     Button,
     DatePicker,
+    Menu
 } from 'antd';
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
-
+const { SubMenu } = Menu;
+let timeout;
+let currentValue;
+const menu = (
+    <Menu>
+        <Menu.Item>1st menu item</Menu.Item>
+        <Menu.Item>2nd menu item</Menu.Item>
+        <SubMenu title="sub menu">
+            <Menu.Item>3rd menu item</Menu.Item>
+            <Menu.Item>4th menu item</Menu.Item>
+        </SubMenu>
+        <SubMenu title="disabled sub menu" disabled>
+            <Menu.Item>5d menu item</Menu.Item>
+            <Menu.Item>6th menu item</Menu.Item>
+        </SubMenu>
+    </Menu>
+);
 
 
 
@@ -33,6 +53,43 @@ const propTypes = {
 
 const defaultProps = {};
 
+function fetch(value, callback) {
+    if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+    }
+    currentValue = value;
+
+    function fake() {
+        const str = querystring.encode({
+            code: 'utf-8',
+            q: value,
+        });
+        axios(`https://restcountries.eu/rest/v2/all`)
+            .then(res => {
+
+                if (currentValue === value) {
+                    const { result } = res.data;
+                    const data = [];
+
+                    res.data.forEach(r => {
+                        console.log("r: ", r);
+                        if (r.altSpellings[1])
+                            if (r.altSpellings[1].toString().startsWith(currentValue)) {
+                                data.push({
+                                    value: r.altSpellings[1],
+                                    text: r.altSpellings[1],
+                                });
+                            }
+                    });
+                    callback(data);
+                }
+            });
+    }
+
+    timeout = setTimeout(fake, 300);
+}
+
 
 
 class RegistrationForm extends Component {
@@ -41,6 +98,8 @@ class RegistrationForm extends Component {
         this.state = {
             confirmDirty: false,
             loading: false,
+            dataLocality: [],
+            value: undefined,
             registration: {}
 
         }
@@ -69,7 +128,8 @@ class RegistrationForm extends Component {
                     Email: values.email,
                     UserName: values.username,
                     UserSurname: values.usersurname,
-                    PhoneNumber: values.prefix + values.phone
+                    PhoneNumber: values.prefix + values.phone,
+                    Locality: values.Locality
                 };
                 console.log('Received values of form: ', usermodel);
                 this.props.registrUser(usermodel);
@@ -102,16 +162,16 @@ class RegistrationForm extends Component {
 
     //  validateDate = (rule, value, callback) => {
     //     let errors;
-      
+
     //     if (!value) {
     //         callback('Required!');
-         
+
     //     } else if (
     //       moment(value).format(dateFormat) < moment(Date.now()).format(dateFormat)
     //     ) {
     //         callback("Invalid date!");
     //     }
-      
+
     //     return errors;
     //   };
 
@@ -124,6 +184,20 @@ class RegistrationForm extends Component {
     //     }
     //     this.setState({ autoCompleteResult });
     // };
+
+
+
+    handleSearch = value => {
+        if (value) {
+            fetch(value, data => this.setState({ dataLocality: data }));
+        } else {
+            this.setState({ dataLocality: [] });
+        }
+    };
+
+    handleChange = value => {
+        this.setState({ value });
+    };
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -158,8 +232,10 @@ class RegistrationForm extends Component {
                 <Option value="38">+38</Option>
             </Select>,
         );
-      
-       
+
+        const options = this.state.dataLocality.map(d => <Option key={d.value}>{d.text}</Option>);
+
+
 
 
         return (
@@ -276,14 +352,44 @@ class RegistrationForm extends Component {
                     })(<DatePicker initialValue={moment()} format={dateFormat} />)}
 
                 </Form.Item>
-         
+
+
+                <Form.Item label="Locality">
+                    {getFieldDecorator('Locality', {
+                        rules: [
+                            {
+                                type: 'object',
+                                required: true,
+                                message: 'Please input Date of birth',
+                                whitespace: true,
+                            },
+                        ],
+                    })(
+                        <Select
+                            showSearch
+                            value={this.state.value}
+                            placeholder={this.props.placeholder}
+                            style={this.props.style}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch}
+                            onChange={this.handleChange}
+                            notFoundContent={null}
+                        >
+                            {options}
+                        </Select>)}
+                </Form.Item>
+
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
                         Register
                     </Button>
                 </Form.Item>
-          
+
+
+
             </Form>
         );
     }
