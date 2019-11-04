@@ -44,7 +44,7 @@ namespace MedicalAssistant.Controllers
         [HttpGet("test")]
         public IActionResult Test()
         {
-            return Ok("Hello World");
+            return Ok("Hello Ann");
         }
     }
 }
