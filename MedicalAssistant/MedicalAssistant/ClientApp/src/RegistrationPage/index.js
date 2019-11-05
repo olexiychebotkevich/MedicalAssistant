@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import moment from 'moment';
-import jsonp from 'fetch-jsonp';
+//import jsonp from 'fetch-jsonp';
 import querystring from 'querystring';
 import axios from 'axios';
 import {

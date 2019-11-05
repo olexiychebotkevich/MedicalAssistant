@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,9 +23,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Entities\ApplicationDbContext.cs" />
+    <Compile Remove="Entities\DbRole.cs" />
+    <Compile Remove="Entities\DbUser.cs" />
+    <Compile Remove="Entities\DbUserRole.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ClientApp\package-lock.json" />
     <Content Include="ClientApp\package.json" />
     <Content Include="ClientApp\public\manifest.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Entities\DbUserRole.cs" />
+    <None Include="Entities\DbUser.cs" />
+    <None Include="Entities\DbRole.cs" />
+    <None Include="Entities\ApplicationDbContext.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
