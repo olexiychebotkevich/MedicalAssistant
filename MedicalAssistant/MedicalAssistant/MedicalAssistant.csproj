@@ -23,10 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\ApplicationDbContext.cs" />
     <Compile Remove="Entities\DbRole.cs" />
     <Compile Remove="Entities\DbUser.cs" />
     <Compile Remove="Entities\DbUserRole.cs" />
+    <Compile Remove="Entities\EFDbContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +39,7 @@
     <None Include="Entities\DbUserRole.cs" />
     <None Include="Entities\DbUser.cs" />
     <None Include="Entities\DbRole.cs" />
-    <None Include="Entities\ApplicationDbContext.cs" />
+    <None Include="Entities\EFDbContext.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
