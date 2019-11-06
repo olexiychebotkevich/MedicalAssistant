@@ -160,6 +160,19 @@ class RegistrationForm extends Component {
         callback();
     };
 
+    strongValidator = (rule, value, callback) => {
+        const digitsRegex = /(?=.*?[0-9])/;
+        const uppercaseRegex = /(?=.*?[A-Z])/;
+        console.log("value", value);
+        console.log("regexdigit", value.match(digitsRegex));
+        console.log("regexuppercaseletter", value.match(uppercaseRegex));
+        if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
+            
+            return callback('Password should contain uppercase letter etc')
+        }
+        callback()
+    }
+
     //  validateDate = (rule, value, callback) => {
     //     let errors;
 
@@ -242,6 +255,7 @@ class RegistrationForm extends Component {
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 type: 'email',
@@ -256,6 +270,7 @@ class RegistrationForm extends Component {
                 </Form.Item>
                 <Form.Item label="Password" hasFeedback>
                     {getFieldDecorator('password', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -268,11 +283,15 @@ class RegistrationForm extends Component {
                             {
                                 validator: this.validateToNextPassword,
                             },
+                            {
+                                validator: this.strongValidator
+                            }
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
                 <Form.Item label="Confirm Password" hasFeedback>
                     {getFieldDecorator('confirm', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -299,6 +318,7 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('username', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
@@ -314,12 +334,14 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('usersurname', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
                 <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
@@ -358,16 +380,15 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('Locality', {
                         rules: [
                             {
-                                type: 'object',
                                 required: true,
-                                message: 'Please input Date of birth',
+                                message: 'Please choose your Locality',
                                 whitespace: true,
                             },
                         ],
                     })(
                         <Select
                             showSearch
-                            value={this.state.value}
+                            initialValue={this.state.value}
                             placeholder={this.props.placeholder}
                             style={this.props.style}
                             defaultActiveFirstOption={false}
