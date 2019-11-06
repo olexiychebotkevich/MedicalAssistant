@@ -129,7 +129,8 @@ class RegistrationForm extends Component {
                     UserName: values.username,
                     UserSurname: values.usersurname,
                     PhoneNumber: values.prefix + values.phone,
-                    Locality: values.Locality
+                    Locality: values.Locality,
+                    DateOfBirth:values.DateofBirth
                 };
                 console.log('Received values of form: ', usermodel);
                 this.props.registrUser(usermodel);
@@ -241,7 +242,7 @@ class RegistrationForm extends Component {
         return (
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="E-mail">
-                    {getFieldDecorator('email', {
+                    {getFieldDecorator('email', {initialValue:undefined,
                         rules: [
                             {
                                 type: 'email',
@@ -255,7 +256,7 @@ class RegistrationForm extends Component {
                     })(<Input />)}
                 </Form.Item>
                 <Form.Item label="Password" hasFeedback>
-                    {getFieldDecorator('password', {
+                    {getFieldDecorator('password', {initialValue:undefined,
                         rules: [
                             {
                                 required: true,
@@ -272,7 +273,7 @@ class RegistrationForm extends Component {
                     })(<Input.Password />)}
                 </Form.Item>
                 <Form.Item label="Confirm Password" hasFeedback>
-                    {getFieldDecorator('confirm', {
+                    {getFieldDecorator('confirm', {initialValue:undefined,
                         rules: [
                             {
                                 required: true,
@@ -298,8 +299,8 @@ class RegistrationForm extends Component {
                         </span>
                     }
                 >
-                    {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
+                    {getFieldDecorator('username', {initialValue:undefined,
+                        rules: [{required: true, message: 'Please input your name!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
@@ -313,13 +314,13 @@ class RegistrationForm extends Component {
                         </span>
                     }
                 >
-                    {getFieldDecorator('usersurname', {
+                    {getFieldDecorator('usersurname', {initialValue:undefined,
                         rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
                 <Form.Item label="Phone Number">
-                    {getFieldDecorator('phone', {
+                    {getFieldDecorator('phone', { initialValue:undefined,
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
@@ -358,16 +359,15 @@ class RegistrationForm extends Component {
                     {getFieldDecorator('Locality', {
                         rules: [
                             {
-                                type: 'object',
                                 required: true,
-                                message: 'Please input Date of birth',
+                                message: 'Please choose your Locality',
                                 whitespace: true,
                             },
                         ],
                     })(
                         <Select
                             showSearch
-                            value={this.state.value}
+                            initialValue={this.state.value}
                             placeholder={this.props.placeholder}
                             style={this.props.style}
                             defaultActiveFirstOption={false}
