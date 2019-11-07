@@ -1,0 +1,20 @@
+body{
+    background-image: url('https://i.ytimg.com/vi/OXuIqaeg0SI/maxresdefault.jpg');
+}
+.login-form {
+  max-width: 300px;
+  display:block;
+  margin: auto;
+}
+ .login-form-forgot {
+float: left;
+} 
+.login-form-button {
+ 
+  width:100%;
+}
+.register-form-button {
+   
+    width:100%;
+  }
+  

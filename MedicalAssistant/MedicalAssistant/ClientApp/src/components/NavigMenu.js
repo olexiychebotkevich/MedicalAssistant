@@ -4,6 +4,7 @@ import { Menu, Icon,Typography  } from 'antd';
 import 'antd/dist/antd.css';
 
 
+
 const { Text  } = Typography;
 
 class NavigMenu extends Component {
@@ -34,7 +35,7 @@ class NavigMenu extends Component {
                     <Icon type="solution" />
                     <Link to="/registr" />
                 </Menu.Item>
-
+               
             </Menu>
         );
     }
