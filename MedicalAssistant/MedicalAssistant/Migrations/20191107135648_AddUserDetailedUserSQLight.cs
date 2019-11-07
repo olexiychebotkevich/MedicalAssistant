@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MedicalAssistant.Migrations
 {
-    public partial class AddIdentitySQLight : Migration
+    public partial class AddUserDetailedUserSQLight : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -154,6 +154,26 @@ namespace MedicalAssistant.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "tblDetailedUsers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false),
+                    UserSurname = table.Column<string>(nullable: true),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    Locality = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tblDetailedUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_tblDetailedUsers_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +228,9 @@ namespace MedicalAssistant.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "tblDetailedUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

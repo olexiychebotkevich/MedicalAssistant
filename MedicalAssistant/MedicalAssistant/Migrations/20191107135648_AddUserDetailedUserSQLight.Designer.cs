@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalAssistant.Migrations
 {
     [DbContext(typeof(EFDbContext))]
-    [Migration("20191106135356_AddIdentitySQLight")]
-    partial class AddIdentitySQLight
+    [Migration("20191107135648_AddUserDetailedUserSQLight")]
+    partial class AddUserDetailedUserSQLight
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -104,6 +104,21 @@ namespace MedicalAssistant.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("MedicalAssistant.Entities.DetailedUser", b =>
+                {
+                    b.Property<int>("Id");
+
+                    b.Property<DateTime>("DateOfBirth");
+
+                    b.Property<string>("Locality");
+
+                    b.Property<string>("UserSurname");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tblDetailedUsers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -186,6 +201,14 @@ namespace MedicalAssistant.Migrations
                     b.HasOne("MedicalAssistant.Entities.DbUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("MedicalAssistant.Entities.DetailedUser", b =>
+                {
+                    b.HasOne("MedicalAssistant.Entities.DbUser", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
