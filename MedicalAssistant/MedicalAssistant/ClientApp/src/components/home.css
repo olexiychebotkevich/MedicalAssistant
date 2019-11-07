@@ -1,13 +1,26 @@
-body{
-    background-image: url('https://i.ytimg.com/vi/OXuIqaeg0SI/maxresdefault.jpg');
-}
+ body{
+    background: url('Five-Ways-5G-will-Supercharge-_Inline2.jpg') ;
+  background-size:cover;
+
+    background-repeat: no-repeat;
+  } 
 .login-form {
   max-width: 300px;
-  display:block;
-  margin: auto;
+    /* display:block;
+  margin: auto;  */
+  margin-top: 50px;
+}
+.header{
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+   /* text-align: center;  */
+  font-size: 80px;
+  color: whitesmoke;
+
 }
  .login-form-forgot {
 float: left;
+color: white;
+font-size: 20px;
 } 
 .login-form-button {
  
@@ -17,4 +30,5 @@ float: left;
    
     width:100%;
   }
+  
   

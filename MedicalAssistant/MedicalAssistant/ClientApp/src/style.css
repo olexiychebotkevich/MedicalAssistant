@@ -1,0 +1,9 @@
+.register-form {
+    max-width:500px;
+      /* display:block;
+    margin: auto;   */
+    margin-top: 20px;
+  } 
+  .register-form-button{
+      float: left;
+  }
