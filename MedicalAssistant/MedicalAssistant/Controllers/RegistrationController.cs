@@ -8,6 +8,7 @@ using MedicalAssistant.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalAssistant.Controllers
 {
@@ -17,13 +18,12 @@ namespace MedicalAssistant.Controllers
     {
         private readonly UserManager<DbUser> userManager;
         private readonly SignInManager<DbUser> signInManager;
-        private readonly EFDbContext _dbContext;
-
-        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager,EFDbContext dbContext)
+        private readonly EFDbContext _dbcontext;
+        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager,EFDbContext context)
         {
             this.userManager = userManager;
             this.signInManager = _signInManager;
-            this._dbContext = dbContext;
+            this._dbcontext = context;
         }
 
         [HttpPost("registration")]
@@ -33,7 +33,7 @@ namespace MedicalAssistant.Controllers
             //var userIdentity = _mapper.Map<DbUser>(model);
             var userIdentity = new DbUser { Email = model.Email,UserName = model.UserName,PhoneNumber=model.PhoneNumber};
             var user = await userManager.CreateAsync(userIdentity, model.Password);
-
+            
 
             if (!user.Succeeded)
             {
@@ -44,16 +44,17 @@ namespace MedicalAssistant.Controllers
             }
             else
             {
-                _dbContext.DetailedUsers.Add(new DetailedUser
+                DetailedUser userDetailed = new DetailedUser
                 {
                     UserSurname = model.UserSurname,
-                    Locality = model.Locality,
                     DateOfBirth = model.DateOfBirth,
-                    User = userManager.FindByEmailAsync(model.Email).Result
-                });
-                _dbContext.SaveChanges();
-
+                    Locality = model.Locality,
+                    User=userManager.FindByEmailAsync(model.Email).Result
+                };
+                _dbcontext.Add(userDetailed);
+                _dbcontext.SaveChanges();
             }
+
 
             model.Password = "";
 
@@ -63,7 +64,7 @@ namespace MedicalAssistant.Controllers
         [HttpGet("getall")]
         public ICollection<DetailedUser> GetAll()
         {
-            return _dbContext.DetailedUsers.ToList();
+            return _dbcontext.DetailedUsers.Include("User").ToList(); ;
         }
     }
 }

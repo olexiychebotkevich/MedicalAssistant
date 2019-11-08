@@ -7,20 +7,14 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.Entities
 {
+    [Table("tblDetailedUsers")]
     public class DetailedUser
     {
-        [Key]
+        [Key, ForeignKey("User")]
         public int Id { get; set; }
-
         public string UserSurname { get; set; }
-
         public DateTime DateOfBirth { get; set; }
-
         public string Locality { get; set; }
-
-        [ForeignKey("UserId")]
-        public int UserId { get; set; }
-
         public DbUser User { get; set; }
     }
 }
