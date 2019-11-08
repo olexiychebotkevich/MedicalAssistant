@@ -17,11 +17,13 @@ namespace MedicalAssistant.Controllers
     {
         private readonly UserManager<DbUser> userManager;
         private readonly SignInManager<DbUser> signInManager;
+        private readonly EFDbContext _dbContext;
 
-        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager)
+        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager,EFDbContext dbContext)
         {
             this.userManager = userManager;
             this.signInManager = _signInManager;
+            this._dbContext = dbContext;
         }
 
         [HttpPost("registration")]
@@ -40,10 +42,28 @@ namespace MedicalAssistant.Controllers
                     return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
                 }
             }
+            else
+            {
+                _dbContext.DetailedUsers.Add(new DetailedUser
+                {
+                    UserSurname = model.UserSurname,
+                    Locality = model.Locality,
+                    DateOfBirth = model.DateOfBirth,
+                    User = userManager.FindByEmailAsync(model.Email).Result
+                });
+                _dbContext.SaveChanges();
+
+            }
 
             model.Password = "";
 
             return Ok(model);
+        }
+
+        [HttpGet("getall")]
+        public ICollection<DetailedUser> GetAll()
+        {
+            return _dbContext.DetailedUsers.ToList();
         }
     }
 }

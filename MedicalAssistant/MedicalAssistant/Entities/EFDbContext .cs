@@ -17,7 +17,7 @@ namespace MedicalAssistant.Entities
         {
 
         }
-        //public DbSet<DbProduct> Products { get; set; }
+        public DbSet<DetailedUser> DetailedUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
