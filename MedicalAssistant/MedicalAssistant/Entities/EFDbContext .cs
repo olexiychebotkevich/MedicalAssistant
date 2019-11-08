@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace MedicalAssistant.Entities
 {
     public class EFDbContext : IdentityDbContext<DbUser, DbRole, int, IdentityUserClaim<int>,
-                    DbUserRole, IdentityUserLogin<int>,
-                    IdentityRoleClaim<int>, IdentityUserToken<int>>
+                     DbUserRole, IdentityUserLogin<int>,
+                     IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public EFDbContext(DbContextOptions<EFDbContext> options)
             : base(options)

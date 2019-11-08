@@ -10,8 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
 using MedicalAssistant.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalAssistant
 {

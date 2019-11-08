@@ -21,7 +21,9 @@ const initialState = {
     registration: {
     failed: false,
     loading: false,
-    success: false
+    success: false,
+    user: null,
+    error:""
     },
 }
 
@@ -35,13 +37,14 @@ export const usersReducer = (state = initialState, action) => {
         case REGISTER_SUCCESS: {
             newState = update.set(state, 'registration.loading', false);
             newState = update.set(newState, 'registration.success', true);
-           // newState = update.set(newState, 'registration.text', action.payload.data);
+            newState = update.set(newState, 'registration.user', action.payload.data);
             break;
         }
 
         case REGISTER_FAILURE: {
             newState = update.set(state, 'registration.loading', false);
             newState = update.set(newState, 'registration.failed', true);
+            newState = update.set(newState, 'registration.error', action.payload.data);
             break;
         }
         default: {
