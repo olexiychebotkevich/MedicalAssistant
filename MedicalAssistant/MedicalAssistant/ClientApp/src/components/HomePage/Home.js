@@ -25,22 +25,18 @@ class NormalLoginForm extends React.Component {
 
   render() {
 
-  
+   
 
     const { getFieldDecorator } = this.props.form;
     return (
-      
-//  <h1>
-//   Medical Assistant
-//  </h1>
-    
+
        
 <div className="container">
 
 <h1 className="header">Medical Assistant</h1>
 
   
-
+<div className="col-12 col-sm-3">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
@@ -89,7 +85,7 @@ class NormalLoginForm extends React.Component {
  
  
   </div>
-        
+  </div>
          
     );
   }

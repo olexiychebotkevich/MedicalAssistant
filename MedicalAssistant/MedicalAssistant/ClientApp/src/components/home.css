@@ -5,7 +5,7 @@
     background-repeat: no-repeat;
   } 
 .login-form {
-  max-width: 300px;
+  
   margin-top: 50px;
 }
 .header{
@@ -14,25 +14,30 @@
   color: whitesmoke;
 
 }
-@media (max-width: 567px) {
+.login-form-forgot {
+  float: left;
+  color: white;
+  font-size: 20px;
+  } 
+@media (max-width: 768px) {
   .header{
+    font-size: 60px;
+  }
+@media (max-width: 566px) {
+  .header{
+    font-size: 45px;
+  }
+ 
+} 
+@media (max-width: 600px) {
+  .login-form-forgot{
     font-size: 16px;
   }
-  .login-form-forgot{
-    font-size: 8px;
-  }
-} 
- @media (max-width: 768px) {
-  .header{
-    font-size: 40px;
-  }
+}
+ 
 } 
  
- .login-form-forgot {
-float: left;
-color: white;
-font-size: 20px;
-} 
+
 .login-form-button {
  
   width:100%;
