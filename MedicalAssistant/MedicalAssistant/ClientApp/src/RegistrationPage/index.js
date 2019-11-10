@@ -5,6 +5,7 @@ import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
+import '../style.css';
 import moment from 'moment';
 import {
     Form,
@@ -132,7 +133,7 @@ class RegistrationForm extends Component {
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 4 },
+                sm: { span:6 },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -146,8 +147,8 @@ class RegistrationForm extends Component {
                     offset: 0,
                 },
                 sm: {
-                    span: 16,
-                    offset: 10,
+                    span: 6,
+                    offset: 6,
                 },
             },
         };
@@ -163,7 +164,7 @@ class RegistrationForm extends Component {
 
 
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
                         rules: [
@@ -279,7 +280,7 @@ class RegistrationForm extends Component {
          
 
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
+                    <Button type="dashed" htmlType="submit"  className="register-form-button" >
                         Register
                     </Button>
                 </Form.Item>
