@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MedicalAssistant.Entities;
@@ -31,9 +32,10 @@ namespace MedicalAssistant.Controllers
         {
 
             //var userIdentity = _mapper.Map<DbUser>(model);
+           
             var userIdentity = new DbUser { Email = model.Email,UserName = model.UserName,PhoneNumber=model.PhoneNumber};
             var user = await userManager.CreateAsync(userIdentity, model.Password);
-            
+
 
             if (!user.Succeeded)
             {
@@ -41,13 +43,14 @@ namespace MedicalAssistant.Controllers
                 {
                     return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
                 }
+                
             }
             else
             {
                 DetailedUser userDetailed = new DetailedUser
                 {
                     UserSurname = model.UserSurname,
-                    DateOfBirth = model.DateOfBirth,
+                    DateOfBirth = new DateTime(2019,11,9), /*DateTime.Parse(model.DateOfBirth.ToShortDateString())*/
                     Locality = model.Locality,
                     User=userManager.FindByEmailAsync(model.Email).Result
                 };
@@ -58,13 +61,13 @@ namespace MedicalAssistant.Controllers
 
             model.Password = "";
 
-            return Ok(model);
+            return Ok("Account Created");
         }
 
         [HttpGet("getall")]
         public ICollection<DetailedUser> GetAll()
         {
-            return _dbcontext.DetailedUsers.Include("User").ToList(); ;
+               return _dbcontext.DetailedUsers.Include("User").ToList();
         }
     }
 }

@@ -26,20 +26,7 @@ const dateFormat = 'DD/MM/YYYY';
 const { SubMenu } = Menu;
 let timeout;
 let currentValue;
-const menu = (
-    <Menu>
-        <Menu.Item>1st menu item</Menu.Item>
-        <Menu.Item>2nd menu item</Menu.Item>
-        <SubMenu title="sub menu">
-            <Menu.Item>3rd menu item</Menu.Item>
-            <Menu.Item>4th menu item</Menu.Item>
-        </SubMenu>
-        <SubMenu title="disabled sub menu" disabled>
-            <Menu.Item>5d menu item</Menu.Item>
-            <Menu.Item>6th menu item</Menu.Item>
-        </SubMenu>
-    </Menu>
-);
+
 
 
 
@@ -100,7 +87,8 @@ class RegistrationForm extends Component {
             loading: false,
             dataLocality: [],
             value: undefined,
-            registration: {}
+            registration: {},
+       
 
         }
     }
@@ -159,6 +147,18 @@ class RegistrationForm extends Component {
             form.validateFields(['confirm'], { force: true });
         }
         callback();
+    };
+
+    
+    validateEmailExist = (rule, value, callback) => {
+        const { registration } = this.state;
+        const { form } = this.props;
+        console.log("registration Errors: ",registration.errors)
+        if (registration.errors!==undefined&&registration.errors.Error.includes("User name '"+form.getFieldValue('email')+"'is already taken.")) {
+            callback('This Email already exist!');
+        } else {
+            callback();
+        }
     };
 
     strongValidator = (rule, value, callback) => {
@@ -265,7 +265,8 @@ class RegistrationForm extends Component {
                             {
                                 required: true,
                                 message: 'Please input your E-mail!',
-                            },
+                            }
+                        
                         ],
                     })(<Input />)}
                 </Form.Item>
