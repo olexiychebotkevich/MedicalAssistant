@@ -7,6 +7,9 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import '../style.css';
 import moment from 'moment';
+//import jsonp from 'fetch-jsonp';
+import querystring from 'querystring';
+import axios from 'axios';
 import {
     Form,
     Input,
@@ -17,9 +20,13 @@ import {
     Col,
     Button,
     DatePicker,
+    Menu
 } from 'antd';
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
+const { SubMenu } = Menu;
+let timeout;
+let currentValue;
 
 
 
@@ -34,6 +41,43 @@ const propTypes = {
 
 const defaultProps = {};
 
+function fetch(value, callback) {
+    if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+    }
+    currentValue = value;
+
+    function fake() {
+        const str = querystring.encode({
+            code: 'utf-8',
+            q: value,
+        });
+        axios(`https://restcountries.eu/rest/v2/all`)
+            .then(res => {
+
+                if (currentValue === value) {
+                    const { result } = res.data;
+                    const data = [];
+
+                    res.data.forEach(r => {
+                        console.log("r: ", r);
+                        if (r.altSpellings[1])
+                            if (r.altSpellings[1].toString().startsWith(currentValue)) {
+                                data.push({
+                                    value: r.altSpellings[1],
+                                    text: r.altSpellings[1],
+                                });
+                            }
+                    });
+                    callback(data);
+                }
+            });
+    }
+
+    timeout = setTimeout(fake, 300);
+}
+
 
 
 class RegistrationForm extends Component {
@@ -42,7 +86,10 @@ class RegistrationForm extends Component {
         this.state = {
             confirmDirty: false,
             loading: false,
-            registration: {}
+            dataLocality: [],
+            value: undefined,
+            registration: {},
+       
 
         }
     }
@@ -70,7 +117,9 @@ class RegistrationForm extends Component {
                     Email: values.email,
                     UserName: values.username,
                     UserSurname: values.usersurname,
-                    PhoneNumber: values.prefix + values.phone
+                    PhoneNumber: values.prefix + values.phone,
+                    Locality: values.Locality,
+                    DateOfBirth:values.DateofBirth
                 };
                 console.log('Received values of form: ', usermodel);
                 this.props.registrUser(usermodel);
@@ -101,18 +150,43 @@ class RegistrationForm extends Component {
         callback();
     };
 
+    
+    validateEmailExist = (rule, value, callback) => {
+        const { registration } = this.state;
+        const { form } = this.props;
+        console.log("registration Errors: ",registration.errors)
+        if (registration.errors!==undefined&&registration.errors.Error.includes("User name '"+form.getFieldValue('email')+"'is already taken.")) {
+            callback('This Email already exist!');
+        } else {
+            callback();
+        }
+    };
+
+    strongValidator = (rule, value, callback) => {
+        const digitsRegex = /(?=.*?[0-9])/;
+        const uppercaseRegex = /(?=.*?[A-Z])/;
+        console.log("value", value);
+        console.log("regexdigit", value.match(digitsRegex));
+        console.log("regexuppercaseletter", value.match(uppercaseRegex));
+        if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
+            
+            return callback('Password should contain uppercase letter etc')
+        }
+        callback()
+    }
+
     //  validateDate = (rule, value, callback) => {
     //     let errors;
-      
+
     //     if (!value) {
     //         callback('Required!');
-         
+
     //     } else if (
     //       moment(value).format(dateFormat) < moment(Date.now()).format(dateFormat)
     //     ) {
     //         callback("Invalid date!");
     //     }
-      
+
     //     return errors;
     //   };
 
@@ -125,6 +199,20 @@ class RegistrationForm extends Component {
     //     }
     //     this.setState({ autoCompleteResult });
     // };
+
+
+
+    handleSearch = value => {
+        if (value) {
+            fetch(value, data => this.setState({ dataLocality: data }));
+        } else {
+            this.setState({ dataLocality: [] });
+        }
+    };
+
+    handleChange = value => {
+        this.setState({ value });
+    };
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -159,14 +247,17 @@ class RegistrationForm extends Component {
                 <Option value="38">+38</Option>
             </Select>,
         );
-      
-       
+
+        const options = this.state.dataLocality.map(d => <Option key={d.value}>{d.text}</Option>);
+
+
 
 
         return (
             <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 type: 'email',
@@ -175,12 +266,14 @@ class RegistrationForm extends Component {
                             {
                                 required: true,
                                 message: 'Please input your E-mail!',
-                            },
+                            }
+                        
                         ],
                     })(<Input />)}
                 </Form.Item>
                 <Form.Item label="Password" hasFeedback>
                     {getFieldDecorator('password', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -193,11 +286,15 @@ class RegistrationForm extends Component {
                             {
                                 validator: this.validateToNextPassword,
                             },
+                            {
+                                validator: this.strongValidator
+                            }
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
                 <Form.Item label="Confirm Password" hasFeedback>
                     {getFieldDecorator('confirm', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -224,6 +321,7 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('username', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
@@ -239,12 +337,14 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('usersurname', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
                 <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
@@ -277,14 +377,43 @@ class RegistrationForm extends Component {
                     })(<DatePicker initialValue={moment()} format={dateFormat} />)}
 
                 </Form.Item>
-         
+
+
+                <Form.Item label="Locality">
+                    {getFieldDecorator('Locality', {
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Please choose your Locality',
+                                whitespace: true,
+                            },
+                        ],
+                    })(
+                        <Select
+                            showSearch
+                            initialValue={this.state.value}
+                            placeholder={this.props.placeholder}
+                            style={this.props.style}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch}
+                            onChange={this.handleChange}
+                            notFoundContent={null}
+                        >
+                            {options}
+                        </Select>)}
+                </Form.Item>
+
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="dashed" htmlType="submit"  className="register-form-button" >
                         Register
                     </Button>
                 </Form.Item>
-          
+
+
+
             </Form>
         );
     }
