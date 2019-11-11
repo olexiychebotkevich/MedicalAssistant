@@ -3,13 +3,13 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
-import { createBrowserHistory } from 'history';
-import {usersReducer} from '../RegistrationPage/reducer'
+import createHistory from 'history/createHashHistory'
+import {usersReducer} from '../components/RegistrationPage/reducer'
 
 
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-export const history = createBrowserHistory({ basename: baseUrl });
+export const history = createHistory({ basename: baseUrl });
 
 export default function configureStore(history, initialState) {
   const reducers = {

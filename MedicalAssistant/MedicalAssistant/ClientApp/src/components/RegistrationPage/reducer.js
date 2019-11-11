@@ -1,5 +1,6 @@
 import UserService from './UserService';
-import update from '../helpers/update';
+import update from '../../helpers/update';
+import {history} from '../../store/configureStore';
 
 export const REGISTER_REQUEST = "user/USERS_REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "user/USERS_REGISTER_SUCCESS";
@@ -61,6 +62,7 @@ export const registrUser = (user) => {
         UserService.register(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
+                history.push('/');
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);

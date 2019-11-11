@@ -5,7 +5,7 @@ import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
-import '../style.css';
+import '../../style.css';
 import moment from 'moment';
 //import jsonp from 'fetch-jsonp';
 import querystring from 'querystring';
