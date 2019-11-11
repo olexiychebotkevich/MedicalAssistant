@@ -6,7 +6,6 @@ import {
     Form,
     Input,
     Icon,
-    Typography ,
     Button,
 } from 'antd';
 
@@ -26,21 +25,18 @@ class NormalLoginForm extends React.Component {
 
   render() {
 
-  
-const { Title } = Typography;
+   
+
     const { getFieldDecorator } = this.props.form;
     return (
-      
-//  <h1>
-//   Medical Assistant
-//  </h1>
-    
-       
-<div className="container-fluid">
- 
-<h1 className="header">Medical Assistant</h1>
-  
 
+       
+<div className="container">
+
+<h1 className="header">Medical Assistant</h1>
+
+  
+<div className="col-12 col-sm-3">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
@@ -62,21 +58,22 @@ const { Title } = Typography;
                   placeholder="Password"
                 />,
               )}
-              <a className="login-form-forgot" href="">
+            
+            </Form.Item>
+            <Form.Item>
+            <a className="login-form-forgot" href="">
             Forgot password
           </a>
-            </Form.Item>
-            
+              </Form.Item>
               <Form.Item>
               <div className="row">
               <div className="col-6">
-             
-        <Button type="dashed" htmlType="submit" className="login-form-button" >
-             Log in
+              <Button type="dashed" htmlType="submit" className="login-form-button" >
+             Login
           </Button>
            </div>
           <div className="col-6">
-          <Button type="dashed" htmlType="submit"  className="register-form-button" >
+          <Button type="dashed" htmlType="submit" className="register-form-button" >
           Register
           </Button>
            </div>
@@ -88,7 +85,7 @@ const { Title } = Typography;
  
  
   </div>
-        
+  </div>
          
     );
   }

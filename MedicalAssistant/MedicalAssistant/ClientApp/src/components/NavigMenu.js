@@ -23,7 +23,7 @@ class NavigMenu extends Component {
     };
     render() {
         return (
-            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{'backgroundColor': 'whitesmoke'}}>
+            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
                 <Menu.Item key="app" disabled>
                 <Text strong>Medical Assistant</Text>
                 </Menu.Item>

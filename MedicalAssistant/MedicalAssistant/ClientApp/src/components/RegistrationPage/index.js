@@ -407,7 +407,7 @@ class RegistrationForm extends Component {
 
 
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="dashed" htmlType="submit"  className="register-form-button" >
+                    <Button type="dashed" htmlType="submit" className="register-form-btn" >
                         Register
                     </Button>
                 </Form.Item>
