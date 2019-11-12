@@ -1,4 +1,4 @@
-import UserService from './UserService';
+import UserService from '../UserService';
 import update from '../../helpers/update';
 import {history} from '../../store/configureStore';
 
@@ -66,7 +66,6 @@ export const registrUser = (user) => {
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);
-                console.log("err.response: ",err.response.data.Error[0]);
                 dispatch(registrActions.failed(err.response));
                 //redirectStatusCode(err.response.status);
             });

@@ -17,6 +17,7 @@ namespace MedicalAssistant
 {
     public class Startup
     {
+     
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,6 +34,12 @@ namespace MedicalAssistant
             services.AddIdentity<DbUser, DbRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<EFDbContext>()
                 .AddDefaultTokenProviders();
+
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin", b => b.AllowAnyOrigin());
+            });
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("11-sdfasdf-22233222222"));
 
@@ -75,7 +82,8 @@ namespace MedicalAssistant
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             //dbContext.Database.EnsureCreated();
-            
+            app.UseAuthentication();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -86,6 +94,11 @@ namespace MedicalAssistant
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            app.UseCors(builder =>
+            builder
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod());
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();

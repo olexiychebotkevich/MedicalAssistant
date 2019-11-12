@@ -12,6 +12,7 @@ namespace MedicalAssistant.Entities
     {
         [Key, ForeignKey("User")]
         public int Id { get; set; }
+        public string UserName { get; set; }
         public string UserSurname { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Locality { get; set; }

@@ -30,36 +30,41 @@ namespace MedicalAssistant.Controllers
         [HttpPost("registration")]
         public async Task<IActionResult> Reg([FromBody]RegistrationViewModel model)
         {
+            //if (!ModelState.IsValid)
+            //{
+            //    var errors = CustomValidator.GetErrorsByModel(ModelState);
+            //    return BadRequest(errors);
+            //}
 
             //var userIdentity = _mapper.Map<DbUser>(model);
-           
-            var userIdentity = new DbUser { Email = model.Email,UserName = model.UserName,PhoneNumber=model.PhoneNumber};
+
+            var userIdentity = new DbUser { Email = model.Email,UserName = model.Email, PhoneNumber=model.PhoneNumber};
             var user = await userManager.CreateAsync(userIdentity, model.Password);
 
 
-            if (!user.Succeeded)
-            {
-                foreach (var el in user.Errors)
-                {
-                    return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
-                }
-                
-            }
-            else
+            if (user.Succeeded)
             {
                 DetailedUser userDetailed = new DetailedUser
                 {
+                    UserName=model.UserName,
                     UserSurname = model.UserSurname,
                     DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
                     Locality = model.Locality,
-                    User=userManager.FindByEmailAsync(model.Email).Result
+                    User = userManager.FindByEmailAsync(model.Email).Result
                 };
                 _dbcontext.Add(userDetailed);
                 _dbcontext.SaveChanges();
             }
+            else
+            {
+            
 
+                foreach (var el in user.Errors)
+                {
+                    return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
+                }
+            }
 
-            model.Password = "";
 
             return Ok("Account Created");
         }

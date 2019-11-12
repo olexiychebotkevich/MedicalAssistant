@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {serverUrl} from '../../config';
+import {serverUrl} from '../config';
 export default class UserService {
     // static login(username, password) {
     //     const requestOptions = {
@@ -20,29 +20,15 @@ export default class UserService {
 
 
 
-    // static logout() {
-    //     // remove user from local storage to log user out
-    //     localStorage.removeItem('user');
-    // }
-
-
-
-    // static register(user) {
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify(user)
-    //     };
-
-
-    //     return fetch(`api/registration/registration`, requestOptions).then(handleResponse);
-    // }
-
-
-
     static register(user){
         return axios.post(`${serverUrl}api/registration/registration`, user);
     }
+
+    static login(user){
+        return axios.post(`${serverUrl}api/authorization/login`, user);
+    }
+    
+    
 
 
 
