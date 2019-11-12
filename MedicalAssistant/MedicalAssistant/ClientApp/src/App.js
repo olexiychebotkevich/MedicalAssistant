@@ -5,6 +5,8 @@ import WrappedNormalLoginForm from './components/HomePage/Home';
 import Counter from './components/Counter';
 import FetchData from './components/FetchData';
 import WrappedRegistrationForm from './RegistrationPage';
+import PageDoctor from './components/PageDoctor';
+
 
 
 
@@ -14,6 +16,7 @@ export default () => (
     <Route path='/counter' component={Counter} />
     <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
     <Route path='/registr' component={WrappedRegistrationForm} />
+    <Route path='/pagedoctor' component={PageDoctor} />
  
 
   </Layout>
