@@ -384,7 +384,7 @@ class RegistrationForm extends Component {
                         rules: [
                             {
                                 required: true,
-                                message: 'Please choose your Locality',
+                                message: 'Please choose your Locality ',
                                 whitespace: true,
                             },
                         ],
