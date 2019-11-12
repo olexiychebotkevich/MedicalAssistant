@@ -50,7 +50,7 @@ namespace MedicalAssistant.Controllers
                 DetailedUser userDetailed = new DetailedUser
                 {
                     UserSurname = model.UserSurname,
-                    DateOfBirth = new DateTime(2019,11,9), /*DateTime.Parse(model.DateOfBirth.ToShortDateString())*/
+                    DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
                     Locality = model.Locality,
                     User=userManager.FindByEmailAsync(model.Email).Result
                 };

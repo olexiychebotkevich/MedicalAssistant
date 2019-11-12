@@ -365,7 +365,7 @@ class RegistrationForm extends Component {
 
                 <Form.Item label="Date of birth">
                     {getFieldDecorator('DateofBirth', {
-                        initialValue: moment(),
+                        initialValue: moment("2015-12-31"),
                         rules: [
                             {
                                 type: 'object',
@@ -374,7 +374,7 @@ class RegistrationForm extends Component {
                                 whitespace: true,
                             },
                         ],
-                    })(<DatePicker initialValue={moment()} format={dateFormat} />)}
+                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1960-01-01") } format={dateFormat} />)}
 
                 </Form.Item>
 
