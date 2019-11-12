@@ -25,7 +25,7 @@ class NavigMenu extends Component {
         return (
             <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
                 <Menu.Item key="app" disabled>
-                <Text strong>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
                 </Menu.Item>
                 <Menu.Item key="bank" title="Home">
                     <Icon type="bank" />
