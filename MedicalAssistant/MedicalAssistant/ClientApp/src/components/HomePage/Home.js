@@ -36,7 +36,7 @@ class NormalLoginForm extends React.Component {
 <h1 className="header">Medical Assistant</h1>
 
   
-<div className="col-12 col-sm-3">
+<div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
