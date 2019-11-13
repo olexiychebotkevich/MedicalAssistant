@@ -4,7 +4,7 @@ import Layout from './components/Layout';
 import WrappedNormalLoginForm from './components/HomePage/Home';
 import Counter from './components/Counter';
 import FetchData from './components/FetchData';
-import WrappedRegistrationForm from './RegistrationPage';
+import WrappedRegistrationForm from './components/RegistrationPage';
 import PageDoctor from './components/PageDoctor';
 
 

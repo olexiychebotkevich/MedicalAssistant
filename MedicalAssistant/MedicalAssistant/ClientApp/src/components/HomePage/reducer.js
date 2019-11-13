@@ -73,7 +73,7 @@ export const loginUser = (user) => {
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch(push('/'));
+                dispatch(push('/pagedoctor'));
           
             }, err => { throw err; })
             .catch(err => {
