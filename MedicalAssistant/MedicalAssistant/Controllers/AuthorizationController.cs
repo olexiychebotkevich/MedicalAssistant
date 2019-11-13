@@ -56,7 +56,7 @@ namespace MedicalAssistant.Controllers
             return Ok(
             new
             {
-                User = _context.DetailedUsers.Include("User").Where(x => x.User.Email == model.Email),
+                refToken = "tmpreftoken",
                 token = CreateTokenJwt(user)
             });
         }

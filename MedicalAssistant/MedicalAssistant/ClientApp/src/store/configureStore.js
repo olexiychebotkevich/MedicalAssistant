@@ -5,6 +5,7 @@ import * as Counter from './Counter';
 import * as WeatherForecasts from './WeatherForecasts';
 import createHistory from 'history/createHashHistory'
 import {usersReducer} from '../components/RegistrationPage/reducer'
+import {loginReducer} from '../components/HomePage/reducer'
 
 
 // Create browser history to use in the Redux store
@@ -16,6 +17,7 @@ export default function configureStore(history, initialState) {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
     usersReducer,
+    loginReducer
 
   };
 

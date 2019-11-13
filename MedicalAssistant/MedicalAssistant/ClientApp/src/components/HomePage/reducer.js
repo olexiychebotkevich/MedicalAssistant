@@ -1,11 +1,15 @@
 import UserService from '../UserService';
 import update from '../../helpers/update';
-import {history} from '../../store/configureStore';
+import isEmpty from 'lodash/isEmpty';
+import setAuthorizationToken from '../../utils/setAuthorizationToken';
+import jwt from 'jsonwebtoken';
+import { push } from 'connected-react-router';
 
 
-export const LOGIN_REQUEST = "user/USERS_LOGIN_REQUEST";
+export const LOGIN_POST_STARTED = "user/USERS_LOGIN_POST_STARTED";
 export const LOGIN_SUCCESS = "user/USERS_LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "user/USERS_LOGIN_FAILURE";
+export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
@@ -16,8 +20,13 @@ const initialState = {
     failed: false,
     loading: false,
     success: false,
-    user: null,
-    token:null,
+    isAuthenticated: false,
+    user: {
+      id: '',
+      name: '',
+      //image:'',
+      roles: []
+    },
     errors:{}
     },
 }
@@ -25,14 +34,13 @@ const initialState = {
 export const loginReducer = (state = initialState, action) => {
     let newState = state;
     switch (action.type) {
-        case LOGIN_REQUEST: {
+        case LOGIN_POST_STARTED: {
             newState = update.set(state, 'login.loading', true);
             break;
         }
         case LOGIN_SUCCESS: {
             newState = update.set(state, 'login.loading', false);
             newState = update.set(newState, 'login.success', true);
-            newState = update.set(newState, 'login.user', action.payload.data);
             break;
         }
 
@@ -41,6 +49,14 @@ export const loginReducer = (state = initialState, action) => {
             newState = update.set(newState, 'login.failed', true);
             newState = update.set(newState, 'login.errors', action.errors);
             break;
+        }
+
+        case LOGIN_SET_CURRENT_USER: {
+            return {
+                ...state,
+                isAuthenticated: !isEmpty(action.user),
+                user: action.user
+            };
         }
         default: {
             return newState;
@@ -52,12 +68,13 @@ export const loginReducer = (state = initialState, action) => {
 
 export const loginUser = (user) => {
     return (dispatch) => {
-        dispatch(registrActions.started());
+        dispatch(loginActions.started());
         UserService.login(user)
             .then((response) => {
-                dispatch(loginActions.success(response));
-                localStorage.setItem('user', JSON.stringify(user));
-                history.push('/');
+                dispatch(loginActions.success());
+                loginByJWT(response.data, dispatch);
+                dispatch(push('/'));
+          
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);
@@ -70,7 +87,7 @@ export const loginUser = (user) => {
 export const loginActions = {
     started: () => {
         return {
-            type: LOGIN_REQUEST
+            type: LOGIN_POST_STARTED
         }
     },
     success: (data) => {
@@ -84,6 +101,40 @@ export const loginActions = {
             type: LOGIN_FAILURE,
             errors: response.data
         }
+    },
+
+    setCurrentUser: (user) => {
+        return {
+            type: LOGIN_SET_CURRENT_USER,
+            user
+        }
     }
 
+}
+
+
+
+export function logout() {
+    return dispatch => {
+        logoutByJWT(dispatch);
+    };
+}
+
+export const loginByJWT = (tokens, dispatch) => {
+    const {token, refToken}=tokens;
+    var user = jwt.decode(token);
+    if (!Array.isArray(user.roles)) {
+        user.roles = Array.of(user.roles);
+    }
+    //console.log('Hello app', user);
+    localStorage.setItem('jwtToken', token);
+    localStorage.setItem('refreshToken', refToken);
+    setAuthorizationToken(token);
+    dispatch(loginActions.setCurrentUser(user));
+}
+export const logoutByJWT = (dispatch) => {
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('refreshToken');
+    setAuthorizationToken(false);
+    dispatch(loginActions.setCurrentUser({}));
 }

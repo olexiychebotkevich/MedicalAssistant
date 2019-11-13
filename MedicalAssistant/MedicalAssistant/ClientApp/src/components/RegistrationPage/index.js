@@ -96,11 +96,6 @@ class RegistrationForm extends Component {
 
 
     static getDerivedStateFromProps = (props, state) => {
-        //Тута пописати і змінити
-        ///333333333333
-        //4444444444444
-        //5555555555555
-        //console.log('---nextProps---', props);
         return {
             loading: props.IsLoading,
             registration: { ...props.registration }
