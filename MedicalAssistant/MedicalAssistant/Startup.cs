@@ -10,8 +10,13 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
-using MedicalAssistant.Entities;
+using MedicalAssistant.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
+using MedicalAssistant.BLL.Interfaces;
+using MedicalAssistant.BLL.Services;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace MedicalAssistant
 {
@@ -35,19 +40,20 @@ namespace MedicalAssistant
                 .AddEntityFrameworkStores<EFDbContext>()
                 .AddDefaultTokenProviders();
 
-
+            services.AddTransient<IJWTTokenService, JWTTokenService>();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", b => b.AllowAnyOrigin());
             });
 
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("11-sdfasdf-22233222222"));
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretPhrase")));
 
             services.Configure<IdentityOptions>(options =>
             {
                 // Default Password settings.
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 0;
+                options.User.RequireUniqueEmail = true;
             });
 
             services.AddAuthentication(options =>
@@ -69,7 +75,18 @@ namespace MedicalAssistant
                     ClockSkew = TimeSpan.Zero
                 };
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //Use this code to avoid camel case names by default jSON
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
+
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -94,15 +111,18 @@ namespace MedicalAssistant
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseCors(builder =>
-            builder
-        .AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod());
+            app.UseCors(
+                 builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

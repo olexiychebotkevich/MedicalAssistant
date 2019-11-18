@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace MedicalAssistant.Entities
+namespace MedicalAssistant.DAL.Entities
 {
     public class DbUserRole : IdentityUserRole<int>
     {

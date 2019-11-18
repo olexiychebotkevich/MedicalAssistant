@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MedicalAssistant.Entities;
+using MedicalAssistant.BLL.Interfaces;
+using MedicalAssistant.DAL.Entities;
 using MedicalAssistant.Helpers;
 using MedicalAssistant.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MedicalAssistant.Controllers
 {
@@ -17,6 +19,8 @@ namespace MedicalAssistant.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
+      
+
         private readonly UserManager<DbUser> userManager;
         private readonly SignInManager<DbUser> signInManager;
         private readonly EFDbContext _dbcontext;

@@ -5,13 +5,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using MedicalAssistant.Entities;
+using MedicalAssistant.BLL.Interfaces;
+using MedicalAssistant.DAL.Entities;
 using MedicalAssistant.Helpers;
 using MedicalAssistant.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MedicalAssistant.Controllers
@@ -21,12 +23,16 @@ namespace MedicalAssistant.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+        private readonly IJWTTokenService _tokenService;
         private readonly EFDbContext _context;
         private readonly UserManager<DbUser> _userManager;
         private readonly SignInManager<DbUser> _signInManager;
 
-        public AuthorizationController(EFDbContext context,UserManager<DbUser> userManager,SignInManager<DbUser> signInManager)
+        public AuthorizationController(EFDbContext context,UserManager<DbUser> userManager,SignInManager<DbUser> signInManager, IConfiguration configuration, IJWTTokenService tokenService)
         {
+            _tokenService = tokenService;
+            _configuration = configuration;
             _userManager = userManager;
             _context = context;
             _signInManager = signInManager;
@@ -50,44 +56,44 @@ namespace MedicalAssistant.Controllers
                 return BadRequest(new { invalid = "No correct data" });
             }
 
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             await _signInManager.SignInAsync(user, isPersistent: false);
+
+            var response = new
+            {
+                refToken = _tokenService.CreateRefreshToken(user),
+                token = _tokenService.CreateToken(user)
+            };
+            return Ok(response);
+           
+        }
+
+
+        [HttpPost("refresh/{refreshToken}")]
+        public IActionResult RefreshToken([FromRoute]string refreshToken)
+        {
+            //return NotFound("Refresh token not found");
+            var _refreshToken = _context.RefreshTokens
+                .Include(u => u.User)
+                .SingleOrDefault(m => m.Token == refreshToken);
+
+            if (_refreshToken == null)
+            {
+                return NotFound("Refresh token not found");
+            }
+
+            _refreshToken.Token = Guid.NewGuid().ToString();
+            _context.RefreshTokens.Update(_refreshToken);
+            _context.SaveChanges();
 
             return Ok(
             new
             {
-                refToken = "tmpreftoken",
-                token = CreateTokenJwt(user)
+                token = _tokenService.CreateToken(_refreshToken.User),
+                refToken = _refreshToken.Token
             });
         }
 
-
-
-
-
-        private string CreateTokenJwt(DbUser user)
-        {
-            var roles = _userManager.GetRolesAsync(user).Result;
-            var claims = new List<Claim>()
-            {
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Id)
-                new Claim("id", user.Id.ToString()),
-                new Claim("name", user.UserName)
-            };
-
-            foreach (var role in roles)
-            {
-                claims.Add(new Claim("roles", role));
-            }
-
-            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("11-sdfasdf-22233222222"));
-            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-            var jwt = new JwtSecurityToken(
-                signingCredentials: signingCredentials,
-                claims: claims,
-                expires: DateTime.Now.AddHours(1));
-
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
-        }
     }
 }

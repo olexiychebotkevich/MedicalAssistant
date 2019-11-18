@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MedicalAssistant.Entities
+namespace MedicalAssistant.DAL.Entities
 {
     public class EFDbContext : IdentityDbContext<DbUser, DbRole, int, IdentityUserClaim<int>,
                      DbUserRole, IdentityUserLogin<int>,
@@ -18,6 +18,7 @@ namespace MedicalAssistant.Entities
 
         }
         public DbSet<DetailedUser> DetailedUsers { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

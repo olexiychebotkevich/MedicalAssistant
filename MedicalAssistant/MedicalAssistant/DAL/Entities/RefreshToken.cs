@@ -5,17 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MedicalAssistant.Entities
+namespace MedicalAssistant.DAL.Entities
 {
-    [Table("tblDetailedUsers")]
-    public class DetailedUser
+    public class RefreshToken
     {
         [Key, ForeignKey("User")]
         public int Id { get; set; }
-        public string UserName { get; set; }
-        public string UserSurname { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string Locality { get; set; }
+        public string Token { get; set; }
         public DbUser User { get; set; }
     }
 }
