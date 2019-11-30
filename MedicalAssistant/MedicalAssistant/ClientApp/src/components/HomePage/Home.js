@@ -23,6 +23,7 @@ const propTypes = {
   IsFailed: PropTypes.bool.isRequired,
   IsSuccess: PropTypes.bool.isRequired,
   login: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 const defaultProps = {};
@@ -35,6 +36,8 @@ class NormalLoginForm extends React.Component {
     this.state = {
         loading: false,
         login: {},
+        errors: {},
+        errorsServer:{}
     }
 }
 
@@ -43,7 +46,8 @@ class NormalLoginForm extends React.Component {
     //console.log('---nextProps---', props);
     return {
         loading: props.IsLoading,
-        login: { ...props.login }
+        login: { ...props.login },
+        errorsServer:props.errors
     };
 }
 
@@ -143,6 +147,7 @@ const mapState = (state) => {
           IsFailed: get(state, 'loginReducer.login.failed'),
           IsSuccess: get(state, 'loginReducer.login.success'),
       },
+      errors: get(state, 'login.post.errors')
 
 
 

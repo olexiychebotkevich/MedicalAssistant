@@ -7,8 +7,6 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import '../../style.css';
 import moment from 'moment';
-//import jsonp from 'fetch-jsonp';
-import querystring from 'querystring';
 import axios from 'axios';
 import {
     Form,
@@ -37,6 +35,7 @@ const propTypes = {
     IsFailed: PropTypes.bool.isRequired,
     IsSuccess: PropTypes.bool.isRequired,
     registration: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 const defaultProps = {};
@@ -49,10 +48,7 @@ function fetch(value, callback) {
     currentValue = value;
 
     function fake() {
-        const str = querystring.encode({
-            code: 'utf-8',
-            q: value,
-        });
+
         axios(`https://restcountries.eu/rest/v2/all`)
             .then(res => {
 
@@ -89,6 +85,8 @@ class RegistrationForm extends Component {
             dataLocality: [],
             value: undefined,
             registration: {},
+            errors: {},
+            errorsServer:{}
        
 
         }
@@ -98,9 +96,17 @@ class RegistrationForm extends Component {
     static getDerivedStateFromProps = (props, state) => {
         return {
             loading: props.IsLoading,
-            registration: { ...props.registration }
+            registration: { ...props.registration },
+            errorsServer:props.errors
         };
     }
+
+    componentDidUpdate(prevProps) {
+        // Популярный пример (не забудьте сравнить пропсы):
+        if (this.props.errors !== prevProps.errors) {
+         console.log("reg errors: ",this.props.registration.errors);
+        }
+      }
 
 
     handleSubmit = e => {
@@ -118,8 +124,11 @@ class RegistrationForm extends Component {
                 };
                 console.log('Received values of form: ', usermodel);
                 this.props.registrUser(usermodel);
+                
+              
             }
         });
+        console.log("registration error: ",this.state.registration.errors)
 
     };
 
@@ -146,16 +155,7 @@ class RegistrationForm extends Component {
     };
 
     
-    validateEmailExist = (rule, value, callback) => {
-        const { registration } = this.state;
-        const { form } = this.props;
-        console.log("registration Errors: ",registration.errors)
-        if (registration.errors!==undefined&&registration.errors.Error.includes("User name '"+form.getFieldValue('email')+"'is already taken.")) {
-            callback('This Email already exist!');
-        } else {
-            callback();
-        }
-    };
+   
 
     strongValidator = (rule, value, callback) => {
         const digitsRegex = /(?=.*?[0-9])/;
@@ -261,7 +261,10 @@ class RegistrationForm extends Component {
                             {
                                 required: true,
                                 message: 'Please input your E-mail!',
-                            }
+                            },
+                            {
+                                validator: this.validateEmailExist,
+                            },
                         
                         ],
                     })(<Input />)}
@@ -424,6 +427,7 @@ const mapState = (state) => {
             IsFailed: get(state, 'usersReducer.registration.failed'),
             IsSuccess: get(state, 'usersReducer.registration.success'),
         },
+        errors: get(state, 'login.post.errors')
 
 
 

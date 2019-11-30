@@ -13,7 +13,7 @@ export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
-
+let user = jwt.decode(localStorage.getItem('jwtToken'));
 
 const initialState = {
     login: {
@@ -21,14 +21,9 @@ const initialState = {
     loading: false,
     success: false,
     isAuthenticated: false,
-    user: {
-      id: '',
-      name: '',
-      //image:'',
-      roles: []
-    },
     errors:{}
     },
+    user: user ? user : null
 }
 
 export const loginReducer = (state = initialState, action) => {

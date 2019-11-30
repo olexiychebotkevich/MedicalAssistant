@@ -1,11 +1,11 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
-import * as Counter from './Counter';
-import * as WeatherForecasts from './WeatherForecasts';
 import createHistory from 'history/createHashHistory'
 import {usersReducer} from '../components/RegistrationPage/reducer'
 import {loginReducer} from '../components/HomePage/reducer'
+import { refreshReducer } from '../components/RefreshToken/reducer';
+import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
 
 // Create browser history to use in the Redux store
@@ -14,14 +14,14 @@ export const history = createHistory({ basename: baseUrl });
 
 export default function configureStore(history, initialState) {
   const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer,
     usersReducer,
-    loginReducer
+    loginReducer,
+    refreshToken: refreshReducer,
 
   };
 
   const middleware = [
+    refreshTokenMiddleware(),
     thunk,
     routerMiddleware(history)
   ];
