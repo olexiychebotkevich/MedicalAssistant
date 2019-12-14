@@ -3,93 +3,43 @@ import 'antd/dist/antd.css';
 import '../home.css';
 
 import {
-    Form,
-    Input,
-    Icon,
-    Button,
+  Steps, Divider, Row
 } from 'antd';
 
 
 
 
+const { Step } = Steps;
 
-class NormalLoginForm extends React.Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
+
+
+class NormalHomeForm extends React.Component {
+  state = {
+    current: 0,
   };
-
+  onChange = current => {
+    console.log('onChange:', current);
+    this.setState({ current });
+  };
   render() {
-
-   
-
-    const { getFieldDecorator } = this.props.form;
-    return (
-
-       
-<div className="container">
-
-<h1 className="header">Medical Assistant</h1>
-
   
-<div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
-                <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
-              })(
-                <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="Password"
-                />,
-              )}
-            
-            </Form.Item>
-            <Form.Item>
-            <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-              </Form.Item>
-              <Form.Item>
-              <div className="row">
-              <div className="col-6">
-              <Button type="dashed" htmlType="submit" className="login-form-button" >
-             Login
-          </Button>
-           </div>
-          <div className="col-6">
-          <Button type="dashed" htmlType="submit" className="register-form-button" >
-          Register
-          </Button>
-           </div>
-          </div>
-        </Form.Item>
-          </Form>
-        
-       
- 
- 
-  </div>
-  </div>
-         
+    const { current } = this.state;
+    return (
+<div className="tmp">
+  <div  style={{width:'60%'}}>    
+
+
+ <Steps  current={current} onChange={this.onChange} direction="vertical">
+   <Step  title="Step 1" description="This is a description." />
+   <Step title="Step 2" description="This is a description." />
+   <Step title="Step 3" description="This is a description." >
+     </Step>
+ </Steps>
+ </div>
+ </div> 
     );
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
-export default WrappedNormalLoginForm;
+
+export default NormalHomeForm;

@@ -9,6 +9,10 @@
   
   margin-top: 50px;
 }
+.tmp{
+  display: flex;
+  justify-content: center;
+}
 .header{
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
    font-size: 80px;
