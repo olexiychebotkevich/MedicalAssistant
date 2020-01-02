@@ -24,7 +24,8 @@ const initialState = {
     loading: false,
     success: false,
     user: null,
-    errors:{}
+    errors:{},
+    statuscode:null
     },
 }
 
@@ -46,6 +47,7 @@ export const usersReducer = (state = initialState, action) => {
             newState = update.set(state, 'registration.loading', false);
             newState = update.set(newState, 'registration.failed', true);
             newState = update.set(newState, 'registration.errors', action.errors);
+            newState = update.set(newState, 'registration.statuscode', action.statuscode);
             break;
         }
         default: {
@@ -67,7 +69,7 @@ export const registrUser = (user) => {
             .catch(err => {
                 console.log("error: ",err);
                 dispatch(registrActions.failed(err.response));
-                //redirectStatusCode(err.response.status);
+               
             });
     }
 }
@@ -87,7 +89,8 @@ export const registrActions = {
     failed: (response) => {
         return {
             type: REGISTER_FAILURE,
-            errors: response.data
+            errors: response.data,
+            statuscode:response.status
         }
     }
 

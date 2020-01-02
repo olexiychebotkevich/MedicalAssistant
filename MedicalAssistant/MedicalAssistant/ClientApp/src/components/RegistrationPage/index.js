@@ -35,7 +35,8 @@ const propTypes = {
     IsFailed: PropTypes.bool.isRequired,
     IsSuccess: PropTypes.bool.isRequired,
     registration: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object,
+    statuscode: PropTypes.number
 };
 
 const defaultProps = {};
@@ -86,8 +87,8 @@ class RegistrationForm extends Component {
             value: undefined,
             registration: {},
             errors: {},
-            errorsServer:{}
-       
+            errorsServer: {}
+
 
         }
     }
@@ -97,16 +98,35 @@ class RegistrationForm extends Component {
         return {
             loading: props.IsLoading,
             registration: { ...props.registration },
-            errorsServer:props.errors
+            errorsServer: props.errors
         };
     }
 
     componentDidUpdate(prevProps) {
-        // Популярный пример (не забудьте сравнить пропсы):
+
         if (this.props.errors !== prevProps.errors) {
-         console.log("reg errors: ",this.props.registration.errors);
+            this.props.form.validateFields((error, values) => {
+                if (!error) {
+                    if (this.props.statuscode === 400) {
+                        this.props.form.setFields({
+                            email: {
+                                value: values.email,
+                                errors: [new Error('Email ' + values.email + " already exist")],
+                            },
+                        });
+                    }
+
+                } else {
+                    console.log('error', error, values);
+                }
+            });
+
         }
-      }
+    }
+
+
+
+
 
 
     handleSubmit = e => {
@@ -120,17 +140,18 @@ class RegistrationForm extends Component {
                     UserSurname: values.usersurname,
                     PhoneNumber: values.prefix + values.phone,
                     Locality: values.Locality,
-                    DateOfBirth:values.DateofBirth
+                    DateOfBirth: values.DateofBirth
                 };
-                console.log('Received values of form: ', usermodel);
-                this.props.registrUser(usermodel);
-                
-              
-            }
-        });
-        console.log("registration error: ",this.state.registration.errors)
 
+                this.props.registrUser(usermodel);
+
+
+
+            }
+        }
+        )
     };
+
 
     handleConfirmBlur = e => {
         const { value } = e.target;
@@ -154,8 +175,13 @@ class RegistrationForm extends Component {
         callback();
     };
 
-    
-   
+
+
+
+
+
+
+
 
     strongValidator = (rule, value, callback) => {
         const digitsRegex = /(?=.*?[0-9])/;
@@ -164,7 +190,7 @@ class RegistrationForm extends Component {
         console.log("regexdigit", value.match(digitsRegex));
         console.log("regexuppercaseletter", value.match(uppercaseRegex));
         if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
-            
+
             return callback('Password should contain uppercase letter etc')
         }
         callback()
@@ -210,13 +236,15 @@ class RegistrationForm extends Component {
     };
 
     render() {
+
+        // }
         const { getFieldDecorator } = this.props.form;
         // const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span:6 },
+                sm: { span: 6 },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -262,10 +290,7 @@ class RegistrationForm extends Component {
                                 required: true,
                                 message: 'Please input your E-mail!',
                             },
-                            {
-                                validator: this.validateEmailExist,
-                            },
-                        
+
                         ],
                     })(<Input />)}
                 </Form.Item>
@@ -372,7 +397,7 @@ class RegistrationForm extends Component {
                                 whitespace: true,
                             },
                         ],
-                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1960-01-01") } format={dateFormat} />)}
+                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1960-01-01")} format={dateFormat} />)}
 
                 </Form.Item>
 
@@ -427,7 +452,8 @@ const mapState = (state) => {
             IsFailed: get(state, 'usersReducer.registration.failed'),
             IsSuccess: get(state, 'usersReducer.registration.success'),
         },
-        errors: get(state, 'login.post.errors')
+        errors: get(state, 'usersReducer.registration.errors'),
+        statuscode: get(state, 'usersReducer.registration.statuscode')
 
 
 
