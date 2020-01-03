@@ -3,7 +3,7 @@ import 'antd/dist/antd.css';
 import '../home.css';
 
 import {
-  Steps, Divider, Row
+  Steps, Divider, Row, Icon
 } from 'antd';
 
 
@@ -26,17 +26,26 @@ class NormalHomeForm extends React.Component {
     const { current } = this.state;
     return (
 <div className="tmp">
-  <div  style={{width:'60%'}}>    
-
-
+  <div  style={{width:'70%'}}>    
+<h1 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}> MEDICAL ASSISTANT -<br/> ВАШ НАДІЙНИЙ ПАРТНЕР</h1>
+<h4 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}>
+Ви забудько?<br/>
+У Вас підліткова розсіяність?<br/>
+Чи можливо від сірої буденності часткова втрата пам'яті?
+</h4>
+<h3 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}>Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
  <Steps  current={current} onChange={this.onChange} direction="vertical">
-   <Step  title="Step 1" description="This is a description." />
-   <Step title="Step 2" description="This is a description." />
-   <Step title="Step 3" description="This is a description." >
-     </Step>
+   <Step  title="Step 1" description="Спочатку зареєструйся!✅"/>
+   <Step title="Step 2" description="Залогінься!✅" />
+   <Step title="Step 3" description="Зайди на особисту сторінку!👤" />
+   <Step title="Step 3" description="На сторінці ти можеш переглянути свої рецепти!💬" />
+   <Step title="Step 3" description="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉" />
+
  </Steps>
  </div>
+
  </div> 
+ 
     );
   }
 }
