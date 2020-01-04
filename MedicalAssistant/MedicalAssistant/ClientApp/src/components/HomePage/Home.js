@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home.css';
+import FooterForm from '../Footer';
 
 import {
   Steps, Divider, Row, Icon
@@ -38,15 +39,15 @@ class NormalHomeForm extends React.Component {
    <Step  title="Step 1" description="Спочатку зареєструйся!✅"/>
    <Step title="Step 2" description="Залогінься!✅" />
    <Step title="Step 3" description="Зайди на особисту сторінку!👤" />
-   <Step title="Step 3" description="На сторінці ти можеш переглянути свої рецепти!💬" />
-   <Step title="Step 3" description="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉" />
+   <Step title="Step 4" description="На сторінці ти можеш переглянути свої рецепти!💬" />
+   <Step title="Step 5" description="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉" />
 
  </Steps>
  </div>
-
- </div> 
- 
+{/* <FooterForm/> </div> */}
+</div>
     );
+    
   }
 }
 

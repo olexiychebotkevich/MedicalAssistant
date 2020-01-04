@@ -43,6 +43,10 @@ class NavigMenu extends Component {
                     <Icon type="contacts" />
                     <Link to="/pagedoctor" />
                 </Menu.Item>
+                <Menu.Item key="user" title="PagePatient">
+                    <Icon type="user" />
+                    <Link to="/pagepatient" />
+                </Menu.Item>
             </Menu>
         );
     }

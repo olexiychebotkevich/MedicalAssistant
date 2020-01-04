@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home.css';
-
+import FooterForm from '../Footer';
 import {
     Form,
     Input,
@@ -85,7 +85,9 @@ class NormalLoginForm extends React.Component {
  
  
   </div>
-  </div>
+<FooterForm/>
+ </div>
+
          
     );
   }

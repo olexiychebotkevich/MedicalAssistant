@@ -11,6 +11,7 @@
 }
 .tmp{
   display: flex;
+ position: absolute;
   justify-content: center;
 }
 .header{
@@ -51,5 +52,5 @@
    
     width:100%;
   }
-  
+
   
