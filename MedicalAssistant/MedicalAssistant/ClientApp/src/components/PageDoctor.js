@@ -2,7 +2,7 @@ import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import './pagedoctor.css';
-
+import FooterForm from './Footer';
 class PageDoctor extends Component {
 
 
@@ -55,9 +55,18 @@ class PageDoctor extends Component {
       <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
     </Card>
         </Col>
-      
+        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+          <Card title="Name Surname" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+      <p>Illness 1</p>
+      <p>Illness 2</p>
+      <p>Illness 3</p>
+      <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
+    </Card>
+        </Col>
           </Row>
-      
+ 
+      <FooterForm/>
+     
       </div>
     );
   }

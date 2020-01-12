@@ -19,7 +19,7 @@ class FooterForm extends React.Component {
 
  
   
-  <footer className="footer" style={{ backgroundColor: 'rgb(151, 201, 218)'}}>
+  <footer className="footer" >
       
   <p><Icon type="phone" /> Phone</p>
     <p> <Icon type="instagram" /> Instagram</p>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home.css';
-import FooterForm from '../Footer';
+
 import {
     Form,
     Input,
@@ -30,12 +30,12 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
 
-       
+     
 <div className="container">
 
 <h1 className="header">Medical Assistant</h1>
 
-  
+
 <div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
@@ -83,10 +83,10 @@ class NormalLoginForm extends React.Component {
         
        
  
- 
+          </div>
   </div>
-<FooterForm/>
- </div>
+
+ 
 
          
     );

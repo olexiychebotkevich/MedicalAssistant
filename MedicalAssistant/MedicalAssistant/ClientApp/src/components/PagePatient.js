@@ -2,7 +2,7 @@ import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import './pagepatient.css';
-
+import FooterForm from './Footer';
 class PagePatient extends Component {
 
 
@@ -53,9 +53,17 @@ class PagePatient extends Component {
      
     </Card>
         </Col>
+        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+      <p>Pill 1</p>
+      <p>Pill 2</p>
+      <p>Pill 3</p>
+     
+    </Card>
+        </Col>
       
           </Row>
-      
+      {/* <FooterForm/> */}
       </div>
     );
   }

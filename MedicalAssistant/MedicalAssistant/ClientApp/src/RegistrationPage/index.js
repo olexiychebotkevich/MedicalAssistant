@@ -6,6 +6,7 @@ import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import '../style.css';
+
 import moment from 'moment';
 import {
     Form,
@@ -136,8 +137,8 @@ class RegistrationForm extends Component {
                 sm: { span:6 },
             },
             wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
+                xs: { span: 28 },
+                sm: { span: 18 },
             },
         };
         const tailFormItemLayout = {
@@ -164,7 +165,10 @@ class RegistrationForm extends Component {
 
 
         return (
+            <div className="tmp">
+                <div style={{width: '50%'}}> 
             <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
+    
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
                         rules: [
@@ -286,6 +290,8 @@ class RegistrationForm extends Component {
                 </Form.Item>
           
             </Form>
+            </div>
+            </div>
         );
     }
 }

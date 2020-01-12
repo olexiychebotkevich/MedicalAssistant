@@ -44,7 +44,7 @@ class NormalHomeForm extends React.Component {
 
  </Steps>
  </div>
-{/* <FooterForm/> </div> */}
+
 </div>
     );
     
