@@ -15,7 +15,7 @@ class FooterForm extends React.Component {
   
     
     return (
-<div >
+
 
  
   
@@ -24,9 +24,11 @@ class FooterForm extends React.Component {
   <p><Icon type="phone" /> Phone</p>
     <p> <Icon type="instagram" /> Instagram</p>
     <p><Icon type="mail" /> mail</p>
-    </footer>
+    <p><Icon type="mail" /> mail</p>
+
+
  
-    </div>  
+    </footer>  
     );
   }
 }

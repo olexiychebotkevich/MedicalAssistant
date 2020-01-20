@@ -65,7 +65,6 @@ class PageDoctor extends Component {
         </Col>
           </Row>
  
-      <FooterForm/>
      
       </div>
     );
