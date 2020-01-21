@@ -4,6 +4,11 @@
     margin: auto;   */
     margin-top: 20px;
   } 
+.tmp{
+  display: flex;
+
+  justify-content: center;
+}
   .register-form-btn{
       float: left;
   }

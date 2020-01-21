@@ -10,7 +10,7 @@ class PagePatient extends Component {
 
   render() {
     return (
-        <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px' }}>
+        <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px',marginTop: '5px' }}>
            <div className="row">
                <div className="col-12 col-sm-4">
             <img style={{height:'200px', width: '200px', display:'block', margin: 'auto'}} src=" https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="Photo"/>
@@ -53,9 +53,17 @@ class PagePatient extends Component {
      
     </Card>
         </Col>
+        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+      <p>Pill 1</p>
+      <p>Pill 2</p>
+      <p>Pill 3</p>
+     
+    </Card>
+        </Col>
       
           </Row>
-      
+      {/* <FooterForm/> */}
       </div>
     );
   }

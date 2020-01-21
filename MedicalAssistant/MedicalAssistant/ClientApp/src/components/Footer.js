@@ -15,18 +15,24 @@ class FooterForm extends React.Component {
   
     
     return (
-<div >
 
- 
-  
-  <footer className="footer" style={{ backgroundColor: 'rgb(151, 201, 218)'}}>
-      
-  <p><Icon type="phone" /> Phone</p>
+
+      <div className="wrapper">
+
+      <div className="content"></div>
+    
+      <div className="footer">
+     
+      <p><Icon type="phone" /> Phone</p>
     <p> <Icon type="instagram" /> Instagram</p>
     <p><Icon type="mail" /> mail</p>
-    </footer>
- 
-    </div>  
+    <p><Icon type="mail" /> mail</p>
+
+      </div>
+    
+    </div>
+  
+  
     );
   }
 }

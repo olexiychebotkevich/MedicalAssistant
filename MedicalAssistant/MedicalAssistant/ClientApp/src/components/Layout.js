@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from 'reactstrap';
 // import NavMenu from './NavMenu';
 import NavigMenu from './NavigMenu';
+import Footer from './Footer';
 
 export default props => (
   <div>
@@ -9,6 +10,14 @@ export default props => (
     <Container>
       {props.children}
     </Container>
+    <Footer/>
   </div>
 
 );
+
+
+
+
+
+
+
