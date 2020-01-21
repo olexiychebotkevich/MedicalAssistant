@@ -11,7 +11,7 @@
 }
 .tmp{
   display: flex;
- position: absolute;
+  position: absolute;
   justify-content: center;
 }
 .header{
