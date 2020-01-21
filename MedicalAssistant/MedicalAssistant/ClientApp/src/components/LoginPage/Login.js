@@ -3,10 +3,10 @@ import 'antd/dist/antd.css';
 import '../home.css';
 
 import {
-    Form,
-    Input,
-    Icon,
-    Button,
+  Form,
+  Input,
+  Icon,
+  Button,
 } from 'antd';
 
 
@@ -25,18 +25,18 @@ class NormalLoginForm extends React.Component {
 
   render() {
 
-   
+
 
     const { getFieldDecorator } = this.props.form;
     return (
 
-     
-<div className="container">
+
+      <div className="container">
 
 <h1 className="header">Medical Assistant</h1>
 
 
-<div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
+        <div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
@@ -58,37 +58,37 @@ class NormalLoginForm extends React.Component {
                   placeholder="Password"
                 />,
               )}
-            
+
             </Form.Item>
             <Form.Item>
-            <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-              </Form.Item>
-              <Form.Item>
+              <a className="login-form-forgot" href="">
+                Forgot password
+              </a>
+            </Form.Item>
+            <Form.Item>
               <div className="row">
-              <div className="col-6">
-              <Button type="dashed" htmlType="submit" className="login-form-button" >
-             Login
-          </Button>
-           </div>
-          <div className="col-6">
-          <Button type="dashed" htmlType="submit" className="register-form-button" >
-          Register
-          </Button>
-           </div>
-          </div>
-        </Form.Item>
+                <div className="col-6">
+                  <Button type="dashed" htmlType="submit" className="login-form-button" >
+                    Login
+                  </Button>
+                </div>
+                <div className="col-6">
+                  <Button type="dashed" htmlType="submit" className="register-form-button" >
+                    Register
+                  </Button>
+                </div>
+              </div>
+            </Form.Item>
           </Form>
-        
-       
- 
-          </div>
-  </div>
 
- 
 
-         
+
+        </div>
+      </div>
+
+
+
+
     );
   }
 }

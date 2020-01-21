@@ -1,8 +1,16 @@
-.footer {
 
-   background-color: rgb(151, 201, 218);
-
+   .wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+  .content {
+    flex: 1 0 auto;
+  }
+  .footer {
+    flex: 0 0 auto;
+    background-color: rgb(130, 185, 204);
     width: 100%; 
-     text-align: center; 
-   }
-  
+    text-align: center; 
+    
+  }
