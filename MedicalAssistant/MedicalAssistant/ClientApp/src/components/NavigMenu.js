@@ -35,9 +35,17 @@ class NavigMenu extends Component {
                     <Icon type="solution" />
                     <Link to="/registr" />
                 </Menu.Item>
+                <Menu.Item key="login" title="Login">
+                    <Icon type="login" />
+                    <Link to="/login" />
+                </Menu.Item>
                 <Menu.Item key="contacts" title="PageDoctor">
                     <Icon type="contacts" />
                     <Link to="/pagedoctor" />
+                </Menu.Item>
+                <Menu.Item key="user" title="PagePatient">
+                    <Icon type="user" />
+                    <Link to="/pagepatient" />
                 </Menu.Item>
             </Menu>
         );

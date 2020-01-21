@@ -1,139 +1,53 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home.css';
-import * as usersActions from './reducer';
-import get from 'lodash.get';
-import { push } from 'connected-react-router';
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import FooterForm from '../Footer';
 
 import {
-    Form,
-    Input,
-    Icon,
-    Button,
+  Steps, Divider, Row, Icon
 } from 'antd';
 
 
 
 
-const propTypes = {
-  loginUser: PropTypes.func.isRequired,
-  IsLoading: PropTypes.bool.isRequired,
-  IsFailed: PropTypes.bool.isRequired,
-  IsSuccess: PropTypes.bool.isRequired,
-  login: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
-};
-
-const defaultProps = {};
-
-
-class NormalLoginForm extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-        loading: false,
-        login: {},
-        errors: {},
-        errorsServer:{}
-    }
-}
-
-  static getDerivedStateFromProps = (props, state) => {
-
-    //console.log('---nextProps---', props);
-    return {
-        loading: props.IsLoading,
-        login: { ...props.login },
-        errorsServer:props.errors
-    };
-}
+const { Step } = Steps;
 
 
 
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        const usermodel = {
-          Password: values.password,
-          Email: values.username,
-      };
-      console.log('Received values of form: ', usermodel);
-      this.props.loginUser(usermodel);
-      }
-    });
+class NormalHomeForm extends React.Component {
+  state = {
+    current: 0,
   };
-
+  onChange = current => {
+    console.log('onChange:', current);
+    this.setState({ current });
+  };
   render() {
-
-   
-
-    const { getFieldDecorator } = this.props.form;
-    return (
-
-       
-<div className="container">
-
-<h1 className="header">Medical Assistant</h1>
-
   
-<div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <Form.Item>
-              {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
-                <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
-                />,
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
-              })(
-                <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="Password"
-                />,
-              )}
-            
-            </Form.Item>
-            <Form.Item>
-            <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
-              </Form.Item>
-              <Form.Item>
-              <div className="row">
-              <div className="col-6">
-              <Button type="dashed" htmlType="submit" className="login-form-button" >
-             Login
-          </Button>
-           </div>
-          <div className="col-6">
-          <Button type="dashed" htmlType="submit" className="register-form-button" >
-          Register
-          </Button>
-           </div>
-          </div>
-        </Form.Item>
-          </Form>
-        
-       
- 
- 
-  </div>
-  </div>
-         
+    const { current } = this.state;
+    return (
+<div className="tmp">
+  <div  style={{width:'70%'}}>    
+<h1 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}> MEDICAL ASSISTANT -<br/> ВАШ НАДІЙНИЙ ПАРТНЕР</h1>
+<h4 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}>
+Ви забудько?<br/>
+У Вас підліткова розсіяність?<br/>
+Чи можливо від сірої буденності часткова втрата пам'яті?
+</h4>
+<h3 style={{fontFamily: 'Comic Sans MS, Comic Sans, cursive', textAlign: "center" ,color:'#3A7073'}}>Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
+ <Steps  current={current} onChange={this.onChange} direction="vertical">
+   <Step  title="Step 1" description="Спочатку зареєструйся!✅"/>
+   <Step title="Step 2" description="Залогінься!✅" />
+   <Step title="Step 3" description="Зайди на особисту сторінку!👤" />
+   <Step title="Step 4" description="На сторінці ти можеш переглянути свої рецепти!💬" />
+   <Step title="Step 5" description="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉" />
+
+ </Steps>
+ </div>
+
+</div>
     );
+    
   }
 
   
@@ -169,9 +83,5 @@ const mapDispatch = {
   }
 }
 
-const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
-WrappedNormalLoginForm.propTypes = propTypes;
-WrappedNormalLoginForm.defaultProps = defaultProps;
-
-export default connect(mapState, mapDispatch)(WrappedNormalLoginForm);
+export default NormalHomeForm;
