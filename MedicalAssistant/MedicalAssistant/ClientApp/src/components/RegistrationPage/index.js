@@ -5,7 +5,7 @@ import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
-import '../style.css';
+import '../../style.css';
 
 import moment from 'moment';
 import axios from 'axios';
@@ -20,7 +20,8 @@ import {
     Col,
     Button,
     DatePicker,
-    Menu
+    Menu,
+    InputNumber
 } from 'antd';
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
@@ -33,6 +34,7 @@ let currentValue;
 
 const propTypes = {
     registrUser: PropTypes.func.isRequired,
+    registrDoctor: PropTypes.func.isRequired,
     IsLoading: PropTypes.bool.isRequired,
     IsFailed: PropTypes.bool.isRequired,
     IsSuccess: PropTypes.bool.isRequired,
@@ -85,7 +87,6 @@ class RegistrationForm extends Component {
         this.state = {
             confirmDirty: false,
             loading: false,
-            registration: {},
             doctorCheck: false,
             dataLocality: [],
             value: undefined,
@@ -136,22 +137,54 @@ class RegistrationForm extends Component {
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                const usermodel = {
-                    Password: values.password,
-                    Email: values.email,
-                    UserName: values.username,
-                    UserSurname: values.usersurname,
-                    PhoneNumber: values.prefix + values.phone,
-                    Locality: values.Locality,
-                    DateOfBirth: values.DateofBirth
-                };
+          
+   
 
-                this.props.registrUser(usermodel);
+                if(this.state.doctorCheck)
+                {
+                    if(!err)
+                    {
+                    const usermodel = {
+                        Password: values.password,
+                        Email: values.email,
+                        UserName: values.username,
+                        UserSurname: values.usersurname,
+                        PhoneNumber: values.prefix + values.phone,
+                        Locality: values.Locality,
+                        DateOfBirth: values.DateofBirth,
+                        DoctorSpecialty:values.post,
+                        WorkExpirience:values.workExperience
+                    };
+
+                    this.props.registrDoctor(usermodel);
+                    }
+                }
+                else
+                {
+                    if(!err.Email&&!err.Password&&!err.UserName&&!err.UserSurname&&!err.PhoneNumber&&!err.Locality&&!err.DateOfBirth&&!err.confirm)
+                    {
+                        const usermodel = {
+                            Password: values.password,
+                            Email: values.email,
+                            UserName: values.username,
+                            UserSurname: values.usersurname,
+                            PhoneNumber: values.prefix + values.phone,
+                            Locality: values.Locality,
+                            DateOfBirth: values.DateofBirth,
+                        };
+    
+                        this.props.registrUser(usermodel);
+                    }
+                   
+                }
+            
+
+           
+            
 
 
 
-            }
+            
         }
         )
     };
@@ -182,11 +215,6 @@ class RegistrationForm extends Component {
         }
         callback();
     };
-
-
-
-
-
 
 
 
@@ -278,16 +306,14 @@ class RegistrationForm extends Component {
                 <Option value="38">+38</Option>
             </Select>,
         );
+
+        const options = this.state.dataLocality.map(d => <Option key={d.value}>{d.text}</Option>);
       
        const doctorfields=(
         <div>
         <Form.Item label="Post">
                    {getFieldDecorator('post', {
                        rules: [
-                           {
-                               type: 'post',
-                               message: 'The input is not valid Post!',
-                           },
                            {
                                required: true,
                                message: 'Please input your Post!',
@@ -299,15 +325,11 @@ class RegistrationForm extends Component {
                    {getFieldDecorator('workExperience', {
                        rules: [
                            {
-                               type: 'workExperience',
-                               message: 'The input is not valid Work Experience!',
-                           },
-                           {
                                required: true,
                                message: 'Please input your Work Experience!',
                            },
                        ],
-                   })(<Input />)}
+                   })( <InputNumber min={1} max={50} defaultValue={3}  />)}
                </Form.Item>
               
         </div>
@@ -318,7 +340,7 @@ class RegistrationForm extends Component {
         return (
             <div className="tmp">
                 <div style={{width: '50%'}}> 
-            <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
+            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
     
                 <Form.Item label="E-mail">
                     {getFieldDecorator('email', {
@@ -489,8 +511,9 @@ class RegistrationForm extends Component {
                
           
             </Form>
-            </div>
-            </div>
+      </div>
+      </div>
+      
         );
     }
 }
@@ -517,6 +540,9 @@ const mapDispatch = {
 
     registrUser: (user) => {
         return usersActions.registrUser(user);
+    },
+    registrDoctor:(doctor)=>{
+        return usersActions.registrDoctor(doctor);
     },
     push: (url) => {
         return (dispatch) => {

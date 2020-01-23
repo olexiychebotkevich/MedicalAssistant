@@ -3,8 +3,9 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import createHistory from 'history/createHashHistory'
 import {usersReducer} from '../components/RegistrationPage/reducer'
-import {loginReducer} from '../components/HomePage/reducer'
+import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
+import {patientsReducer} from '../components/PagePatient/reducer'
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
 
@@ -16,6 +17,7 @@ export default function configureStore(history, initialState) {
   const reducers = {
     usersReducer,
     loginReducer,
+    patientsReducer,
     refreshToken: refreshReducer,
 
   };

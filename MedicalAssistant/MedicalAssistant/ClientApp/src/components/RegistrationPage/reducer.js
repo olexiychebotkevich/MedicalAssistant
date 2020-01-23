@@ -64,7 +64,24 @@ export const registrUser = (user) => {
         UserService.register(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
-                history.push('/');
+                history.push('/pagepatient');
+            }, err => { throw err; })
+            .catch(err => {
+                console.log("error: ",err);
+                dispatch(registrActions.failed(err.response));
+               
+            });
+    }
+}
+
+
+export const registrDoctor = (user) => {
+    return (dispatch) => {
+        dispatch(registrActions.started());
+        UserService.register(user)
+            .then((response) => {
+                dispatch(registrActions.success(response));
+                history.push('/pagedoctor');
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);

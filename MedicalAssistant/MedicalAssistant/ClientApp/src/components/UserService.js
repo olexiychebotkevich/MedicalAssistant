@@ -1,5 +1,10 @@
 import axios from 'axios';
 import {serverUrl} from '../config';
+import jwt from 'jsonwebtoken';
+
+
+
+
 export default class UserService {
     // static login(username, password) {
     //     const requestOptions = {
@@ -27,6 +32,20 @@ export default class UserService {
     static login(user){
         return axios.post(`${serverUrl}api/authorization/login`, user);
     }
+
+    static getdetaileduser(user) {
+        // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
+        console.log("id: ",user.id);
+        return axios.post(`${serverUrl}api/user/GetUser`, {id:user.id}, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+
+
+    }
+
+
+
+
     
     
 

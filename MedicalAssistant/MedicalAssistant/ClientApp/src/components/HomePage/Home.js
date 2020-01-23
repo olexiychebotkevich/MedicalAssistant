@@ -53,35 +53,35 @@ class NormalHomeForm extends React.Component {
   
 }
 
-const mapState = (state) => {
-  return {
-      IsLoading: get(state, 'loginReducer.login.loading'),
-      IsFailed: get(state, 'loginReducer.login.failed'),
-      IsSuccess: get(state, 'loginReducer.login.success'),
-      login:
-      {
-          IsLoading: get(state, 'loginReducer.login.loading'),
-          IsFailed: get(state, 'loginReducer.login.failed'),
-          IsSuccess: get(state, 'loginReducer.login.success'),
-      },
-      errors: get(state, 'login.post.errors')
+// const mapState = (state) => {
+//   return {
+//       IsLoading: get(state, 'loginReducer.login.loading'),
+//       IsFailed: get(state, 'loginReducer.login.failed'),
+//       IsSuccess: get(state, 'loginReducer.login.success'),
+//       login:
+//       {
+//           IsLoading: get(state, 'loginReducer.login.loading'),
+//           IsFailed: get(state, 'loginReducer.login.failed'),
+//           IsSuccess: get(state, 'loginReducer.login.success'),
+//       },
+//       errors: get(state, 'login.post.errors')
 
 
 
-  }
-}
+//   }
+// }
 
-const mapDispatch = {
+// const mapDispatch = {
 
-  loginUser: (user) => {
-      return usersActions.loginUser(user);
-  },
-  push: (url) => {
-      return (dispatch) => {
-          dispatch(push(url));
-      }
-  }
-}
+//   loginUser: (user) => {
+//       return usersActions.loginUser(user);
+//   },
+//   push: (url) => {
+//       return (dispatch) => {
+//           dispatch(push(url));
+//       }
+//   }
+// }
 
 
 export default NormalHomeForm;

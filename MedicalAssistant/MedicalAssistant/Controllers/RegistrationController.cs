@@ -48,16 +48,36 @@ namespace MedicalAssistant.Controllers
 
             if (user.Succeeded)
             {
-                DetailedUser userDetailed = new DetailedUser
+                if (model.DoctorSpecialty != null && model.WorkExpirience != null)
                 {
-                    UserName=model.UserName,
-                    UserSurname = model.UserSurname,
-                    DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
-                    Locality = model.Locality,
-                    User = userManager.FindByEmailAsync(model.Email).Result
-                };
-                _dbcontext.Add(userDetailed);
-                _dbcontext.SaveChanges();
+                    DetailedDoctor doctorDetailed = new DetailedDoctor
+                    {
+                        UserName = model.UserName,
+                        UserSurname = model.UserSurname,
+                        DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
+                        Locality = model.Locality,
+                        WorkExpirience = model.WorkExpirience,
+                        DoctorSpecialty = model.DoctorSpecialty,
+                        User = userManager.FindByEmailAsync(model.Email).Result
+
+                    };
+
+                    _dbcontext.Add(doctorDetailed);
+                    _dbcontext.SaveChanges();
+                }
+                else
+                {
+                    DetailedUser userDetailed = new DetailedUser
+                    {
+                        UserName = model.UserName,
+                        UserSurname = model.UserSurname,
+                        DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
+                        Locality = model.Locality,
+                        User = userManager.FindByEmailAsync(model.Email).Result
+                    };
+                    _dbcontext.Add(userDetailed);
+                    _dbcontext.SaveChanges();
+                }
             }
             else
             {

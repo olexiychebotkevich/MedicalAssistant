@@ -1,5 +1,5 @@
 import RefreshService from './refreshService'
-import * as loginActions from '../HomePage/reducer';
+import * as loginActions from '../LoginPage/reducer';
 import update from '../../helpers/update';
 
 
