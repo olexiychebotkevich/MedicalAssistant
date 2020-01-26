@@ -54,6 +54,13 @@
   color: white;
   font-size: 20px;
   } 
+  .pass{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    text-shadow: 0 0 3px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
+    -moz-text-shadow: 0 0 3px #3A7073;
+    -webkit-text-shadow: 0 0 3px #3A7073;
+  }
 @media (max-width: 768px) {
   .header{
     font-size: 60px;

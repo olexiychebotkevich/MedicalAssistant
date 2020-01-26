@@ -169,7 +169,7 @@ class RegistrationForm extends Component {
       
        const doctorfields=(
         <div>
-        <Form.Item label="Post">
+        <Form.Item label="Посада">
                    {getFieldDecorator('post', {
                        rules: [
                            {
@@ -183,7 +183,7 @@ class RegistrationForm extends Component {
                        ],
                    })(<Input />)}
                </Form.Item>
-               <Form.Item label=" Work experience">
+               <Form.Item label="Робочий досвід">
                    {getFieldDecorator('workExperience', {
                        rules: [
                            {
@@ -208,7 +208,7 @@ class RegistrationForm extends Component {
                 <div style={{width: '50%'}}> 
             <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
     
-                <Form.Item label="E-mail">
+                <Form.Item label="Пошта">
                     {getFieldDecorator('email', {
                         rules: [
                             {
@@ -222,7 +222,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="Password" hasFeedback>
+                <Form.Item label="Пароль" hasFeedback>
                     {getFieldDecorator('password', {
                         rules: [
                             {
@@ -239,7 +239,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Confirm Password" hasFeedback>
+                <Form.Item label="Підтвердити пароль" hasFeedback>
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
@@ -259,7 +259,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Name&nbsp;
+                            Ім'я&nbsp;
                             <Tooltip title="Your name">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -274,7 +274,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Surname&nbsp;
+                            Призвіще&nbsp;
                             <Tooltip title="Your surname?">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -286,7 +286,7 @@ class RegistrationForm extends Component {
                     })(<Input />)}
                 </Form.Item>
 
-                <Form.Item label="Phone Number">
+                <Form.Item label="Телефон">
                     {getFieldDecorator('phone', {
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
@@ -306,7 +306,7 @@ class RegistrationForm extends Component {
                 </Form.Item> */}
 
 
-                <Form.Item label="Date of birth">
+                <Form.Item label="Дата народження">
                     {getFieldDecorator('DateofBirth', {
                         initialValue: moment(),
                         rules: [
@@ -325,7 +325,7 @@ class RegistrationForm extends Component {
         
        
                 <Form.Item {...tailFormItemLayout}>
-                <Checkbox onChange={this.CheckBoxOnChange}>Doctor</Checkbox>
+                <Checkbox onChange={this.CheckBoxOnChange}>Лікар</Checkbox>
                 
 
                 
@@ -334,7 +334,7 @@ class RegistrationForm extends Component {
                 {this.state.doctorCheck ? doctorfields : null}
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="dashed" htmlType="submit" className="register-form-btn" >
-                        Register
+                        Зареєструвати
                     </Button>
                 </Form.Item>
                

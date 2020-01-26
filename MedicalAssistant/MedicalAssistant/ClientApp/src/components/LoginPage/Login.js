@@ -44,7 +44,7 @@ class NormalLoginForm extends React.Component {
               })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Username"
+                  placeholder="Ім'я користувача"
                 />,
               )}
             </Form.Item>
@@ -55,26 +55,26 @@ class NormalLoginForm extends React.Component {
                 <Input
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                 />,
               )}
 
             </Form.Item>
             <Form.Item>
-              <a className="login-form-forgot" href="">
-                Forgot password
+              <a className="login-form-forgot" href="" className="pass">
+                Забули пароль
               </a>
             </Form.Item>
             <Form.Item>
               <div className="row">
                 <div className="col-6">
                   <Button type="dashed" htmlType="submit" className="login-form-button" >
-                    Login
+                    Уввійти
                   </Button>
                 </div>
                 <div className="col-6">
                   <Button type="dashed" htmlType="submit" className="register-form-button" >
-                    Register
+                    Зареєструватися
                   </Button>
                 </div>
               </div>
