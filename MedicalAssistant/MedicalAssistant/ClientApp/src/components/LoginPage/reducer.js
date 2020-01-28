@@ -20,10 +20,11 @@ const initialState = {
     failed: false,
     loading: false,
     success: false,
-    isAuthenticated: false,
+    isAuthenticated:  user ? true : false,
     errors:{}
     },
-    user: user ? user : null
+    user: user ? user : null,
+  
 }
 
 export const loginReducer = (state = initialState, action) => {
@@ -36,6 +37,8 @@ export const loginReducer = (state = initialState, action) => {
         case LOGIN_SUCCESS: {
             newState = update.set(state, 'login.loading', false);
             newState = update.set(newState, 'login.success', true);
+            newState = update.set(newState, 'login.isAuthenticated', true);
+            
             break;
         }
 
@@ -68,7 +71,7 @@ export const loginUser = (user) => {
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch(push('/pagedoctor'));
+                dispatch(push('/pagepatient'));
           
             }, err => { throw err; })
             .catch(err => {
@@ -112,6 +115,7 @@ export const loginActions = {
 export function logout() {
     return dispatch => {
         logoutByJWT(dispatch);
+        dispatch(push('/'));
     };
 }
 

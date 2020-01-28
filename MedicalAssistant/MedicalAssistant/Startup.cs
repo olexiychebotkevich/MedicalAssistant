@@ -44,6 +44,7 @@ namespace MedicalAssistant
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin", b => b.AllowAnyOrigin());
+                
             });
 
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretPhrase")));
@@ -60,6 +61,7 @@ namespace MedicalAssistant
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
             }).AddJwtBearer(cfg =>
             {
                 cfg.RequireHttpsMetadata = false;
@@ -83,6 +85,8 @@ namespace MedicalAssistant
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Include;
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+               
+
                 });
 
             services.AddDistributedMemoryCache();

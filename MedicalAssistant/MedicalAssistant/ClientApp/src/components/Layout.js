@@ -10,7 +10,7 @@ export default props => (
     <Container>
       {props.children}
     </Container>
-    <Footer/>
+    {/* <Footer/> */}
   </div>
 
 );

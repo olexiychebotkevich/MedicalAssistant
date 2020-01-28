@@ -157,6 +157,7 @@ const mapDispatch = {
   loginUser: (user) => {
     return usersActions.loginUser(user);
   },
+  
   push: (url) => {
     return (dispatch) => {
       dispatch(push(url));

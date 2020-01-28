@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using MedicalAssistant.DAL.Entities;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace MedicalAssistant.Controllers
 {
@@ -26,18 +28,19 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpPost("GetUser")]
-        public DetailedUser GetUser(int id)
+        public DetailedUser GetUser([FromBody]DetailedUser user)
         {
-            DetailedUser user = null;
+            DetailedUser detailuser = null;
             try
             {
-                user = _dbcontext.DetailedUsers.Single(u => u.Id == id);
+
+                detailuser = _dbcontext.DetailedUsers.Include("User").Single(u=>u.User.Id== user.Id);
             }
             catch (Exception e)
             {
-                Console.WriteLine("{0} Exception caught.", e);
+                Debug.WriteLine("{0} Exception caught.", e);
             }
-            return user;
+            return detailuser;
 
         }
     }

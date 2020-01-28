@@ -17,7 +17,8 @@ const propTypes = {
     IsSuccess: PropTypes.bool.isRequired,
     errors: PropTypes.object,
     statuscode: PropTypes.number,
-    user: PropTypes.object
+    user: PropTypes.object,
+    patient: PropTypes.object
 };
 
 const defaultProps = {};
@@ -52,7 +53,8 @@ componentDidMount() {
 static getDerivedStateFromProps = (props, state) => {
   return {
       user: props.user,
-      errorsServer: props.errors
+      errorsServer: props.errors,
+      detailedpatient:props.patient
   };
 }
 
@@ -67,12 +69,12 @@ static getDerivedStateFromProps = (props, state) => {
             <img style={{height:'200px', width: '200px', display:'block', margin: 'auto'}} src=" https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="Photo"/>
             </div>
             <div className="col-12 col-sm-8 p">
-                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Name: Liza</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: Shemetovska></p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: 11.07.2002 </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Email: Shemetovska@gmail</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Phone:380980473992 </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Address: st.Popod</p>
+                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: {this.state.detailedpatient ? this.state.detailedpatient.dateOfBirth : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Phone: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Address: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
                </div>
         </div>
           
@@ -129,7 +131,8 @@ const mapState = (state) => {
       IsSuccess: get(state, 'patientsReducer.detailedpatient.success'),
       user:get(state, 'loginReducer.user'),
       errors: get(state, 'patientsReducer.detailedpatient.errors'),
-      statuscode: get(state, 'patientsReducer.detailedpatient.statuscode')
+      statuscode: get(state, 'patientsReducer.detailedpatient.statuscode'),
+      patient: get(state, 'patientsReducer.detailedpatient.patient')
 
 
 

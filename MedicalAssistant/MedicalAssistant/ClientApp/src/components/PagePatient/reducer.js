@@ -29,7 +29,7 @@ export const patientsReducer = (state = initialState, action) => {
         case GETPATIENT_SUCCESS: {
             newState = update.set(state, 'detailedpatient.loading', false);
             newState = update.set(newState, 'detailedpatient.success', true);
-            newState = update.set(newState, 'detailedpatient.user', action.payload.data);
+            newState = update.set(newState, 'detailedpatient.patient', action.payload.data);
             break;
         }
 
@@ -57,6 +57,7 @@ export const GetDetailedPatient = (patient) => {
         dispatch(getpatientActions.started());
         UserService.getdetaileduser(patient)
             .then((response) => {
+                console.log("--------------redponse: ",response)
                 dispatch(getpatientActions.success(response));
             }, err => { throw err; })
             .catch(err => {

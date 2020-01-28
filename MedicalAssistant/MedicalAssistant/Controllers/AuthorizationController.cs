@@ -41,11 +41,11 @@ namespace MedicalAssistant.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                var errrors = CustomValidator.GetErrorsByModel(ModelState);
-                return BadRequest(errrors);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    var errrors = CustomValidator.GetErrorsByModel(ModelState);
+            //    return BadRequest(errrors);
+            //}
 
             var result = await _signInManager
                 .PasswordSignInAsync(model.Email, model.Password,
