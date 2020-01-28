@@ -4,6 +4,7 @@ import { Menu, Icon,Typography  } from 'antd';
 import 'antd/dist/antd.css';
 
 
+
 const { Text  } = Typography;
 
 class NavigMenu extends Component {
@@ -22,9 +23,9 @@ class NavigMenu extends Component {
     };
     render() {
         return (
-            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
+            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
                 <Menu.Item key="app" disabled>
-                <Text strong>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
                 </Menu.Item>
                 <Menu.Item key="bank" title="Home">
                     <Icon type="bank" />
@@ -34,7 +35,18 @@ class NavigMenu extends Component {
                     <Icon type="solution" />
                     <Link to="/registr" />
                 </Menu.Item>
-
+                <Menu.Item key="login" title="Login">
+                    <Icon type="login" />
+                    <Link to="/login" />
+                </Menu.Item>
+                <Menu.Item key="contacts" title="PageDoctor">
+                    <Icon type="contacts" />
+                    <Link to="/pagedoctor" />
+                </Menu.Item>
+                <Menu.Item key="user" title="PagePatient">
+                    <Icon type="user" />
+                    <Link to="/pagepatient" />
+                </Menu.Item>
             </Menu>
         );
     }

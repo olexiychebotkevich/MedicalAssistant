@@ -1,0 +1,12 @@
+
+body{
+    background-color: rgb(151, 201, 218);
+
+}
+@media (max-width: 600px) {
+    .p{
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+   
