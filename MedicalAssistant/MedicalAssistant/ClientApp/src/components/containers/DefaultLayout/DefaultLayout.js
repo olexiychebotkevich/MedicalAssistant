@@ -7,11 +7,8 @@ import defaultRoutes from '../../../routes/defaultRoutes'
 class DefaultLayout extends Component {
     state = {  }
     render() { 
-        console.log('-------this-----', this.props);
-        console.log('-------default routes-----', defaultRoutes);
         return (
             <Layout>
-              <h1>Hello default Layout</h1>
               <Suspense fallback={<div>Загрузка...</div>}>
                 <Switch>
                   {defaultRoutes.map((route, idx) => {

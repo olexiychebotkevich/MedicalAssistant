@@ -7,12 +7,9 @@ import patientRoutes from '../../../routes/patientRoutes';
 class PatientLayout extends Component {
 
     render() { 
-    
-        console.log('-------this-----', this.props);
-        console.log("-----patient routes-----",patientRoutes);
+
         return (
             <Layout>
-                <h1>Hello patient Layout</h1>
                 <Suspense fallback={<div>Загрузка...</div>}>
                     <Switch>
                         {patientRoutes.map((route, idx) => {

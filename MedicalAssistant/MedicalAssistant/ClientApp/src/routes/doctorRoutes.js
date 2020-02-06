@@ -1,9 +1,11 @@
 import React from 'react';
-import PageDoctor from './components/PageDoctor';
+
+const PageDoctor = React.lazy(() => import("../components/PageDoctor"));
+
 
 
 const doctorRoutes=[
-    { path: '/pagedoctor', component: PageDoctor}
+    { path: '/doctor/pagedoctor', exact: true, name: 'pagedoctor', component: PageDoctor }
 ];
 
 export default doctorRoutes;
