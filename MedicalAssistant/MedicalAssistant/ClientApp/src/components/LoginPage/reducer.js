@@ -13,6 +13,7 @@ export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
+if(localStorage.getItem('jwtToken'))
 let user = jwt.decode(localStorage.getItem('jwtToken'));
 
 const initialState = {
@@ -71,7 +72,7 @@ export const loginUser = (user) => {
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch(push('/pagepatient'));
+                dispatch(push('/patient/pagepatient'));
           
             }, err => { throw err; })
             .catch(err => {

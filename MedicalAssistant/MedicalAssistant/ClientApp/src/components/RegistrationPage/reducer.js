@@ -64,7 +64,7 @@ export const registrUser = (user) => {
         UserService.register(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
-                history.push('/pagepatient');
+                history.push('/patient');
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);
