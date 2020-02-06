@@ -1,13 +1,11 @@
 import React from 'react';
-import PagePatient from '../components/PagePatient/PagePatient';
-import WrappedRegistrationForm from '../components/RegistrationPage';
-import WrappedNormalLoginForm from '../components/LoginPage/Login';
+
+const PagePatient = React.lazy(() => import("../components/PagePatient/PagePatient"));
+
 
 
 const patientRoutes=[
-    { path: '/pagepatient', exact: true, name: 'Patient', component: PagePatient},
-    { path: '/login', exact: true, name: 'Login', component: WrappedNormalLoginForm},
-    { path: '/registr', exact: true, name: 'Registration', component: WrappedRegistrationForm}
+    { path: '/patient/pagepatient', exact: true, name: 'patientpage', component: PagePatient }
 ];
 
 export default patientRoutes;

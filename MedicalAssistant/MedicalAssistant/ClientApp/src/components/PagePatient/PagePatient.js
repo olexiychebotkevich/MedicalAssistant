@@ -1,14 +1,14 @@
+import React, { Component } from 'react';
 import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
-import React, { Component } from 'react';
-import './pagepatient.css';
 import * as getpatientActions from './reducer';
-import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt from 'jsonwebtoken';
+import '../home.css';
+import './pagepatient.css';
 
 const propTypes = {
     GetDetailedPatient: PropTypes.func.isRequired,

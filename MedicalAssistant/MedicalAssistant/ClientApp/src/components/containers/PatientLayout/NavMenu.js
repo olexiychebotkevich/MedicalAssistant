@@ -45,6 +45,13 @@ class NavMenu extends Component {
             current: e.key,
         });
     };
+
+
+    logoutclick = e => {
+        e.preventDefault();
+        this.props.logout();
+      }
+
     render() {
         return (
             <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
@@ -52,7 +59,7 @@ class NavMenu extends Component {
                 <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
                 </Menu.Item>
 
-                {this.state.isAuthenticated ? <Button onClick={this.props.logout()}/> : null}
+                {this.state.isAuthenticated ?  <Button type="link"  onClick={this.logoutclick}>logout</Button> : null}
      
             </Menu>
         );

@@ -13,7 +13,7 @@ export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
-if(localStorage.getItem('jwtToken'))
+// if(localStorage.getItem('jwtToken'))
 let user = jwt.decode(localStorage.getItem('jwtToken'));
 
 const initialState = {
@@ -39,6 +39,8 @@ export const loginReducer = (state = initialState, action) => {
             newState = update.set(state, 'login.loading', false);
             newState = update.set(newState, 'login.success', true);
             newState = update.set(newState, 'login.isAuthenticated', true);
+            newState = update.set(newState, 'isAuthenticated', true);
+            
             
             break;
         }
@@ -75,11 +77,13 @@ export const loginUser = (user) => {
                 dispatch(push('/patient/pagepatient'));
           
             }, err => { throw err; })
-            .catch(err => {
-                console.log("error: ",err);
-                dispatch(loginActions.failed(err.response));
-                //redirectStatusCode(err.response.status);
-            });
+            // .catch(err => {
+            //     console.log("error: ",err);
+            //     console.log("------error response: ",err.response);
+            //     dispatch(loginActions.failed(err.response));
+              
+            //     //redirectStatusCode(err.response.status);
+            // });
     }
 }
 
@@ -98,7 +102,7 @@ export const loginActions = {
     failed: (response) => {
         return {
             type: LOGIN_FAILURE,
-            errors: response.data
+            errors: response
         }
     },
 

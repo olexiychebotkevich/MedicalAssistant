@@ -1,13 +1,15 @@
 import React from 'react';
-import NormalHomeForm from '../components/HomePage/Home';
-import WrappedRegistrationForm from '../components/RegistrationPage';
-import WrappedNormalLoginForm from '../components/LoginPage/Login';
+
+
+const NormalHomeForm = React.lazy(() => import("../components/HomePage/Home"));
+const WrappedNormalLoginForm = React.lazy(() => import("../components/LoginPage/Login"));
+const WrappedRegistrationForm = React.lazy(() => import("../components/RegistrationPage"));
 
 
 const defaultRoutes=[
-    { path: '/home', exact: true, name: 'Головна', component: NormalHomeForm  },
-    { path: '/login', exact: true, name: 'Логін', component: WrappedNormalLoginForm  },
-    { path: '/registr', exact: true, name: 'Реєстрація', component: WrappedRegistrationForm}
+    { path: '/home', exact: true, name: 'home', component: NormalHomeForm  },
+    { path: '/login', exact: true, name: 'login', component: WrappedNormalLoginForm  },
+    { path: '/registr', exact: true, name: 'registration', component: WrappedRegistrationForm}
 ];
 
 export default defaultRoutes;
