@@ -9,10 +9,12 @@ const { Text  } = Typography;
 const menu = (
     <Menu onClick={handleMenuClick}>
      <Menu.Item key="login" title="Log in">
-                    <Link to="/login" />
+         <a href="login">Log in</a>
+                    {/* <Link to="/login" /> */}
                 </Menu.Item>
       <Menu.Item key="register" title="Register">
-      <Link to="/registr" />
+      <a href="registr">Register</a>
+      {/* <Link to="/registr" /> */}
       </Menu.Item>
     </Menu>
   );

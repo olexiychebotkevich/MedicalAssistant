@@ -6,10 +6,6 @@ import FooterForm from '../Footer';
 import {
   Steps, Divider, Row, Icon
 } from 'antd';
- 
-import { Typography } from 'antd';
-
-const { Title } = Typography;
 
 
 const { Step } = Steps;

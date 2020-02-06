@@ -134,6 +134,7 @@ class RegistrationForm extends Component {
     // };
 
     render() {
+        
         const { getFieldDecorator } = this.props.form;
         // const { autoCompleteResult } = this.state;
 
@@ -206,8 +207,9 @@ class RegistrationForm extends Component {
         return (
             <div className="tmp">
                 <div style={{width: '50%'}}> 
+                <h1 className="header">Medical Assistant</h1>
             <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
-    
+            
                 <Form.Item label="Пошта">
                     {getFieldDecorator('email', {
                         rules: [
@@ -222,7 +224,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="Пароль" hasFeedback>
+                <Form.Item label="Пароль"hasFeedback>
                     {getFieldDecorator('password', {
                         rules: [
                             {
@@ -239,7 +241,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Підтвердити пароль" hasFeedback>
+                <Form.Item label="Підтвердити пароль :" hasFeedback>
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
