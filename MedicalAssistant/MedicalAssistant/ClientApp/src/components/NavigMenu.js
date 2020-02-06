@@ -8,10 +8,12 @@ import 'antd/dist/antd.css';
 const { Text  } = Typography;
 const menu = (
     <Menu onClick={handleMenuClick}>
-     <Menu.Item key="login" title="Login">Log in
+     <Menu.Item key="login" title="Log in">
                     <Link to="/login" />
                 </Menu.Item>
-      <Menu.Item key="solution" href="/registr">Register</Menu.Item>
+      <Menu.Item key="register" title="Register">
+      <Link to="/registr" />
+      </Menu.Item>
     </Menu>
   );
   function handleMenuClick(e) {
@@ -42,14 +44,14 @@ class NavigMenu extends Component {
                     <Icon type="bank" />
                     <Link to="/" />
                 </Menu.Item>
-                <Menu.Item key="solution" title="Registration">
+                {/* <Menu.Item key="solution" title="Registration">
                     <Icon type="solution" />
                     <Link to="/registr" />
                 </Menu.Item>
                 <Menu.Item key="login" title="Login">
                     <Icon type="login" />
                     <Link to="/login" />
-                </Menu.Item>
+                </Menu.Item> */}
                 <Menu.Item key="contacts" title="PageDoctor">
                     <Icon type="contacts" />
                     <Link to="/pagedoctor" />
@@ -62,10 +64,10 @@ class NavigMenu extends Component {
                 <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
                 </Dropdown>
                 {/* <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>  */}
-                <Dropdown overlay={menu} placement='topRight'>
+                {/* <Dropdown overlay={menu} placement='topRight'>
                 <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}>
                     </Button>
-                </Dropdown>     
+                </Dropdown>      */}
             </Menu>
         );
     }

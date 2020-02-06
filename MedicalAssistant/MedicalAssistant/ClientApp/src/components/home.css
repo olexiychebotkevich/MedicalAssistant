@@ -9,6 +9,7 @@ background-color: rgb(213, 245, 227);
     height: 55vh;
     position: absolute;
     background-repeat: no-repeat; 
+    font-family: 'Chiller';
   }
   
 .login-form {
@@ -29,26 +30,18 @@ background-color: rgb(213, 245, 227);
   -webkit-text-shadow: 0 0 2px #000;
 
 }
-h1.homeHeader{
+.homeHeader{
   font-family: "Chiller"; 
-  text-align: center ;
+  text-align: "center" ;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
   -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
   
 }
-h1{
-  font-family: "Chiller"; 
-  text-align: center ;
-  color:red;
-  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
-  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
-  
-}
 
-h4.homeHeader1{
+
+.homeHeader1{
   font-family: "Chiller"; 
   text-align: center ;
   color:rgb(27, 27, 27);
@@ -56,6 +49,7 @@ h4.homeHeader1{
   -moz-text-shadow: 0 0 2px #3A7073;
   -webkit-text-shadow: 0 0 2px #3A7073;
 }
+
 
 
 .login-form-forgot {
