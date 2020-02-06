@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Icon,Typography  } from 'antd';
+import { Menu, Icon,Typography,Button,Dropdown  } from 'antd';
 import 'antd/dist/antd.css';
 
 
 
 const { Text  } = Typography;
-
+const menu = (
+    <Menu onClick={handleMenuClick}>
+     <Menu.Item key="login" title="Login">Log in
+                    <Link to="/login" />
+                </Menu.Item>
+      <Menu.Item key="solution" href="/registr">Register</Menu.Item>
+    </Menu>
+  );
+  function handleMenuClick(e) {
+    console.log('click', e);
+  }
 class NavigMenu extends Component {
     constructor(props) {
         super(props);
@@ -21,11 +31,12 @@ class NavigMenu extends Component {
             current: e.key,
         });
     };
+    
     render() {
         return (
-            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
+            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(232, 248, 245)'}}>
                 <Menu.Item key="app" disabled>
-                <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Chiller' ,fontWeight: '600', fontSize: '24px'}}>M e d i c a l   A s s i s t a n t</Text>
                 </Menu.Item>
                 <Menu.Item key="bank" title="Home">
                     <Icon type="bank" />
@@ -43,10 +54,18 @@ class NavigMenu extends Component {
                     <Icon type="contacts" />
                     <Link to="/pagedoctor" />
                 </Menu.Item>
-                <Menu.Item key="user" title="PagePatient">
+                <Menu.Item key="user" title="PagePatient" >
                     <Icon type="user" />
                     <Link to="/pagepatient" />
                 </Menu.Item>
+                <Dropdown overlay={menu} placement='topRight'>
+                <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
+                </Dropdown>
+                {/* <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>  */}
+                <Dropdown overlay={menu} placement='topRight'>
+                <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}>
+                    </Button>
+                </Dropdown>     
             </Menu>
         );
     }

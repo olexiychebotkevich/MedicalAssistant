@@ -1,4 +1,4 @@
-import { Row,Card,Col, Button } from 'antd';
+import { Row,Card,Col, Button,Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import './pagepatient.css';
@@ -63,7 +63,7 @@ class PagePatient extends Component {
         </Col>
       
           </Row>
-      {/* <FooterForm/> */}
+      
       </div>
     );
   }
