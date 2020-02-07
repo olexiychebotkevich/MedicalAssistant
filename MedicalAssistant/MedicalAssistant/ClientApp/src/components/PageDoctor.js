@@ -6,7 +6,10 @@ import FooterForm from './Footer';
 class PageDoctor extends Component {
 
 
-
+  routeChange=()=> {
+    let path = ``;
+    this.props.history.push(path);
+  }
 
   render() {
     return (
@@ -34,7 +37,7 @@ class PageDoctor extends Component {
       <p>Хвороба 1</p>
       <p>Хвороба 2</p>
       <p>Хвороба 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
+      <Button type="dashed" style={{color : 'black'}} onClick={this.routeChange}>Додати хворобу</Button>
     </Card>
           </Col>
          
