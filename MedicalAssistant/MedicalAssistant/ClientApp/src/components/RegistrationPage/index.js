@@ -108,11 +108,19 @@ class RegistrationForm extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log("prevProps: ",prevProps);
 
         if (this.props.errors !== prevProps.errors) {
+            console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
+
             this.props.form.validateFields((error, values) => {
+                if(this.state.doctorCheck)
+                {
+
                 if (!error) {
+                    console.log("----statuscode: ",this.props.statuscode);
                     if (this.props.statuscode === 400) {
+                        console.log("----statuscode----400: ",this.props.statuscode);
                         this.props.form.setFields({
                             email: {
                                 value: values.email,
@@ -124,6 +132,28 @@ class RegistrationForm extends Component {
                 } else {
                     console.log('error', error, values);
                 }
+               }
+
+               else
+               {
+                if (!error.Email&&!error.Password&&!error.UserName&&!error.UserSurname&&!error.PhoneNumber&&!error.Locality&&!error.DateOfBirth&&!error.confirm) {
+                    console.log("----statuscode: ",this.props.statuscode);
+                    if (this.props.statuscode === 400) {
+                        console.log("----statuscode----400: ",this.props.statuscode);
+                        this.props.form.setFields({
+                            email: {
+                                value: values.email,
+                                errors: [new Error('Email ' + values.email + " already exist")],
+                            },
+                        });
+                    }
+
+                } else {
+                    console.log('error', error, values);
+                }
+
+               }
+
             });
 
         }
@@ -222,9 +252,6 @@ class RegistrationForm extends Component {
     strongValidator = (rule, value, callback) => {
         const digitsRegex = /(?=.*?[0-9])/;
         const uppercaseRegex = /(?=.*?[A-Z])/;
-        console.log("value", value);
-        console.log("regexdigit", value.match(digitsRegex));
-        console.log("regexuppercaseletter", value.match(uppercaseRegex));
         if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
 
             return callback('Password should contain uppercase letter etc')
@@ -329,7 +356,7 @@ class RegistrationForm extends Component {
                                message: 'Please input your Work Experience!',
                            },
                        ],
-                   })( <InputNumber min={1} max={50} defaultValue={3}  />)}
+                   })( <InputNumber min={1} max={50} initialValue={3}  />)}
                </Form.Item>
               
         </div>
@@ -342,7 +369,7 @@ class RegistrationForm extends Component {
                 <div style={{width: '50%'}}> 
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
     
-                <Form.Item label="E-mail">
+                <Form.Item label="Email">
                     {getFieldDecorator('email', {
                         initialValue: undefined,
                         rules: [

@@ -22,7 +22,8 @@ const initialState = {
     loading: false,
     success: false,
     isAuthenticated:  user ? true : false,
-    errors:{}
+    errors:{},
+    statuscode:null
     },
     user: user ? user : null,
   
@@ -49,6 +50,7 @@ export const loginReducer = (state = initialState, action) => {
             newState = update.set(state, 'login.loading', false);
             newState = update.set(newState, 'login.failed', true);
             newState = update.set(newState, 'login.errors', action.errors);
+            newState = update.set(newState, 'login.statuscode', action.statuscode);
             break;
         }
 
@@ -77,13 +79,9 @@ export const loginUser = (user) => {
                 dispatch(push('/patient/pagepatient'));
           
             }, err => { throw err; })
-            // .catch(err => {
-            //     console.log("error: ",err);
-            //     console.log("------error response: ",err.response);
-            //     dispatch(loginActions.failed(err.response));
-              
-            //     //redirectStatusCode(err.response.status);
-            // });
+            .catch(err=> {
+                dispatch(loginActions.failed(err.response));
+            });
     }
 }
 
@@ -100,9 +98,11 @@ export const loginActions = {
         }
     },
     failed: (response) => {
+        console.log("failed response: ",response);
         return {
             type: LOGIN_FAILURE,
-            errors: response
+            errors: response.data,
+            statuscode:response.status
         }
     },
 

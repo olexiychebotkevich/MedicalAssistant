@@ -22,6 +22,8 @@ const propTypes = {
   IsFailed: PropTypes.bool.isRequired,
   IsSuccess: PropTypes.bool.isRequired,
   login: PropTypes.object.isRequired,
+  statuscode: PropTypes.number,
+  errors: PropTypes.object
 };
 
 const defaultProps = {};
@@ -49,6 +51,50 @@ class NormalLoginForm extends React.Component {
   }
 
 
+  componentDidUpdate(prevProps) {
+    console.log("prevProps: ",prevProps);
+
+    if (this.props.errors !== prevProps.errors) {
+        console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
+
+        this.props.form.validateFields((error, values) => {
+   
+
+            if (!error) {
+                console.log("----statuscode: ",this.props.statuscode);
+                if (this.props.statuscode === 400) {
+                   if(this.props.errors.invalid==="Email does not exist")
+                   {
+                    this.props.form.setFields({
+                      username: {
+                            username:values.username,
+                            errors: [new Error(this.props.errors.invalid)],
+                        },
+                    });
+                   }
+                   if(this.props.errors.invalid==="No correct password")
+                   {
+                    this.props.form.setFields({
+                      password: {
+                            value:values.password,
+                            errors: [new Error(this.props.errors.invalid)],
+                        },
+                    });
+                  }
+                }
+
+            } else {
+                console.log('error', error, values);
+            }
+           
+
+        });
+
+    }
+}
+
+
+
 
 
   handleSubmit = e => {
@@ -65,6 +111,17 @@ class NormalLoginForm extends React.Component {
       }
     });
   };
+
+
+  strongValidator = (rule, value, callback) => {
+    const digitsRegex = /(?=.*?[0-9])/;
+    const uppercaseRegex = /(?=.*?[A-Z])/;
+    if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
+
+        return callback('Password should contain uppercase letter etc')
+    }
+    callback()
+}
 
   render() {
 
@@ -83,8 +140,19 @@ class NormalLoginForm extends React.Component {
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
-              })(
+                        initialValue: undefined,
+                        rules: [
+                            {
+                                type: 'email',
+                                message: 'The input is not valid E-mail!',
+                            },
+                            {
+                                required: true,
+                                message: 'Please input your E-mail!',
+                            },
+
+                        ],
+                    })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder="Username"
@@ -93,8 +161,21 @@ class NormalLoginForm extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
-              })(
+                        initialValue: undefined,
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Please input your password!',
+                            },
+                            {
+                                min: 8,
+                                message: "The field Password  must contain 8 symbols!"
+                            },
+                            {
+                                validator: this.strongValidator
+                            }
+                        ],
+                    })(
                 <Input
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
@@ -147,7 +228,10 @@ const mapState = (state) => {
       IsLoading: get(state, 'loginReducer.login.loading'),
       IsFailed: get(state, 'loginReducer.login.failed'),
       IsSuccess: get(state, 'loginReducer.login.success'),
-    }
+      
+    },
+    statuscode: get(state, 'loginReducer.login.statuscode'),
+    errors: get(state, 'loginReducer.login.errors'),
   }
 }
 

@@ -47,13 +47,16 @@ namespace MedicalAssistant.Controllers
             //    return BadRequest(errrors);
             //}
 
+            if(_userManager.FindByEmailAsync(model.Email).Result==null)
+                return BadRequest(new { invalid = "Email does not exist" });
+
             var result = await _signInManager
                 .PasswordSignInAsync(model.Email, model.Password,
                 false, false);
 
             if (!result.Succeeded)
             {
-                return BadRequest(new { invalid = "No correct data" });
+                return BadRequest(new { invalid = "No correct password" });
             }
 
 
