@@ -6,7 +6,10 @@ import FooterForm from './Footer';
 class PageDoctor extends Component {
 
 
-
+  routeChange=()=> {
+    let path = ``;
+    this.props.history.push(path);
+  }
 
   render() {
     return (
@@ -16,51 +19,51 @@ class PageDoctor extends Component {
             <img style={{height:'200px', width: '200px', display:'block', margin: 'auto'}} src=" https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="Photo"/>
             </div>
             <div className="col-12 col-sm-8 p">
-                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Name: Liza</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: Shemetovska></p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: 11.07.2002 </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Email: Shemetovska@gmail</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Phone:380980473992 </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Post: Family Doctor</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Address: st.Popod</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Work experience:3 year </p>
+                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Ім'я: Ліза</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Призвіще: Шеметовська></p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Дата народження: 11.07.2002 </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Пошта: Shemetovska@gmail</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Телефон:380980473992 </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Посада: Сімейний лікар</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Адреса:вул. Кармелюка</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Робочий досвід:3 роки </p>
                </div>
         </div>
           
         <Row gutter={16}>
        
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Name Surname" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
-      <p>Illness 1</p>
-      <p>Illness 2</p>
-      <p>Illness 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
+          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
+      <p>Хвороба 1</p>
+      <p>Хвороба 2</p>
+      <p>Хвороба 3</p>
+      <Button type="dashed" style={{color : 'black'}} onClick={this.routeChange}>Додати хворобу</Button>
     </Card>
           </Col>
          
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Name Surname" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
-      <p>Illness 1</p>
-      <p>Illness 2</p>
-      <p>Illness 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
+          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
+      <p>Хвороба 1</p>
+      <p>Хвороба 2</p>
+      <p>Хвороба 3</p>
+      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
     </Card>
           </Col>
           
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Name Surname" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Illness 1</p>
-      <p>Illness 2</p>
-      <p>Illness 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
+          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+      <p>Хвороба 1</p>
+      <p>Хвороба 2</p>
+      <p>Хвороба 3</p>
+      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
     </Card>
         </Col>
         <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Name Surname" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Illness 1</p>
-      <p>Illness 2</p>
-      <p>Illness 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Add illness</Button>
+          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+      <p>Хвороба 1</p>
+      <p>Хвороба 2</p>
+      <p>Хвороба 3</p>
+      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
     </Card>
         </Col>
           </Row>
