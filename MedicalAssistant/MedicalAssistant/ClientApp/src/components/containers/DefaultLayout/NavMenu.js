@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { Menu, Icon,Typography ,Button} from 'antd';
+import { Menu, Icon,Typography ,Button,Dropdown} from 'antd';
 import 'antd/dist/antd.css';
 import * as usersActions from '../../LoginPage/reducer';
 
@@ -10,23 +10,44 @@ import * as usersActions from '../../LoginPage/reducer';
 
 const { Text  } = Typography;
 
-const RegistrationLink = (
+const menu = (
+    <Menu onClick={handleMenuClick}>
+     <Menu.Item key="login" title="Login">
+         {/* <a href="login">Log in</a> */}
+        <Link to="/login">Login</Link>
+      
+      
+                </Menu.Item>
+      <Menu.Item key="register" title="Register">
+      <Link to="/registr">Registration</Link>
+      {/* <Link to="/registr" /> */}
+      </Menu.Item>
+    </Menu>
+  );
 
-    <Menu.Item key="solution" title="Registration">
-        <Icon type="solution" />
-        <Link to="/registr" />
-    </Menu.Item>
 
-);
+  function handleMenuClick(e) {
+    console.log('click', e);
+  }
+  
 
-const LoginLink = (
+// const RegistrationLink = (
 
-    <Menu.Item key="login" title="Login">
-        <Icon type="login" />
-        <Link to="/login" />
-    </Menu.Item>
+//     <Menu.Item key="solution" title="Registration">
+//         <Icon type="solution" />
+//         <Link to="/registr" />
+//     </Menu.Item>
 
-);
+// );
+
+// const LoginLink = (
+
+//     <Menu.Item key="login" title="Login">
+//         <Icon type="login" />
+//         <Link to="/login" />
+//     </Menu.Item>
+
+// );
 
 
 
@@ -71,8 +92,11 @@ class NavMenu extends Component {
                 <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
                 </Menu.Item>
                
-                {LoginLink}
-                {RegistrationLink}
+                <Menu.Item>
+                <Dropdown overlay={menu} placement='topRight'>
+                <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
+                </Dropdown>
+                </Menu.Item>
             </Menu>
         );
     }
