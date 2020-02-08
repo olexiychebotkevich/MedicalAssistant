@@ -1,0 +1,11 @@
+.icon {
+    position: absolute;
+    top: 35%;
+    left: 45%;
+    height: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    display: block;
+
+}
