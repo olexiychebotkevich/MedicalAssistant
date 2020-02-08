@@ -8,12 +8,14 @@ import 'antd/dist/antd.css';
 const { Text  } = Typography;
 const menu = (
     <Menu onClick={handleMenuClick}>
-     <Menu.Item key="login" title="Log in">
-         <a href="login">Log in</a>
-                    {/* <Link to="/login" /> */}
+     <Menu.Item key="login" title="Login">
+         {/* <a href="login">Log in</a> */}
+        <Link to="/login">Login</Link>
+      
+      
                 </Menu.Item>
       <Menu.Item key="register" title="Register">
-      <a href="registr">Register</a>
+      <Link to="/registr">Registration</Link>
       {/* <Link to="/registr" /> */}
       </Menu.Item>
     </Menu>

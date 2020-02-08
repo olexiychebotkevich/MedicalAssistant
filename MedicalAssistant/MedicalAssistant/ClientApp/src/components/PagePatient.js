@@ -2,7 +2,7 @@ import { Row,Card,Col, Button,Pagination } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import './pagepatient.css';
-import Cropper from 'cropperjs';
+
 
 class PagePatient extends Component {
 

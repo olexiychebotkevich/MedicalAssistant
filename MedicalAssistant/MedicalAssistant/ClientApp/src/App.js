@@ -9,6 +9,7 @@ import PageDoctor from './components/PageDoctor';
 import PagePatient from './components/PagePatient';
 
 import WrappedNormalLoginForm from './components/LoginPage/Login';
+import WrappedDynamicFieldSet from './components/Add-recipe/Add-recipe'
 
 
 export default () => (
@@ -20,6 +21,8 @@ export default () => (
     <Route path='/pagedoctor' component={PageDoctor} />
     <Route path='/pagepatient' component={PagePatient} />
     <Route path='/login' component={WrappedNormalLoginForm} />
+    <Route path='/addrecipe' component={WrappedDynamicFieldSet} />
+    
  
 
   </Layout>

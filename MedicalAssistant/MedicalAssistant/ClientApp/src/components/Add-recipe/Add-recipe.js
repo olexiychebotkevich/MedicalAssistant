@@ -1,3 +1,4 @@
+import React, { Component } from 'react';
 import { Form, Input, Icon, Button } from 'antd';
 
 let id = 0;
@@ -59,9 +60,13 @@ class DynamicFieldSet extends React.Component {
                 sm: { span: 20, offset: 4 },
             },
         };
+
         getFieldDecorator('keys', { initialValue: [] });
+
         const keys = getFieldValue('keys');
+
         const formItems = keys.map((title, k, index) => (
+            <div>
             <Form.Item label="Діагноз: " key={title}>
                 {getFieldDecorator('title', {
                     rules: [{ required: true, message: 'Please input the title of collection!' }],
@@ -69,48 +74,59 @@ class DynamicFieldSet extends React.Component {
             </Form.Item>
 
             <Form.Item
-                {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
-                label={index === 0 ? 'Ліки' : ''}
-                required={false}
-                key={k}
-            >
-                {getFieldDecorator(`names[${k}]`, {
-                    validateTrigger: ['onChange', 'onBlur'],
-                    rules: [
-                        {
-                            required: true,
-                            whitespace: true,
-                            message: "Please input passenger's name or delete this field.",
-                        },
-                    ],
-                })
-                (<Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />)}
-                {keys.length > 1 ? (
-                    <Icon
-                        className="dynamic-delete-button"
-                        type="minus-circle-o"
-                        onClick={() => this.remove(k)}
-                    />
-                ) : null}
-            </Form.Item>
+                    {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                    label={index === 0 ? 'Ліки' : ''}
+                    required={false}
+                    key={k}
+                >
+                    {getFieldDecorator(`names[${k}]`, {
+                        validateTrigger: ['onChange', 'onBlur'],
+                        rules: [
+                            {
+                                required: true,
+                                whitespace: true,
+                                message: "Please input passenger's name or delete this field.",
+                            },
+                        ],
+                    })
+                        (<Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />)}
+                    {keys.length > 1 ? (
+                        <Icon
+                            className="dynamic-delete-button"
+                            type="minus-circle-o"
+                            onClick={() => this.remove(k)}
+                        />
+                    ) : null}
+                </Form.Item>
+
+            </div>
         ));
+
+
         return (
-            <Form onSubmit={this.handleSubmit}>
-                {formItems}
-                <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
-                        <Icon type="plus" /> Add field
+
+
+            <div>
+         
+
+                <Form onSubmit={this.handleSubmit}>
+                    {formItems}
+                    <Form.Item {...formItemLayoutWithOutLabel}>
+                        <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                            <Icon type="plus" /> Add field
           </Button>
-                </Form.Item>
-                <Form.Item {...formItemLayoutWithOutLabel}>
-                    <Button type="primary" htmlType="submit">
-                        Save
+                    </Form.Item>
+                    <Form.Item {...formItemLayoutWithOutLabel}>
+                        <Button type="primary" htmlType="submit">
+                            Save
           </Button>
-                </Form.Item>
-            </Form>
+                    </Form.Item>
+                </Form>
+            </div>
         );
     }
 }
 
 const WrappedDynamicFieldSet = Form.create({ name: 'dynamic_form_item' })(DynamicFieldSet);
-ReactDOM.render(<WrappedDynamicFieldSet />, mountNode);
+// ReactDOM.render(<WrappedDynamicFieldSet />, mountNode);
+export default WrappedDynamicFieldSet;
