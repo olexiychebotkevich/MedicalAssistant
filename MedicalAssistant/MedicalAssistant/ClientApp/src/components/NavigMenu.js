@@ -64,6 +64,10 @@ class NavigMenu extends Component {
                     <Icon type="user" />
                     <Link to="/pagepatient" />
                 </Menu.Item>
+                <Menu.Item key="user" title="AddRecipe" >
+                    <Icon type="swap-right" />
+                    <Link to="/addrecipe" />
+                </Menu.Item>
                 <Dropdown overlay={menu} placement='topRight'>
                 <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
                 </Dropdown>
