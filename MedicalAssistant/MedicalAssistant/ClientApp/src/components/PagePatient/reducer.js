@@ -54,15 +54,15 @@ export const patientsReducer = (state = initialState, action) => {
 
 export const GetDetailedPatient = (patient) => {
     return (dispatch) => {
-        dispatch(getpatientActions.started());
+        dispatch(patientActions.started());
         UserService.getdetaileduser(patient)
             .then((response) => {
                 console.log("--------------redponse: ",response)
-                dispatch(getpatientActions.success(response));
+                dispatch(patientActions.success(response));
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);
-                dispatch(getpatientActions.failed(err.response));
+                dispatch(patientActions.failed(err.response));
                
             });
     }
@@ -71,7 +71,26 @@ export const GetDetailedPatient = (patient) => {
 
 
 
-export const getpatientActions = {
+export const changeImage = (user,patient) => {
+    return (dispatch) => {
+        dispatch(patientActions.started());
+        UserService.changeImage(user,patient)
+            .then((response) => {
+                console.log("--------------redponse: ",response)
+                dispatch(patientActions.success(response));
+            }, err => { throw err; })
+            .catch(err => {
+                console.log("error: ",err);
+                dispatch(patientActions.failed(err.response));
+               
+            });
+    }
+}
+
+
+
+
+export const patientActions = {
     started: () => {
         return {
             type: GETPATIENT_REQUEST

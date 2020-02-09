@@ -53,6 +53,15 @@ export default class UserService {
     }
 
 
+    static changeImage(user,detailedpatient){
+        console.log(" user service--------: ",user);
+        console.log("detailed user service--------: ",detailedpatient);
+        return axios.put(`${serverUrl}api/user/UpdateUser`, detailedpatient, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+    }
+
+
 
 
     

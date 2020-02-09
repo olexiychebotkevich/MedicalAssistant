@@ -17,5 +17,7 @@ namespace MedicalAssistant.DAL.Entities
         public DateTime DateOfBirth { get; set; }
         public string Locality { get; set; }
         public DbUser User { get; set; }
+        public string ImagePath { get; set; }
+
     }
 }

@@ -55,13 +55,13 @@ class NavMenu extends Component {
     render() {
         return (
             <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
-                <Menu.Item key="app" disabled>
+                <Menu.Item style={{float: 'left'}} key="app" disabled>
                 <Text  style={{fontFamily: 'Brush Script MT, Brush Script Std,cursive,sans-serif' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
                 </Menu.Item>
 
                 {this.state.isAuthenticated ? 
           
-                  <Button type="link" onClick={this.logoutclick}>logout</Button>
+                  <Button style={{float: 'right'}} type="link" onClick={this.logoutclick}>logout</Button>
               : null}
      
             </Menu>

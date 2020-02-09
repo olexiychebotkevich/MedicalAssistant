@@ -43,5 +43,24 @@ namespace MedicalAssistant.Controllers
             return detailuser;
 
         }
+
+        [Authorize]
+        [HttpPut("UpdateUser")]
+        public DetailedUser UpdateUser([FromBody]DetailedUser user)
+        {
+            DetailedUser detailuser = null;
+            try
+            {
+                detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == user.Id);
+                detailuser.ImagePath = user.ImagePath;
+                _dbcontext.Add(detailuser);
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+            }
+            return detailuser;
+        }
     }
 }

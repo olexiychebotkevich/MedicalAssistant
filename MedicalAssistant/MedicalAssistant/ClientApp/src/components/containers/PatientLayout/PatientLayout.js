@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Layout from './Layout';
 import patientRoutes from '../../../routes/patientRoutes';
+import SpinnerWidget from '../../spinner';
 
 
 class PatientLayout extends Component {
@@ -10,7 +11,7 @@ class PatientLayout extends Component {
 
         return (
             <Layout>
-                <Suspense fallback={<div>Загрузка...</div>}>
+                <Suspense fallback={<SpinnerWidget loading="true"/>}>
                     <Switch>
                         {patientRoutes.map((route, idx) => {
                             return (

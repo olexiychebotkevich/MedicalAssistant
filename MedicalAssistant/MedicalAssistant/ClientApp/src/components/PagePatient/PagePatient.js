@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
-import * as getpatientActions from './reducer';
+import * as patientActions from './reducer';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
@@ -9,9 +9,11 @@ import PropTypes from "prop-types";
 import jwt from 'jsonwebtoken';
 import '../home.css';
 import './pagepatient.css';
+import QRCode from 'qrcode'
 
 const propTypes = {
     GetDetailedPatient: PropTypes.func.isRequired,
+    changeImage: PropTypes.func.isRequired,
     IsLoading: PropTypes.bool.isRequired,
     IsFailed: PropTypes.bool.isRequired,
     IsSuccess: PropTypes.bool.isRequired,
@@ -34,9 +36,13 @@ class PagePatient extends Component {
         detailedpatient:null,
         errors: {},
         errorsServer: {},
-        token : localStorage.getItem('jwtToken')
+        token : localStorage.getItem('jwtToken'),
+        ImagePath: "https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg",
+        imagechanged:false
 
-    }
+    };
+
+
 }
 
 
@@ -58,6 +64,72 @@ static getDerivedStateFromProps = (props, state) => {
   };
 }
 
+onselectImage = (e) => {
+  console.log("Upload image");
+  this.inputFileElement.click();
+}
+
+handleChange = e => {
+  e.preventDefault();
+  const { name, value } = e.target;
+  this.setState({ [name]: value });
+}
+
+
+onChangeSelectFile = (e) => {
+  e.preventDefault();
+  let files;
+  if (e.dataTransfer) {
+      files = e.dataTransfer.files;
+  } else if (e.target) {
+      files = e.target.files;
+  }
+  if (files && files[0]) {
+      if (files[0].type.match(/^image\//)) {
+          const reader = new FileReader();
+          reader.onload = () => {
+           
+              this.setState({ ImagePath: reader.result});
+          };
+          reader.readAsDataURL(files[0]);
+          this.setState({imagechanged:true});
+      }
+      else {
+          alert("Невірний тип файлу");
+      }
+  }
+  else {
+      alert("Будь ласка виберіть файл");
+  }
+}
+
+
+changeImage = e => {
+  e.preventDefault();
+  const user ={
+    id:this.state.user.id,
+    token:this.state.token
+  }
+  const {detailedpatient,ImagePath}=this.state;
+
+  console.log("----Image path: ",this.state.ImagePath);
+  console.log("Detailed patient image Change: ",detailedpatient)
+  this.setState({ detailedpatient: {...detailedpatient,ImagePath}});
+  this.props.changeImage(user,this.state.detailedpatient);
+  this.setState({imagechanged:false});
+}
+
+
+generateQR=e=> {
+  e.preventDefault();
+  console.log("generate qr");
+  let str = 'My first QR!'
+  QRCode.toCanvas(document.getElementById('canvas'), str, function(error) {
+  if (error) console.error(error)
+  //console.log('success!')
+  })
+  }
+
 
   render() {
     console.log("user: ",this.state.user);
@@ -65,8 +137,19 @@ static getDerivedStateFromProps = (props, state) => {
     return (
         <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px',marginTop: '5px' }}>
            <div className="row">
-               <div className="col-12 col-sm-4">
-            <img style={{height:'200px', width: '200px', display:'block', margin: 'auto'}} src=" https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" alt="Photo"/>
+            <div className="col-12 col-sm-4">
+            <img
+              onClick={this.onselectImage}
+              className="imgUpload"
+              src={this.state.ImagePath}
+              alt=""
+              width="500px">
+            </img>
+            {this.state.imagechanged ?  <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+
+
+            <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
+
             </div>
             <div className="col-12 col-sm-8 p">
                 <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
@@ -114,9 +197,23 @@ static getDerivedStateFromProps = (props, state) => {
      
     </Card>
         </Col>
+
       
           </Row>
-      {/* <FooterForm/> */}
+
+
+        <Row type="flex" justify="center">
+          <Col span={4}>
+            <div>
+              <canvas id="canvas" align="center" />
+              <Button onClick={this.generateQR}>
+                Generate QR!
+          </Button>
+            </div>
+          </Col>
+
+        </Row>
+        
       </div>
     );
   }
@@ -142,7 +239,11 @@ const mapState = (state) => {
 const mapDispatch = {
 
   GetDetailedPatient: (user) => {
-      return getpatientActions.GetDetailedPatient(user);
+      return patientActions.GetDetailedPatient(user);
+  },
+
+  changeImage:(user,detaileduser)=>{
+    return patientActions.changeImage(user,detaileduser);
   },
 
   push: (url) => {
