@@ -10,7 +10,6 @@ export default props => (
       {props.children}
     </Container>
 
- 
   </div>
 
 );

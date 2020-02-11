@@ -74,7 +74,7 @@ namespace MedicalAssistant.Controllers
                         DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
                         Locality = model.Locality,
                         User = userManager.FindByEmailAsync(model.Email).Result,
-                        ImagePath=""
+                        ImagePath=model.ImagePath
                     };
                     _dbcontext.Add(userDetailed);
                     _dbcontext.SaveChanges();

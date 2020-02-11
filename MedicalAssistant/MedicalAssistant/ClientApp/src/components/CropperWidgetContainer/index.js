@@ -40,9 +40,9 @@ class CropperWidgetContainer extends Component {
                                 preview=".img-preview"
                                 dragMode="move"
                                 src={src}
-                                minContainerWidth="200"
-                                minCanvasWidth="200"
-                                minCropBoxWidth="200"
+                                minContainerWidth={200}
+                                minCanvasWidth={200}
+                                minCropBoxWidth={200}
                                 ref={cropper => { this.cropper = cropper; }}
 
                             />

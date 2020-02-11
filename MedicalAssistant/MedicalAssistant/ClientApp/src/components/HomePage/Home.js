@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import  'antd/dist/antd.css';
 import '../home.css';
-import FooterForm from '../Footer';
+
 
 import {
   Steps, Divider, Row, Icon

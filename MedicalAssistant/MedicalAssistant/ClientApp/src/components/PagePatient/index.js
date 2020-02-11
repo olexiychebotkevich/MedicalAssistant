@@ -12,6 +12,7 @@ import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
 
+
 const propTypes = {
     GetDetailedPatient: PropTypes.func.isRequired,
     changeImage: PropTypes.func.isRequired,
@@ -38,7 +39,7 @@ class PagePatient extends Component {
         errors: {},
         errorsServer: {},
         token : localStorage.getItem('jwtToken'),
-        ImagePath: "./images/Placeholder.jpg",
+        ImagePath: "https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg",
         imagechanged:false,
         isCropped:false,
         src:'',
@@ -154,12 +155,15 @@ generateQR=e=> {
     console.log("detailed patient: ",this.state.detailedpatient);
     return (
         <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px',marginTop: '5px' }}>
+       
+         
+         
            <div className="row">
             <div className="col-12 col-sm-4">
             <img
               onClick={this.onselectImage}
               className="imgUpload"
-              src={this.state.detailedpatient ? (this.state.imagechanged ? this.state.ImagePath : (this.state.serverurl + '/Images/'+ this.state.detailedpatient.imagePath)): this.state.imagePath }
+              src={this.state.detailedpatient ? (this.state.imagechanged || this.state.detailedpatient.imagePath===this.state.ImagePath ? this.state.ImagePath : (this.state.serverurl + '/Images/'+ this.state.detailedpatient.imagePath)): (this.state.ImagePath) }
               alt=""
               width="500px">
             </img>

@@ -16,6 +16,7 @@ namespace MedicalAssistant.ViewModels
         public string Locality { get; set; }
         public int WorkExpirience { get; set; }
         public string DoctorSpecialty { get; set; }
+        public string ImagePath { get; set; }
 
     }
 }

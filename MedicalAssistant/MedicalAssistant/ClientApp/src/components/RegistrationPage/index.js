@@ -203,7 +203,7 @@ class RegistrationForm extends Component {
                             PhoneNumber: values.prefix + values.phone,
                             Locality: values.Locality,
                             DateOfBirth: values.DateofBirth,
-                            ImagePath:"Placeholder.jpg"
+                            ImagePath:"https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
                         };
     
                         this.props.registrUser(usermodel);

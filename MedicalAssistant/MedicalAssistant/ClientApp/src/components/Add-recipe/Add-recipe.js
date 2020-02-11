@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Input, Icon, Button } from 'antd';
+import { Form, Input, Icon, Button,InputNumber} from 'antd';
+import '../home.css';
 
+import './Add-recipe.css';
 let id = 0;
 
 class DynamicFieldSet extends React.Component {
@@ -67,11 +69,7 @@ class DynamicFieldSet extends React.Component {
 
         const formItems = keys.map((title, k, index) => (
             <div>
-            <Form.Item label="Діагноз: " key={title}>
-                {getFieldDecorator('title', {
-                    rules: [{ required: true, message: 'Please input the title of collection!' }],
-                })(<Input />)}
-            </Form.Item>
+           
 
             <Form.Item
                     {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -79,17 +77,66 @@ class DynamicFieldSet extends React.Component {
                     required={false}
                     key={k}
                 >
-                    {getFieldDecorator(`names[${k}]`, {
+                    {getFieldDecorator('name', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
                             {
                                 required: true,
                                 whitespace: true,
-                                message: "Please input passenger's name or delete this field.",
+                                message: "Введіть назву ліків",
                             },
                         ],
                     })
-                        (<Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />)}
+                        (<Input placeholder="Назва ліків" style={{ width: '60%', marginRight: 8 }} />)}
+
+
+             </Form.Item>
+
+
+<Form.Item>
+                    {getFieldDecorator('kd', {
+                        validateTrigger: ['onChange', 'onBlur'],
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Кількість днів',
+                            },
+                        ],
+                    })(<InputNumber placeholder="К-ть днів" min={1} max={30} initialValue={1} />)}
+
+
+</Form.Item>
+
+
+<Form.Item>
+                    {getFieldDecorator('op', {
+                        validateTrigger: ['onChange', 'onBlur'],
+                        rules: [
+                            {
+                                required: true,
+                                whitespace: true,
+                                message: "Особливості прийому",
+                            },
+                        ],
+                    })
+                        (<Input placeholder="Особливості прийому" style={{ width: '60%', marginRight: 8 }} />)}
+
+</Form.Item>
+
+<Form.Item>
+                    {getFieldDecorator('krd', {
+                        validateTrigger: ['onChange', 'onBlur'],
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Кількість разів в день',
+                            },
+                        ],
+                    })(<InputNumber placeholder="К-ть р/д" min={1} max={10} initialValue={1} />)}
+
+</Form.Item>
+
+
                     {keys.length > 1 ? (
                         <Icon
                             className="dynamic-delete-button"
@@ -97,7 +144,7 @@ class DynamicFieldSet extends React.Component {
                             onClick={() => this.remove(k)}
                         />
                     ) : null}
-                </Form.Item>
+               
 
             </div>
         ));
@@ -110,16 +157,25 @@ class DynamicFieldSet extends React.Component {
          
 
                 <Form onSubmit={this.handleSubmit}>
+                  
+                    <Form.Item label="Діагноз:">
+                        {getFieldDecorator('title', {
+                            rules: [{ required: true, message: 'Введіть діагноз' }],
+                        })(<Input />)}
+                    </Form.Item>
+
                     {formItems}
+
                     <Form.Item {...formItemLayoutWithOutLabel}>
                         <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
                             <Icon type="plus" /> Add field
-          </Button>
+                        </Button>
                     </Form.Item>
+
                     <Form.Item {...formItemLayoutWithOutLabel}>
                         <Button type="primary" htmlType="submit">
                             Save
-          </Button>
+                        </Button>
                     </Form.Item>
                 </Form>
             </div>

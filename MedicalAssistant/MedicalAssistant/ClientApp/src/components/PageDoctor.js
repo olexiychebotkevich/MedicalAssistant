@@ -2,7 +2,6 @@ import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
 import './pagedoctor.css';
-import FooterForm from './Footer';
 class PageDoctor extends Component {
 
 
