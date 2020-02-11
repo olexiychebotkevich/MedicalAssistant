@@ -184,7 +184,8 @@ class RegistrationForm extends Component {
                         Locality: values.Locality,
                         DateOfBirth: values.DateofBirth,
                         DoctorSpecialty:values.post,
-                        WorkExpirience:values.workExperience
+                        WorkExpirience:values.workExperience,
+                        ImagePath:"Placeholder.jpg"
                     };
 
                     this.props.registrDoctor(usermodel);
@@ -202,6 +203,7 @@ class RegistrationForm extends Component {
                             PhoneNumber: values.prefix + values.phone,
                             Locality: values.Locality,
                             DateOfBirth: values.DateofBirth,
+                            ImagePath:"Placeholder.jpg"
                         };
     
                         this.props.registrUser(usermodel);

@@ -17,6 +17,9 @@ using MedicalAssistant.BLL.Services;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.HttpOverrides;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 namespace MedicalAssistant
 {
@@ -133,6 +136,13 @@ namespace MedicalAssistant
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+            });
+
+            string path = Path.Combine(env.ContentRootPath, "uploadedimages");
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(path),
+                RequestPath = new PathString("/Images")
             });
 
             app.UseSpa(spa =>

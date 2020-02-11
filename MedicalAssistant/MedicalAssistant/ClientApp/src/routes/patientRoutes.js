@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PagePatient = React.lazy(() => import("../components/PagePatient/PagePatient"));
+const PagePatient = React.lazy(() => import("../components/PagePatient"));
 
 
 

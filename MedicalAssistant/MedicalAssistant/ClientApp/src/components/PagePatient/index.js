@@ -8,8 +8,9 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import jwt from 'jsonwebtoken';
 import '../home.css';
-import './pagepatient.css';
+import './index.css';
 import QRCode from 'qrcode'
+import CropperWidget from '../CropperWidgetContainer';
 
 const propTypes = {
     GetDetailedPatient: PropTypes.func.isRequired,
@@ -37,8 +38,11 @@ class PagePatient extends Component {
         errors: {},
         errorsServer: {},
         token : localStorage.getItem('jwtToken'),
-        ImagePath: "https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg",
-        imagechanged:false
+        ImagePath: "./images/Placeholder.jpg",
+        imagechanged:false,
+        isCropped:false,
+        src:'',
+        serverurl: "http://localhost:54849"
 
     };
 
@@ -76,6 +80,17 @@ handleChange = e => {
 }
 
 
+croppImage = (value) => { 
+  this.setState({ImagePath:value});
+  this.setState({ isCropped: false });
+}
+
+onCloseCropper=(e)=>{
+  e.preventDefault();
+  this.setState({ isCropped: false });
+
+}
+
 onChangeSelectFile = (e) => {
   e.preventDefault();
   let files;
@@ -89,7 +104,7 @@ onChangeSelectFile = (e) => {
           const reader = new FileReader();
           reader.onload = () => {
            
-              this.setState({ ImagePath: reader.result});
+              this.setState({ src: reader.result,isCropped:true});
           };
           reader.readAsDataURL(files[0]);
           this.setState({imagechanged:true});
@@ -114,8 +129,9 @@ changeImage = e => {
 
   console.log("----Image path: ",this.state.ImagePath);
   console.log("Detailed patient image Change: ",detailedpatient)
-  this.setState({ detailedpatient: {...detailedpatient,ImagePath}});
-  this.props.changeImage(user,this.state.detailedpatient);
+  detailedpatient.imagePath=ImagePath;
+  // this.setState({ detailedpatient: {...detailedpatient,ImagePath}});
+  this.props.changeImage(user,detailedpatient);
   this.setState({imagechanged:false});
 }
 
@@ -132,6 +148,8 @@ generateQR=e=> {
 
 
   render() {
+
+    const {src,isCropped}= this.state;
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
     return (
@@ -141,7 +159,7 @@ generateQR=e=> {
             <img
               onClick={this.onselectImage}
               className="imgUpload"
-              src={this.state.ImagePath}
+              src={this.state.detailedpatient ? (this.state.imagechanged ? this.state.ImagePath : (this.state.serverurl + '/Images/'+ this.state.detailedpatient.imagePath)): this.state.imagePath }
               alt=""
               width="500px">
             </img>
@@ -150,6 +168,7 @@ generateQR=e=> {
 
             <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
+            <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage}/>
             </div>
             <div className="col-12 col-sm-8 p">
                 <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
