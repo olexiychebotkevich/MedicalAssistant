@@ -1,7 +1,8 @@
 import { Row,Card,Col, Button } from 'antd';
 import 'antd/dist/antd.css';
 import React, { Component } from 'react';
-import './pagedoctor.css';
+import './index.css';
+import '../home.css';
 class PageDoctor extends Component {
 
 

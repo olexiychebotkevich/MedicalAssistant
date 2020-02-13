@@ -11,6 +11,9 @@ import '../home.css';
 import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
+import SpinnerWidget from '../spinner';
+
+
 
 
 const propTypes = {
@@ -22,7 +25,11 @@ const propTypes = {
     errors: PropTypes.object,
     statuscode: PropTypes.number,
     user: PropTypes.object,
-    patient: PropTypes.object
+    patient: PropTypes.object,
+    UpdatepatientLoading: PropTypes.bool.isRequired,
+    UpdatepatientFailed: PropTypes.bool.isRequired,
+    UpdatepatientSuccess: PropTypes.bool.isRequired
+
 };
 
 const defaultProps = {};
@@ -39,11 +46,16 @@ class PagePatient extends Component {
         errors: {},
         errorsServer: {},
         token : localStorage.getItem('jwtToken'),
-        ImagePath: "https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg",
+        ImagePath: "",
         imagechanged:false,
         isCropped:false,
         src:'',
-        serverurl: "http://localhost:54849"
+        serverurl: "http://localhost:54849",
+        startimage:require("../images/Placeholder.jpg"),
+        UpdatepatientLoading:false,
+        UpdatepatientFailed: false,
+        UpdatepatientSuccess: false
+
 
     };
 
@@ -57,15 +69,19 @@ componentDidMount() {
     id:this.state.user.id,
     token:this.state.token
   }
-
+ 
   this.props.GetDetailedPatient(patient);
+ 
 }
 
 static getDerivedStateFromProps = (props, state) => {
   return {
       user: props.user,
       errorsServer: props.errors,
-      detailedpatient:props.patient
+      detailedpatient:props.patient,
+      UpdatepatientLoading:props.UpdatepatientLoading,
+      UpdatepatientFailed: props.UpdatepatientFailed,
+      UpdatepatientSuccess: props.UpdatepatientSuccess
   };
 }
 
@@ -83,7 +99,9 @@ handleChange = e => {
 
 croppImage = (value) => { 
   this.setState({ImagePath:value});
+  this.setState({imagechanged:true});
   this.setState({ isCropped: false });
+
 }
 
 onCloseCropper=(e)=>{
@@ -106,9 +124,11 @@ onChangeSelectFile = (e) => {
           reader.onload = () => {
            
               this.setState({ src: reader.result,isCropped:true});
+             
+            
           };
           reader.readAsDataURL(files[0]);
-          this.setState({imagechanged:true});
+         
       }
       else {
           alert("Невірний тип файлу");
@@ -126,6 +146,7 @@ changeImage = e => {
     id:this.state.user.id,
     token:this.state.token
   }
+  this.setState({imagechanged:false});
   const {detailedpatient,ImagePath}=this.state;
 
   console.log("----Image path: ",this.state.ImagePath);
@@ -133,6 +154,11 @@ changeImage = e => {
   detailedpatient.imagePath=ImagePath;
   // this.setState({ detailedpatient: {...detailedpatient,ImagePath}});
   this.props.changeImage(user,detailedpatient);
+  
+}
+
+cancelchangeImage = e =>{
+  e.preventDefault();
   this.setState({imagechanged:false});
 }
 
@@ -154,20 +180,37 @@ generateQR=e=> {
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
     return (
+    
+    
         <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px',marginTop: '5px' }}>
-       
-         
+        
+       {this.state.detailedpatient ? null : <SpinnerWidget loading="true"/> }
          
            <div className="row">
             <div className="col-12 col-sm-4">
-            <img
-              onClick={this.onselectImage}
-              className="imgUpload"
-              src={this.state.detailedpatient ? (this.state.imagechanged || this.state.detailedpatient.imagePath===this.state.ImagePath ? this.state.ImagePath : (this.state.serverurl + '/Images/'+ this.state.detailedpatient.imagePath)): (this.state.ImagePath) }
-              alt=""
-              width="500px">
-            </img>
+
+            {
+              this.state.detailedpatient ?
+                <img
+                  onClick={this.onselectImage}
+                  className="imgUpload"
+                  src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath!=="" ? this.state.ImagePath : this.state.startimage)  : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detailedpatient.imagePath)}
+                  onError={this.state.ImagePath!=="" ? (e)=>{e.target.onerror = null; e.target.src=this.state.ImagePath} : (e)=>{e.target.onerror = null; e.target.src=this.state.startimage}}
+                  width="500px">
+                    
+                </img> :
+                <img
+                  onClick={this.onselectImage}
+                  className="imgUpload"
+                  src={this.state.startimage}
+                  onError={this.state.ImagePath!=="" ? (e)=>{e.target.onerror = null; e.target.src=this.state.ImagePath} : (e)=>{e.target.onerror = null; e.target.src=this.state.startimage}}
+                  width="500px">
+                </img>
+
+            }
+
             {this.state.imagechanged ?  <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+            {this.state.imagechanged ?  <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
             <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
@@ -252,7 +295,10 @@ const mapState = (state) => {
       user:get(state, 'loginReducer.user'),
       errors: get(state, 'patientsReducer.detailedpatient.errors'),
       statuscode: get(state, 'patientsReducer.detailedpatient.statuscode'),
-      patient: get(state, 'patientsReducer.detailedpatient.patient')
+      patient: get(state, 'patientsReducer.detailedpatient.patient'),
+      UpdatepatientLoading:get(state, 'patientsReducer.updatepatient.loading'),
+      UpdatepatientFailed: get(state, 'patientsReducer.detailedpatient.failed'),
+      UpdatepatientSuccess: get(state, 'patientsReducer.detailedpatient.success')
 
 
 

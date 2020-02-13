@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PageDoctor = React.lazy(() => import("../components/PageDoctor"));
+const PageDoctor = React.lazy(() => import("../components/DoctorPage"));
 
 
 const doctorRoutes=[

@@ -7,11 +7,11 @@ import DefaultLayout from './components/containers/DefaultLayout/DefaultLayout'
 import PatientLayout from './components/containers/PatientLayout/PatientLayout'
 
 //components
-const Home = React.lazy(() => import("./components/HomePage/Home"));
-const WrappedRegistrationForm = React.lazy(() => import("./components/RegistrationPage"));
-const WrappedNormalLoginForm = React.lazy(() => import("./components/LoginPage/Login"));
-const PageDoctor = React.lazy(() => import("./components/PageDoctor"));
-const PagePatient = React.lazy(() => import("./components/PagePatient"));
+// const Home = React.lazy(() => import("./components/HomePage/Home"));
+// const WrappedRegistrationForm = React.lazy(() => import("./components/RegistrationPage"));
+// const WrappedNormalLoginForm = React.lazy(() => import("./components/LoginPage/Login"));
+// const PageDoctor = React.lazy(() => import("./components/DoctorPage"));
+// const PagePatient = React.lazy(() => import("./components/PagePatient"));
 
 
 

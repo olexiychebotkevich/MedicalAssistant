@@ -185,7 +185,7 @@ class RegistrationForm extends Component {
                         DateOfBirth: values.DateofBirth,
                         DoctorSpecialty:values.post,
                         WorkExpirience:values.workExperience,
-                        ImagePath:"Placeholder.jpg"
+                        ImagePath:""
                     };
 
                     this.props.registrDoctor(usermodel);
@@ -203,7 +203,7 @@ class RegistrationForm extends Component {
                             PhoneNumber: values.prefix + values.phone,
                             Locality: values.Locality,
                             DateOfBirth: values.DateofBirth,
-                            ImagePath:"https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                            ImagePath:""
                         };
     
                         this.props.registrUser(usermodel);

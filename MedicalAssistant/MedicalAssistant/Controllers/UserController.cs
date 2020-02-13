@@ -38,19 +38,27 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpPost("GetUser")]
-        public DetailedUser GetUser([FromBody]DetailedUser user)
+        public object GetUser([FromBody]DetailedUser user)
         {
-            DetailedUser detailuser = null;
+          
             try
             {
-
-                detailuser = _dbcontext.DetailedUsers.Include("User").Single(u=>u.User.Id== user.Id);
+                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u=>u.User.Id== user.Id);
+                return detailuser;
             }
-            catch (Exception e)
+            catch (ArgumentNullException e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == user.Id);
+               return detaildoctor;
+            }
+            catch(Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
             }
-            return detailuser;
+
+            return null;
+          
 
         }
 

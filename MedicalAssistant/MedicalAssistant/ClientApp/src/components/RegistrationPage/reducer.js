@@ -81,7 +81,7 @@ export const registrDoctor = (user) => {
         UserService.register(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
-                history.push('/pagedoctor');
+                history.push('/login');
             }, err => { throw err; })
             .catch(err => {
                 console.log("error: ",err);
