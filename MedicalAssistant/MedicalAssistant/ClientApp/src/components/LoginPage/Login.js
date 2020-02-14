@@ -13,7 +13,12 @@ import {
   Input,
   Icon,
   Button,
+  Checkbox,
+  Row,
+  Col
 } from 'antd';
+
+
 
 
 
@@ -38,6 +43,7 @@ class NormalLoginForm extends React.Component {
     this.state = {
       loading: false,
       login: {},
+      isDoctor:false
     }
   }
 
@@ -108,7 +114,8 @@ class NormalLoginForm extends React.Component {
           Email: values.username,
         };
         console.log('Received values of form: ', usermodel);
-        this.props.loginUser(usermodel);
+        console.log("Login page is Doctor: ",this.state.isDoctor);
+        this.props.loginUser(usermodel,this.state.isDoctor);
       }
     });
   };
@@ -123,6 +130,15 @@ class NormalLoginForm extends React.Component {
     }
     callback()
 }
+
+
+ checkDoctor=(e)=>{
+  e.preventDefault();
+  this.state.isDoctor ? this.setState({isDoctor:false}) : this.setState({isDoctor:true})
+  
+ }
+ 
+
 
   render() {
 
@@ -203,9 +219,26 @@ class NormalLoginForm extends React.Component {
                   </Button>
                 </div>
               </div>
+            
             </Form.Item>
-          </Form>
 
+            <Form.Item >
+              {getFieldDecorator('checkbox', {
+                initialValue: ['true', 'false'],
+              })(
+                <Checkbox.Group style={{ width: '100%' }} onChange={console.log("doctor Check: ",this.state.isDoctor)}>
+                <Row>
+                  <Col span={8}>
+                    <Checkbox  onChange={this.checkDoctor} checked={this.state.isDoctor ? true : false} value="doctor" >Doctor</Checkbox>
+                  </Col>
+                </Row>
+              </Checkbox.Group>
+              )}
+            </Form.Item>
+
+          </Form>
+         
+          
 
 
         </div>
@@ -239,8 +272,8 @@ const mapState = (state) => {
 
 const mapDispatch = {
 
-  loginUser: (user) => {
-    return usersActions.loginUser(user);
+  loginUser: (user,isDoctor) => {
+    return usersActions.loginUser(user,isDoctor);
   },
   
   push: (url) => {

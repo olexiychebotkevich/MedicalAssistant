@@ -1,5 +1,6 @@
 import UserService from '../UserService';
 import update from '../../helpers/update';
+import { push } from 'connected-react-router';
 
 
 export const GETPATIENT_REQUEST = "patient/PATIENT_GET_REQUEST";
@@ -89,14 +90,16 @@ export const patientsReducer = (state = initialState, action) => {
 export const GetDetailedPatient = (patient) => {
     return (dispatch) => {
         dispatch(patientActions.getstarted());
-        UserService.getdetaileduser(patient)
+        UserService.getdetailedpatient(patient)
             .then((response) => {
                 console.log("--------------redponse: ",response)
                 dispatch(patientActions.getsuccess(response));
             }, err => { throw err; })
             .catch(err => {
-                console.log("error: ",err);
+                console.log("-------------error: ",err);
                 dispatch(patientActions.getfailed(err.response));
+                
+
                
             });
     }

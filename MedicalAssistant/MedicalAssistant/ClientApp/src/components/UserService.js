@@ -33,22 +33,21 @@ export default class UserService {
         return axios.post(`${serverUrl}api/authorization/login`, user);
     }
 
-    static getdetaileduser(user) {
+    static getdetailedpatient(user) {
         // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
         // console.log("id: ",user.id);
-        return axios.post(`${serverUrl}api/user/GetUser`, {Id:user.id}, {
+        return axios.post(`${serverUrl}api/user/GetPatient`, {Id:user.id}, {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
         });
-      
-        // console.log("patient token from service : ",user.token);
-        // const customHeaders = {
-        //      'Content-Type': 'application/json',
-        //      'Authorization': `Bearer ${user.token}`
-        //   };
-         
-       
-        //   return axios.post(`${serverUrl}api/user/GetUser`,{  Id:user.id} , customHeaders);
 
+    }
+
+    static getdetaileddoctor(user) {
+        // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
+        // console.log("id: ",user.id);
+        return axios.post(`${serverUrl}api/user/GetDoctor`, {Id:user.id}, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
 
     }
 

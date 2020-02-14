@@ -69,15 +69,15 @@ export const loginReducer = (state = initialState, action) => {
     return newState;
 }
 
-export const loginUser = (user) => {
+export const loginUser = (user,isDoctor) => {
+
     return (dispatch) => {
         dispatch(loginActions.started());
         UserService.login(user)
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch(push('/patient/pagepatient'));
-          
+                dispatch.push("patient/pagepatient");
             }, err => { throw err; })
             .catch(err=> {
                 dispatch(loginActions.failed(err.response));
@@ -114,6 +114,8 @@ export const loginActions = {
     }
 
 }
+
+
 
 
 

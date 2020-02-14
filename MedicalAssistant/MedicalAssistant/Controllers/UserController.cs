@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using System.Drawing.Imaging;
 using MedicalAssistant.Helpers;
-
+using MedicalAssistant.ViewModels;
 namespace MedicalAssistant.Controllers
 {
     [Route("api/[controller]")]
@@ -37,8 +37,8 @@ namespace MedicalAssistant.Controllers
         }
 
         [Authorize]
-        [HttpPost("GetUser")]
-        public object GetUser([FromBody]DetailedUser user)
+        [HttpPost("GetPatient")]
+        public object GetPatient([FromBody]DetailedUser user)
         {
           
             try
@@ -49,16 +49,40 @@ namespace MedicalAssistant.Controllers
             catch (ArgumentNullException e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == user.Id);
-               return detaildoctor;
+                return BadRequest();
             }
             catch(Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest();
             }
 
-            return null;
-          
+        }
+
+
+        [Authorize]
+        [HttpPost("GetDoctor")]
+        public object GetDoctor([FromBody]UserViewModel user)
+        {
+
+            try
+            {
+                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == user.Id);
+                return detaildoctor;
+            }
+            catch (ArgumentNullException e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest();
+            }
+
+            
+
 
         }
 

@@ -5,6 +5,7 @@ import SpinnerWidget from './components/spinner';
 //Containers
 import DefaultLayout from './components/containers/DefaultLayout/DefaultLayout'
 import PatientLayout from './components/containers/PatientLayout/PatientLayout'
+import DoctorLayout from './components/containers/DoctorLayout/DoctorLayout'
 
 //components
 // const Home = React.lazy(() => import("./components/HomePage/Home"));
@@ -24,6 +25,7 @@ class App extends Component {
           <Switch>
 
             <Route path="/patient" name="Patient" render={props => <PatientLayout {...props} />} />
+            <Route path="/doctor" name="Doctor" render={props => <DoctorLayout {...props} />} />
             <Route path="/" name="Default" render={props => <DefaultLayout {...props} />} />
           
 

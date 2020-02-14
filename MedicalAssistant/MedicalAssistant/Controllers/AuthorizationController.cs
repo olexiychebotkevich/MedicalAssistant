@@ -73,6 +73,9 @@ namespace MedicalAssistant.Controllers
         }
 
 
+    
+
+
         [HttpPost("refresh/{refreshToken}")]
         public IActionResult RefreshToken([FromRoute]string refreshToken)
         {
