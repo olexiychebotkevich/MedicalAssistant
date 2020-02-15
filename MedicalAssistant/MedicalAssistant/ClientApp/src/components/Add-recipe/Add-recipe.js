@@ -95,6 +95,7 @@ class DynamicFieldSet extends React.Component {
 </div>
              <div className="col-12 col-sm-2">
 <Form.Item>
+    
                     {getFieldDecorator('kd', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
@@ -140,18 +141,7 @@ class DynamicFieldSet extends React.Component {
                     })(<InputNumber placeholder="К-ть р/д" min={1} max={10} initialValue={1} />)}
 
 </Form.Item>
-<Form.Item>
-                    {getFieldDecorator('time', {
-                        validateTrigger: ['onChange', 'onBlur'],
-                        rules: [
-                            {
-                                required: true,
-                                message: 'О котрій годині приймати',
-                            },
-                        ],
-                    })(<InputNumber placeholder="К-ть р/д" min={1} max={10} initialValue={1} />)}
 
-</Form.Item>
 
                     {keys.length > 1 ? (
                         <Icon
