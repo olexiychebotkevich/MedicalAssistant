@@ -68,11 +68,12 @@ class DynamicFieldSet extends React.Component {
         const keys = getFieldValue('keys');
 
         const formItems = keys.map((title, k, index) => (
-            <div>
+            <div className="container " style={{top:'6px'}}>
            
-
+<div className="row tmps" >
+<div className="col-12 col-sm-6" >
             <Form.Item
-                    {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                    // {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
                     label={index === 0 ? 'Ліки' : ''}
                     required={false}
                     key={k}
@@ -87,12 +88,12 @@ class DynamicFieldSet extends React.Component {
                             },
                         ],
                     })
-                        (<Input placeholder="Назва ліків" style={{ width: '60%', marginRight: 8 }} />)}
+                        (<Input placeholder="Назва ліків" />)}
 
 
              </Form.Item>
-
-
+</div>
+             <div className="col-12 col-sm-2">
 <Form.Item>
                     {getFieldDecorator('kd', {
                         validateTrigger: ['onChange', 'onBlur'],
@@ -102,13 +103,16 @@ class DynamicFieldSet extends React.Component {
                                 message: 'Кількість днів',
                             },
                         ],
-                    })(<InputNumber placeholder="К-ть днів" min={1} max={30} initialValue={1} />)}
+                    })(<InputNumber placeholder="К-ть днів" min={1} max={30} initialValue={1}  />)}
 
 
 </Form.Item>
-
-
+</div>
+</div>
+<div className="row tmps">
+<div className="col-12 col-sm-6">
 <Form.Item>
+
                     {getFieldDecorator('op', {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
@@ -119,10 +123,11 @@ class DynamicFieldSet extends React.Component {
                             },
                         ],
                     })
-                        (<Input placeholder="Особливості прийому" style={{ width: '60%', marginRight: 8 }} />)}
+                        (<Input placeholder="Особливості прийому"  />)}
 
 </Form.Item>
-
+</div>
+<div className="col-12 col-sm-2">
 <Form.Item>
                     {getFieldDecorator('krd', {
                         validateTrigger: ['onChange', 'onBlur'],
@@ -145,7 +150,8 @@ class DynamicFieldSet extends React.Component {
                         />
                     ) : null}
                
-
+               </div>
+            </div>
             </div>
         ));
 
@@ -153,30 +159,40 @@ class DynamicFieldSet extends React.Component {
         return (
 
 
-            <div>
+            <div className="container">
          
 
                 <Form onSubmit={this.handleSubmit}>
-                  
+            <div className="row tmps">
+                      <div className="col-12 col-sm-8 col-md-8">
                     <Form.Item label="Діагноз:">
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: 'Введіть діагноз' }],
-                        })(<Input />)}
+                        })(<Input.TextArea />)}
                     </Form.Item>
-
+                    </div>
+                    </div>
                     {formItems}
-
-                    <Form.Item {...formItemLayoutWithOutLabel}>
-                        <Button type="dashed" onClick={this.add} style={{ width: '60%' }}>
+                    <div className="row ">
+                      <div className="col-8 col-sm-12 col-md-12">
+                    <Form.Item>
+                        <Button type="dashed" onClick={this.add} >
                             <Icon type="plus" /> Add field
                         </Button>
                     </Form.Item>
-
-                    <Form.Item {...formItemLayoutWithOutLabel}>
+                    </div>
+                    </div>
+                    <div className="row ">
+                      <div className="col-8 col-sm-12 col-md-12">
+                    <Form.Item >
                         <Button type="primary" htmlType="submit">
                             Save
                         </Button>
+
                     </Form.Item>
+                    </div>
+                    </div>
+                   
                 </Form>
             </div>
         );
