@@ -6,6 +6,7 @@ import {usersReducer} from '../components/RegistrationPage/reducer'
 import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
 import {patientsReducer} from '../components/PagePatient/reducer'
+import {doctorsReducer} from '../components/DoctorPage/reducer'
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
 
@@ -18,6 +19,7 @@ export default function configureStore(history, initialState) {
     usersReducer,
     loginReducer,
     patientsReducer,
+    doctorsReducer,
     refreshToken: refreshReducer,
 
   };
