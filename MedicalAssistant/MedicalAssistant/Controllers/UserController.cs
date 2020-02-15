@@ -49,12 +49,12 @@ namespace MedicalAssistant.Controllers
             catch (ArgumentNullException e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest();
+                return BadRequest(new { invalid = "Email does not exist" });
             }
             catch(Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest();
+                return BadRequest(new { invalid = "Email does not exist" });
             }
 
         }
@@ -73,12 +73,12 @@ namespace MedicalAssistant.Controllers
             catch (ArgumentNullException e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest();
+                return BadRequest(new { invalid = "Email does not exist" });
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest();
+                return BadRequest(new { invalid = "Email does not exist" });
             }
 
             

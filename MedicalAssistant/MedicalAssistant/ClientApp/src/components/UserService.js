@@ -34,6 +34,7 @@ export default class UserService {
     }
 
     static getdetailedpatient(user) {
+        console.log("check Patient ---------3");
         // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
         // console.log("id: ",user.id);
         return axios.post(`${serverUrl}api/user/GetPatient`, {Id:user.id}, {

@@ -15,6 +15,7 @@ export const LOGOUT = 'user/USERS_LOGOUT';
 
 // if(localStorage.getItem('jwtToken'))
 var user = jwt.decode(localStorage.getItem('jwtToken'));
+ 
 
 const initialState = {
     login: {
@@ -26,6 +27,7 @@ const initialState = {
     statuscode:null
     },
     user: user ? user : null,
+  
   
 }
 
@@ -77,7 +79,16 @@ export const loginUser = (user,isDoctor) => {
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch.push("patient/pagepatient");
+               
+                if(isDoctor===true)
+                {
+                    checkDoctor(dispatch);
+                }
+                else
+                {
+                    console.log("check Patient ---------1");
+                    checkPatient(dispatch);
+                }
             }, err => { throw err; })
             .catch(err=> {
                 dispatch(loginActions.failed(err.response));
@@ -116,11 +127,43 @@ export const loginActions = {
 }
 
 
+export function checkPatient(dispatch)
+{
+    const user = jwt.decode(localStorage.getItem('jwtToken'))
+    const token = localStorage.getItem('jwtToken')
+    console.log("user: ",jwt.decode(localStorage.getItem('jwtToken')))
+    console.log("check Patient ---------2 token ",token);
+    console.log("reducer user --------- ",{...user,token});
+  
+    UserService.getdetailedpatient({...user,token})
+    .then((response) => {
+        console.log("check Patient ---------4");
+        dispatch(push('/patient/pagepatient'));
+        console.log("check Patient ---------5");
+    }, err => { throw err; })
+    .catch(err=> {
+        dispatch(loginActions.failed(err.response));
+    });
+}
 
+
+export function checkDoctor(dispatch)
+{
+    const user = jwt.decode(localStorage.getItem('jwtToken'))
+    const token = localStorage.getItem('jwtToken')
+    UserService.getdetaileddoctor({...user,token})
+    .then((response) => {
+        dispatch(push('/doctor/pagedoctor'));
+    }, err => { throw err; })
+    .catch(err=> {
+        dispatch(loginActions.failed(err.response));
+    });
+}
 
 
 export function logout() {
     return dispatch => {
+        initialState.user=null;
         logoutByJWT(dispatch);
         dispatch(push('/'));
     };
