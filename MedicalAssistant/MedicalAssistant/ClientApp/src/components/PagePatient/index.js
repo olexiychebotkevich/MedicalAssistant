@@ -158,8 +158,8 @@ generateQR=e=> {
        
          
          
-           <div className="row">
-            <div className="col-12 col-sm-4">
+           <div className="row tmp">
+            <div className="col-12 col-sm-6">
             <img
               onClick={this.onselectImage}
               className="imgUpload"
@@ -174,7 +174,7 @@ generateQR=e=> {
 
             <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage}/>
             </div>
-            <div className="col-12 col-sm-8 p">
+            <div className="col-12 col-sm-6 p">
                 <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: {this.state.detailedpatient ? this.state.detailedpatient.dateOfBirth : null}</p>

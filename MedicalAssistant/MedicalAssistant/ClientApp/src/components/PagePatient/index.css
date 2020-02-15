@@ -3,3 +3,8 @@
     width: 200px;
     cursor: pointer;
 }
+.tmp{
+    display: flex;
+  
+    justify-content: center;
+  }

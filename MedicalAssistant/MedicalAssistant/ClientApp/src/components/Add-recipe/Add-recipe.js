@@ -164,7 +164,7 @@ class DynamicFieldSet extends React.Component {
 
                 <Form onSubmit={this.handleSubmit}>
             <div className="row tmps">
-                      <div className="col-12 col-sm-8 col-md-8">
+                      <div className="col-12 col-sm-10 col-md-10">
                     <Form.Item label="Діагноз:">
                         {getFieldDecorator('title', {
                             rules: [{ required: true, message: 'Введіть діагноз' }],
@@ -173,8 +173,8 @@ class DynamicFieldSet extends React.Component {
                     </div>
                     </div>
                     {formItems}
-                    <div className="row ">
-                      <div className="col-8 col-sm-12 col-md-12">
+                    <div className="row tmps">
+                      <div >
                     <Form.Item>
                         <Button type="dashed" onClick={this.add} >
                             <Icon type="plus" /> Add field
@@ -182,8 +182,8 @@ class DynamicFieldSet extends React.Component {
                     </Form.Item>
                     </div>
                     </div>
-                    <div className="row ">
-                      <div className="col-8 col-sm-12 col-md-12">
+                    <div className="row tmps">
+                      <div>
                     <Form.Item >
                         <Button type="primary" htmlType="submit">
                             Save
