@@ -16,6 +16,7 @@ import QrReader from 'react-qr-reader';
 
 const propTypes = {
   GetDetailedDoctor: PropTypes.func.isRequired,
+  AddRecipe: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
@@ -88,6 +89,11 @@ onselectImage = (e) => {
 
 AddRecipe=(e) =>{
 e.preventDefault();
+const doctor ={
+  id:this.state.user.id,
+  token:this.state.token
+}
+this.props.AddRecipe(doctor,this.state.patientID);
 console.log("Patient ID: ",this.state.patientID);
 }
 
@@ -329,7 +335,9 @@ const mapDispatch = {
   changeImage:(user,detaileduser)=>{
     return doctorActions.changeImage(user,detaileduser);
   },
-
+  AddRecipe: (user,patientID) => {
+    return doctorActions.AddRecipe(user,patientID);
+},
   push: (url) => {
       return (dispatch) => {
           dispatch(push(url));

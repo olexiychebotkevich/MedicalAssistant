@@ -52,6 +52,15 @@ export default class UserService {
 
     }
 
+    static GetPatientByID(user,PatientID) {
+        return axios.post(`${serverUrl}api/user/GetPatientByID`, {Id:PatientID}, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+
+    }
+
+    
+
 
     static changeImage(user,detailedpatient){
         console.log(" user service--------: ",user);
@@ -60,13 +69,6 @@ export default class UserService {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
         });
     }
-
-
-
-
-    
-    
-
 
 
 

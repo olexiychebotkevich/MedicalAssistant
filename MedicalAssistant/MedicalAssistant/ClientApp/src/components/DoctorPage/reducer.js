@@ -8,6 +8,11 @@ export const GETDOCTOR_SUCCESS = "doctorDOCTOR_GET_SUCCESS";
 export const GETDOCTOR_FAILURE = "doctor/DOCTOR_GET_FAILURE";
 
 
+export const GETPATIENT_REQUEST = "patient/PATIENT_GET_REQUEST";
+export const GETPATIENT_SUCCESS = "patient/PATIENT_GET_SUCCESS";
+export const GETPATIENT_FAILURE = "patient/PATIENT_GET_FAILURE";
+
+
 export const UPDATEDOCTOR_REQUEST = "doctor/DOCTOR_UPDATE_REQUEST";
 export const UPDATEDOCTOR_SUCCESS = "doctor/DOCTOR_UPDATE_SUCCESS";
 export const UPDATEDOCTOR_FAILURE = "doctor/DOCTOR_UPDATE_FAILURE";
@@ -28,6 +33,14 @@ const initialState = {
         errors:{},
         statuscode:null,
         updatedoctor: null
+    },
+    getpatient:{
+        failed: false,
+        loading: false,
+        success: false,  
+        errors:{},
+        statuscode:null,
+        PatientID:0
     }
 }
 
@@ -72,6 +85,26 @@ export const doctorsReducer = (state = initialState, action) => {
             newState = update.set(newState, 'updatedoctor.failed', true);
             newState = update.set(newState, 'updatedoctor.success', false);
            
+            break;
+        }
+
+
+        case GETPATIENT_REQUEST: {
+            newState = update.set(state, 'getpatient.loading', true);
+            break;
+        }
+        case GETPATIENT_SUCCESS: {
+            newState = update.set(state, 'getpatient.loading', false);
+            newState = update.set(newState, 'getpatient.success', true);
+            newState = update.set(newState, 'getpatient.PatientID', action.payload.data.id);
+            break;
+        }
+
+        case GETPATIENT_FAILURE: {
+            newState = update.set(state, 'getpatient.loading', false);
+            newState = update.set(newState, 'getpatient.failed', true);
+            newState = update.set(newState, 'getpatient.errors', action.errors);
+            newState = update.set(newState, 'getpatient.statuscode', action.statuscode);
             break;
         }
       
@@ -125,6 +158,24 @@ export const changeImage = (user,doctor) => {
 }
 
 
+export const AddRecipe=(user,PatientID) =>{
+    return (dispatch) => {
+        dispatch(doctorActions.getpatientstarted());
+        UserService.GetPatientByID(user,PatientID)
+            .then((response) => {
+                console.log("get recipe: ",response);
+                dispatch(doctorActions.getpatientsuccess(response));
+                dispatch(push('/doctor/addrecipe'));
+                
+            }, err => { throw err; })
+            .catch(err => {
+                if(err.response!=null)
+                dispatch(doctorActions.getpatientfailed(err.response));
+            });
+    }
+}
+
+
 
 
 export const doctorActions = {
@@ -159,6 +210,24 @@ export const doctorActions = {
     updatefailed: (response) => {
         return {
             type: UPDATEDOCTOR_FAILURE,
+        }
+    },
+    getpatientstarted: () => {
+        return {
+            type: GETPATIENT_REQUEST
+        }
+    },
+    getpatientsuccess: (data) => {
+        return {
+            type: GETPATIENT_SUCCESS,
+            payload: data
+        }
+    },
+    getpatientfailed: (response) => {
+        return {
+            type: GETPATIENT_FAILURE,
+            errors: response.data,
+            statuscode:response.status
         }
     }
 
