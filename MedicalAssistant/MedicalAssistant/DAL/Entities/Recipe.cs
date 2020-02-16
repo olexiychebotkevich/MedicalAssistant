@@ -13,6 +13,9 @@ namespace MedicalAssistant.DAL.Entities
         [Key]
         public int ID { get; set; }
         public string Diagnos { get; set; }
-        public List<Tablets> Tablets {get;set;}
+        public IEnumerable<Tablets> Tablets {get;set;}
+        public DetailedUser Patient { get; set; }
+        public DetailedDoctor Doctor { get; set; }
+
     }
 }

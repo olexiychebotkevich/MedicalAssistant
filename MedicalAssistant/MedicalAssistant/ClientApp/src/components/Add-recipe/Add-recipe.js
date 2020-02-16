@@ -18,6 +18,7 @@ const propTypes = {
     errors: PropTypes.object,
     statuscode: PropTypes.number,
     PatientID: PropTypes.number,
+    DoctorID: PropTypes.number
 };
 
 const defaultProps = {};
@@ -60,11 +61,13 @@ class DynamicFieldSet extends React.Component {
                 console.log('medicines: ', medicines);
                 const recipemodel = {
                     PatientID:this.props.PatientID,
+                    DoctorID:this.props.DoctorID,
                     Diagnos: values.diagnos,
-                    Medicines: medicines
+                    Medicines: medicines,
+                  
                    
                 };
-                console.log("recipe props: ",this.props.PatientID,this.props);
+                console.log("recipemodel: ",recipemodel);
                 this.props.AddRecipe(recipemodel);
                     
             }
@@ -235,7 +238,8 @@ const mapState = (state) => {
         IsSuccess: get(state, 'recipiesReducer.recipe.success'),
         errors: get(state, 'recipiesReducer.recipe.errors'),
         statuscode: get(state, 'recipiesReducer.recipe.statuscode'),
-        PatientID:get(state,'doctorsReducer.getpatient.PatientID')
+        PatientID:get(state,'doctorsReducer.getpatient.PatientID'),
+        DoctorID:get(state,'doctorsReducer.detaileddoctor.doctor.id')
     }
   }
   

@@ -147,13 +147,17 @@ namespace MedicalAssistant.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("DetailedUserId");
-
                     b.Property<string>("Diagnos");
+
+                    b.Property<int?>("DoctorId");
+
+                    b.Property<int?>("PatientId");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("DetailedUserId");
+                    b.HasIndex("DoctorId");
+
+                    b.HasIndex("PatientId");
 
                     b.ToTable("tblRecipies");
                 });
@@ -294,9 +298,13 @@ namespace MedicalAssistant.Migrations
 
             modelBuilder.Entity("MedicalAssistant.DAL.Entities.Recipe", b =>
                 {
-                    b.HasOne("MedicalAssistant.DAL.Entities.DetailedUser")
-                        .WithMany("Recipies")
-                        .HasForeignKey("DetailedUserId");
+                    b.HasOne("MedicalAssistant.DAL.Entities.DetailedDoctor", "Doctor")
+                        .WithMany()
+                        .HasForeignKey("DoctorId");
+
+                    b.HasOne("MedicalAssistant.DAL.Entities.DetailedUser", "Patient")
+                        .WithMany()
+                        .HasForeignKey("PatientId");
                 });
 
             modelBuilder.Entity("MedicalAssistant.DAL.Entities.RefreshToken", b =>

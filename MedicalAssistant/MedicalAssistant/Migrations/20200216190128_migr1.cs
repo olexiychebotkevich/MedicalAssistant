@@ -224,14 +224,21 @@ namespace MedicalAssistant.Migrations
                     ID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Diagnos = table.Column<string>(nullable: true),
-                    DetailedUserId = table.Column<int>(nullable: true)
+                    PatientId = table.Column<int>(nullable: true),
+                    DoctorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tblRecipies", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_tblRecipies_tblDetailedUsers_DetailedUserId",
-                        column: x => x.DetailedUserId,
+                        name: "FK_tblRecipies_tblDetailedDoctors_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "tblDetailedDoctors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tblRecipies_tblDetailedUsers_PatientId",
+                        column: x => x.PatientId,
                         principalTable: "tblDetailedUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -303,9 +310,14 @@ namespace MedicalAssistant.Migrations
                 column: "RecipeID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tblRecipies_DetailedUserId",
+                name: "IX_tblRecipies_DoctorId",
                 table: "tblRecipies",
-                column: "DetailedUserId");
+                column: "DoctorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tblRecipies_PatientId",
+                table: "tblRecipies",
+                column: "PatientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -332,13 +344,13 @@ namespace MedicalAssistant.Migrations
                 name: "Tablets");
 
             migrationBuilder.DropTable(
-                name: "tblDetailedDoctors");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "tblRecipies");
+
+            migrationBuilder.DropTable(
+                name: "tblDetailedDoctors");
 
             migrationBuilder.DropTable(
                 name: "tblDetailedUsers");

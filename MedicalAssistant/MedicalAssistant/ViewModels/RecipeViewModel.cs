@@ -9,6 +9,7 @@ namespace MedicalAssistant.ViewModels
     public class RecipeViewModel
     {
         public int PatientID { get; set; }
+        public int DoctorID { get; set; }
         public string Diagnos { get; set; }
         public List<Tablets> Medicines { get; set; }
     }

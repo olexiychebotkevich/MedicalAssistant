@@ -36,10 +36,14 @@ namespace MedicalAssistant.Controllers
             try
             {
                 DetailedUser detailuser = _dbcontext.DetailedUsers.Single(u => u.User.Id == rec.PatientID);
-                Recipe recipe = new Recipe { Diagnos = rec.Diagnos, Tablets = rec.Medicines };
-                Debug.WriteLine("{0} Recipies",recipe);
-                detailuser.Recipies.Add(recipe);
-                _dbcontext.Entry(detailuser).State = EntityState.Modified;
+                Recipe recipe = new Recipe
+                {
+                    Diagnos = rec.Diagnos,
+                    Tablets = rec.Medicines,
+                    Doctor = _dbcontext.DetailedDoctors.Single(d=>d.Id==rec.DoctorID),
+                    Patient=_dbcontext.DetailedUsers.Single(p=>p.Id==rec.PatientID)
+                };
+                _dbcontext.Recipes.Add(recipe);
                 _dbcontext.SaveChanges();
                 return detailuser;
             }
@@ -57,6 +61,23 @@ namespace MedicalAssistant.Controllers
         }
 
 
-      
+        [Authorize]
+        [HttpPost("GetDoctorRecipies")]
+        public IEnumerable<Recipe> GetPatient([FromBody]UserViewModel user)
+        {
+                List<Recipe> recipes = new List<Recipe>();
+                foreach(Recipe recipe in _dbcontext.Recipes)
+                {
+                   if(recipe.Doctor.Id==user.Id)
+                    {
+                        recipes.Add(recipe);
+                    }
+                }
+                return recipes;
+        
+        }
+
+
+
     }
 }
