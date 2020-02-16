@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row,Card,Col, Button } from 'antd';
+import { Row,Card,Col, Button,Input} from 'antd';
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
 import { push } from 'connected-react-router';
@@ -11,6 +11,7 @@ import '../home.css';
 import './index.css';
 import CropperWidget from '../CropperWidgetContainer';
 import SpinnerWidget from '../spinner';
+import QrReader from 'react-qr-reader';
 
 
 const propTypes = {
@@ -49,7 +50,9 @@ class PageDoctor extends Component {
         startimage:require("../images/Placeholder.jpg"),
         UpdatedoctorLoading: false,
         UpdatedoctorFailed: false,
-        UpdatedoctorSuccess: false
+        UpdatedoctorSuccess: false,
+        patientID:null
+     
 
 
     };
@@ -83,12 +86,10 @@ onselectImage = (e) => {
   this.inputFileElement.click();
 }
 
-handleChange = e => {
-  e.preventDefault();
-  const { name, value } = e.target;
-  this.setState({ [name]: value });
+AddRecipe=(e) =>{
+e.preventDefault();
+console.log("Patient ID: ",this.state.patientID);
 }
-
 
 croppImage = (value) => { 
   this.setState({ImagePath:value});
@@ -101,6 +102,12 @@ onCloseCropper=(e)=>{
   e.preventDefault();
   this.setState({ isCropped: false });
 
+}
+
+updatePatientIDValue = (val) => {
+  this.setState({
+    patientID: val.target.value
+  });
 }
 
 onChangeSelectFile = (e) => {
@@ -150,6 +157,11 @@ changeImage = e => {
   
 }
 
+  cancelchangeImagetmp = e => {
+    e.preventDefault();
+    console.log("Hello World");
+  }
+
 cancelchangeImage = e =>{
   e.preventDefault();
   this.setState({imagechanged:false});
@@ -161,7 +173,18 @@ cancelchangeImage = e =>{
     this.props.history.push(path);
   }
 
+  handleScan = data => {
+    if (data) {
+        console.log("handleScan: ",data);
+    }
+
+
+
+
+}
+
   render() {
+  
     console.log("detailed doctor: ",this.state.doctor);
     const {src,isCropped}= this.state; 
     return (
@@ -246,6 +269,32 @@ cancelchangeImage = e =>{
     </Card>
         </Col>
           </Row>
+
+
+          <Row style={{marginTop:"5%"}} type="flex" justify="center" >
+          <Col offset = {4} span={4}>
+            <div>
+            <Button type="primary">
+                Scan QR!
+             </Button>
+            </div>
+          </Col>
+
+          <Col  span={8} offset = {4}>
+            <Row>
+              <Col span={8}  style={{marginRight:"2%"}}>
+                <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
+              </Col>
+
+              <Col span={4}>
+                <Button type="primary" onClick={this.AddRecipe}>
+                  Add Recipe
+              </Button>
+              </Col>
+            </Row>
+          </Col>
+
+        </Row>
  
      
       </div>

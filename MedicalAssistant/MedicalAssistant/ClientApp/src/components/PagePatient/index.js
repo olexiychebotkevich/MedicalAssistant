@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row,Card,Col, Button } from 'antd';
+import { Row,Card,Col, Button,Input} from 'antd';
 import 'antd/dist/antd.css';
 import * as patientActions from './reducer';
 import { push } from 'connected-react-router';
@@ -54,7 +54,8 @@ class PagePatient extends Component {
         startimage:require("../images/Placeholder.jpg"),
         UpdatepatientLoading:false,
         UpdatepatientFailed: false,
-        UpdatepatientSuccess: false
+        UpdatepatientSuccess: false,
+        GetID:false
 
 
     };
@@ -90,10 +91,8 @@ onselectImage = (e) => {
   this.inputFileElement.click();
 }
 
-handleChange = e => {
-  e.preventDefault();
-  const { name, value } = e.target;
-  this.setState({ [name]: value });
+GetMyID =(e)=>{
+{this.state.GetID ? this.setState({GetID:false}) : this.setState({GetID:true})};
 }
 
 
@@ -166,7 +165,7 @@ cancelchangeImage = e =>{
 generateQR=e=> {
   e.preventDefault();
   console.log("generate qr");
-  let str = 'My first QR!'
+  let str = ("Hello world");
   QRCode.toCanvas(document.getElementById('canvas'), str, function(error) {
   if (error) console.error(error)
   //console.log('success!')
@@ -175,7 +174,7 @@ generateQR=e=> {
 
 
   render() {
-
+    let GetID=false;
     const {src,isCropped}= this.state;
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
@@ -268,13 +267,25 @@ generateQR=e=> {
           </Row>
 
 
-        <Row type="flex" justify="center">
-          <Col span={4}>
-            <div>
-              <canvas id="canvas" align="center" />
+
+
+        <Row style={{marginTop:"5%"}} type="flex" justify="center">
+
+          <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+            <div style={{width:"100%"}} >
               <Button onClick={this.generateQR}>
-                Generate QR!
-          </Button>
+                GenerateQR QR!
+              </Button>
+            
+            </div>
+            <canvas style={{marginTop:"2%"}} id="canvas"/>
+          </Col>
+          <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+            <div>
+              <Button onClick={this.GetMyID}>
+                Generate simple code!
+              </Button>
+              {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
             </div>
           </Col>
 
