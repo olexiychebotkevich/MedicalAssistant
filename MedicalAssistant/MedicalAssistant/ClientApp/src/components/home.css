@@ -10,7 +10,7 @@
     height: 55vh;
     position: absolute;
     background-repeat: no-repeat; 
-    font-family: 'Chiller';
+    font-family: 'Comic Sans MS, Comic Sans, cursive';
  
   }
   
@@ -24,7 +24,7 @@
   justify-content: center;
 }
 .header{
-  font-family: 'Chiller';
+  font-family: 'Comic Sans MS, Comic Sans, cursive';
   font-size: 80px;
   color: rgb(151, 201, 218);
   text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
@@ -34,7 +34,7 @@
 
 }
 .homeHeader{
-  font-family: "Chiller"; 
+  font-family: "Comic Sans MS, Comic Sans, cursive"; 
   text-align: "center" ;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
@@ -46,7 +46,7 @@
 
 
 .homeHeader1{
-  font-family: "Chiller"; 
+  font-family: "Comic Sans MS, Comic Sans, cursive"; 
   text-align: center ;
   color:rgb(27, 27, 27);
   text-shadow: 0 0 2px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
@@ -100,5 +100,6 @@
 
   .steps{
     font-size: 30px;
+    font-family: 'Comic Sans MS, Comic Sans, cursive';
   }
   
