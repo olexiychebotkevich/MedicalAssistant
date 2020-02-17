@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MedicalAssistant.Migrations
 {
     [DbContext(typeof(EFDbContext))]
-    [Migration("20200216190128_migr1")]
-    partial class migr1
+    [Migration("20200217124948_createdb")]
+    partial class createdb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,6 +111,8 @@ namespace MedicalAssistant.Migrations
                     b.Property<DateTime>("DateOfBirth");
 
                     b.Property<string>("DoctorSpecialty");
+
+                    b.Property<string>("ImagePath");
 
                     b.Property<string>("Locality");
 

@@ -97,6 +97,7 @@ export const GetDetailedPatient = (patient) => {
             }, err => { throw err; })
             .catch(err => {
                 console.log("-------------error: ",err);
+                if(err.response!=null)
                 dispatch(patientActions.getfailed(err.response));
                 
 

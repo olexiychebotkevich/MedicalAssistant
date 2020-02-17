@@ -17,5 +17,14 @@ export default class RecipeService {
 
     }
 
+
+    static GetDoctorRecipies(user,DoctorID)
+    {
+        return axios.post(`${serverUrl}api/recipe/AddRecipe`, DoctorID, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+ 
+    }
+
    
 }

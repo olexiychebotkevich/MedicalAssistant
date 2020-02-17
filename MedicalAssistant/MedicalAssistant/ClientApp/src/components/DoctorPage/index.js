@@ -191,8 +191,13 @@ cancelchangeImage = e =>{
 
   render() {
   
-    console.log("detailed doctor: ",this.state.doctor);
+    console.log("detailed doctor: ",this.state.detaileddoctor);
     const {src,isCropped}= this.state; 
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    };
     return (
       <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
         <div className="row">
@@ -228,8 +233,8 @@ cancelchangeImage = e =>{
           </div>
             <div className="col-12 col-sm-8 p">
                 <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}></p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Дата народження: {this.state.detaileddoctor ? this.state.detaileddoctor.dateOfBirth : null} </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
@@ -237,44 +242,22 @@ cancelchangeImage = e =>{
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
                </div>
         </div>
-          
         <Row gutter={16}>
-       
-          <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
-      <p>Хвороба 1</p>
-      <p>Хвороба 2</p>
-      <p>Хвороба 3</p>
-      <Button type="dashed" style={{color : 'black'}} onClick={this.routeChange}>Додати хворобу</Button>
-    </Card>
-          </Col>
-         
-          <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
-      <p>Хвороба 1</p>
-      <p>Хвороба 2</p>
-      <p>Хвороба 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
-    </Card>
-          </Col>
-          
-          <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Хвороба 1</p>
-      <p>Хвороба 2</p>
-      <p>Хвороба 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
-    </Card>
-        </Col>
-        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Ім'я Призвіще" extra={<a href="#">Більше</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Хвороба 1</p>
-      <p>Хвороба 2</p>
-      <p>Хвороба 3</p>
-      <Button type="dashed" style={{color : 'black'}}>Додати хворобу</Button>
-    </Card>
-        </Col>
-          </Row>
+          {this.state.detaileddoctor ?
+            this.state.detaileddoctor.recipes.map((recipe) =>
+
+              <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+
+                <Card title={<p>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
+                  <p>Діагноз: {recipe.diagnos}</p>
+                  <Button type="dashed" style={{ color: 'black' }} onClick={this.routeChange}>Детальніше</Button>
+                </Card>
+              </Col>
+            ) :
+            null
+          }
+        </Row>
+
 
 
           <Row style={{marginTop:"5%"}} type="flex" justify="center" >

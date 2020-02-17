@@ -130,6 +130,7 @@ export const GetDetailedDoctor = (doctor) => {
             }, err => { throw err; })
             .catch(err => {
                 console.log("-------------error: ",err);
+                if(err.response!=null)
                 dispatch(doctorActions.getfailed(err.response));
                 
 
@@ -144,7 +145,7 @@ export const GetDetailedDoctor = (doctor) => {
 export const changeImage = (user,doctor) => {
     return (dispatch) => {
         dispatch(doctorActions.updatestarted());
-        UserService.changeImage(user,doctor)
+        UserService.UpdateDoctor(user,doctor)
             .then((response) => {
                 console.log("--------------redponse: ",response)
                 dispatch(doctorActions.updatesuccess(response));
@@ -161,7 +162,8 @@ export const changeImage = (user,doctor) => {
 export const AddRecipe=(user,PatientID) =>{
     return (dispatch) => {
         dispatch(doctorActions.getpatientstarted());
-        UserService.GetPatientByID(user,PatientID)
+        const patient={token:user.token,id:PatientID}
+        UserService.IsPatientExist(patient)
             .then((response) => {
                 console.log("get recipe: ",response);
                 dispatch(doctorActions.getpatientsuccess(response));

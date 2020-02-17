@@ -36,22 +36,75 @@ namespace MedicalAssistant.Controllers
             _env = env;
         }
 
+
+
+
+        [Authorize]
+        [HttpGet("IsPatientExist")]
+        public IActionResult IsPatientExist([FromQuery]int id)
+        {
+
+            try
+            {
+                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == id);
+                return Ok(detailuser);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest(new { invalid = "Patient does not exist" });
+            }
+
+        }
+
+
+        [Authorize]
+        [HttpGet("IsDoctorExist")]
+        public IActionResult IsDoctorExist([FromQuery]int id)
+        {
+
+            try
+            {
+                DetailedDoctor detailedDoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == id);
+                return Ok(detailedDoctor);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest(new { invalid = "Patient does not exist" });
+            }
+
+        }
+
+
         [Authorize]
         [HttpPost("GetPatient")]
         public object GetPatient([FromBody]DetailedUser user)
         {
-          
+
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u=>u.User.Id== user.Id);
-                return detailuser;
+                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == user.Id);
+                DetailedUserViewModel viewModel = new DetailedUserViewModel
+                {
+                    Id = detailuser.Id,
+                    UserName = detailuser.UserName,
+                    UserSurname = detailuser.UserSurname,
+                    DateOfBirth = detailuser.DateOfBirth,
+                    User=detailuser.User,
+                    Locality = detailuser.Locality,
+                    ImagePath = detailuser.ImagePath,
+                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
+
+                };
+                return viewModel;
             }
             catch (ArgumentNullException e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
                 return BadRequest(new { invalid = "Email does not exist" });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
                 return BadRequest(new { invalid = "Email does not exist" });
@@ -68,7 +121,21 @@ namespace MedicalAssistant.Controllers
             try
             {
                 DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == user.Id);
-                return detaildoctor;
+                DetailedDoctorViewModel viewModel = new DetailedDoctorViewModel
+                {
+                    Id = detaildoctor.Id,
+                    UserName = detaildoctor.UserName,
+                    UserSurname = detaildoctor.UserSurname,
+                    DateOfBirth = detaildoctor.DateOfBirth,
+                    DoctorSpecialty = detaildoctor.DoctorSpecialty,
+                    Locality = detaildoctor.Locality,
+                    User = detaildoctor.User,
+                    WorkExpirience = detaildoctor.WorkExpirience,
+                    ImagePath=detaildoctor.ImagePath,
+                    recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
+
+                };
+                return viewModel;
             }
             catch (ArgumentNullException e)
             {
@@ -151,6 +218,53 @@ namespace MedicalAssistant.Controllers
                 Debug.WriteLine("{0} Exception caught.", e);
             }
             return detailuser;
+        }
+
+
+
+        [Authorize]
+        [HttpPut("UpdateDoctor")]
+        public DetailedDoctor UpdateDoctor([FromBody]DetailedDoctor doctor)
+        {
+            DetailedDoctor detaildoctor = null;
+
+            try
+            {
+                detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == doctor.Id);
+                if (detaildoctor != null)
+                {
+                    string imageName = Guid.NewGuid().ToString() + ".jpg";
+                    string base64 = doctor.ImagePath;
+                    if (base64.Contains(","))
+                    {
+                        base64 = base64.Split(',')[1];
+                    }
+
+                    var bmp = base64.FromBase64StringToImage();
+                    string fileDestDir = _env.ContentRootPath;
+                    fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
+
+                    string fileSave = Path.Combine(fileDestDir, imageName);
+                    if (bmp != null)
+                    {
+                        int size = 1000;
+                        var image = ImageHelper.CompressImage(bmp, size, size);
+                        image.Save(fileSave, ImageFormat.Jpeg);
+                    }
+
+                    detaildoctor.ImagePath = imageName;
+                    _dbcontext.Update(detaildoctor);
+                    _dbcontext.SaveChanges();
+
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+            }
+            return detaildoctor;
         }
     }
 }

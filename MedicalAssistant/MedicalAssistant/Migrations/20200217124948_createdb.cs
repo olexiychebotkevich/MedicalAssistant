@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MedicalAssistant.Migrations
 {
-    public partial class migr1 : Migration
+    public partial class createdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -182,7 +182,8 @@ namespace MedicalAssistant.Migrations
                     DateOfBirth = table.Column<DateTime>(nullable: false),
                     Locality = table.Column<string>(nullable: true),
                     WorkExpirience = table.Column<int>(nullable: false),
-                    DoctorSpecialty = table.Column<string>(nullable: true)
+                    DoctorSpecialty = table.Column<string>(nullable: true),
+                    ImagePath = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

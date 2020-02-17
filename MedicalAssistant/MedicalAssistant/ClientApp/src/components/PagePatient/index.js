@@ -176,6 +176,11 @@ generateQR=e=> {
   render() {
     let GetID=false;
     const {src,isCropped}= this.state;
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+    };
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
     return (
@@ -217,9 +222,9 @@ generateQR=e=> {
             <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage}/>
             </div>
             <div className="col-12 col-sm-6 p">
-                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
+                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: {this.state.detailedpatient ? this.state.detailedpatient.dateOfBirth : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options): null}</p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Phone: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Address: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
@@ -227,43 +232,17 @@ generateQR=e=> {
         </div>
           
         <Row gutter={16}>
-       
+        {this.state.detailedpatient ? 
+          this.state.detailedpatient.recipes.map((recipe) =>
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
           <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
-      <p>Pill 1</p>
-      <p>Pill 2</p>
-      <p>Pill 3</p>
-    
-    </Card>
+           <p>Diagnos: {recipe.diagnos}</p>
+           <p>Doctor: {recipe.doctor.userName}</p>
+           <p>Date:</p>
+          </Card>
           </Col>
-         
-          <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
-      <p>Pill 1</p>
-      <p>Pill 2</p>
-      <p>Pill 3</p>
-     
-    </Card>
-          </Col>
-          
-          <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Pill 1</p>
-      <p>Pill 2</p>
-      <p>Pill 3</p>
-     
-    </Card>
-        </Col>
-        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
-      <p>Pill 1</p>
-      <p>Pill 2</p>
-      <p>Pill 3</p>
-     
-    </Card>
-        </Col>
-
-      
+          ):
+          null}
           </Row>
 
 

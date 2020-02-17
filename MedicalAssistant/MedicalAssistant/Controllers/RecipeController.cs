@@ -35,7 +35,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Single(u => u.User.Id == rec.PatientID);
+               
                 Recipe recipe = new Recipe
                 {
                     Diagnos = rec.Diagnos,
@@ -45,7 +45,7 @@ namespace MedicalAssistant.Controllers
                 };
                 _dbcontext.Recipes.Add(recipe);
                 _dbcontext.SaveChanges();
-                return detailuser;
+                return recipe;
             }
             catch (ArgumentNullException e)
             {

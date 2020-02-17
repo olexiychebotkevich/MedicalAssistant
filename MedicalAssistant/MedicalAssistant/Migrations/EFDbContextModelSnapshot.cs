@@ -110,6 +110,8 @@ namespace MedicalAssistant.Migrations
 
                     b.Property<string>("DoctorSpecialty");
 
+                    b.Property<string>("ImagePath");
+
                     b.Property<string>("Locality");
 
                     b.Property<string>("UserName");

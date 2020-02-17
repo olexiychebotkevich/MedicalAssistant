@@ -71,6 +71,31 @@ export default class UserService {
     }
 
 
+    static UpdateDoctor(user,detaileddoctor){
+        console.log(" user service--------: ",user);
+        console.log("detailed user service--------: ",detaileddoctor);
+        return axios.put(`${serverUrl}api/user/UpdateDoctor`, detaileddoctor, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+    }
+
+
+    
+    static IsPatientExist(user){
+        console.log(" user service IsPatientExist--------: ",user);
+        return axios.get(`${serverUrl}api/user/IsPatientExist`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    }
+
+    static IsDoctorExist(user){
+        console.log(" user service IsDoctorExist--------: ",user);
+        return axios.get(`${serverUrl}api/user/IsDoctorExist`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    }
+
+
+
+    
+
+
 
 
 }
