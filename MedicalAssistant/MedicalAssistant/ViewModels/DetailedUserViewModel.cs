@@ -15,6 +15,6 @@ namespace MedicalAssistant.ViewModels
         public string Locality { get; set; }
         public DbUser User { get; set; }
         public string ImagePath { get; set; }
-        public List<Recipe> recipes { get; set; }
+        public ICollection<Recipe> recipes { get; set; }
     } 
 }

@@ -16,7 +16,7 @@ namespace MedicalAssistant.ViewModels
         public int WorkExpirience { get; set; }
         public string DoctorSpecialty { get; set; }
         public DbUser User { get; set; }
-        public List<Recipe> recipes { get; set; }
+        public ICollection<Recipe> recipes { get; set; }
         public string ImagePath { get; set; }
     }
 }

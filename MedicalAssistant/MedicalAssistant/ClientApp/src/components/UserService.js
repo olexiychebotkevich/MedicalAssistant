@@ -37,26 +37,20 @@ export default class UserService {
         console.log("check Patient ---------3");
         // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
         // console.log("id: ",user.id);
-        return axios.post(`${serverUrl}api/user/GetPatient`, {Id:user.id}, {
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-        });
+        return axios.get(`${serverUrl}api/user/GetPatient`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } });
+        
 
     }
 
     static getdetaileddoctor(user) {
         // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
         // console.log("id: ",user.id);
-        return axios.post(`${serverUrl}api/user/GetDoctor`, {Id:user.id}, {
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-        });
-
+        return axios.get(`${serverUrl}api/user/GetDoctor`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    
     }
 
     static GetPatientByID(user,PatientID) {
-        return axios.post(`${serverUrl}api/user/GetPatientByID`, {Id:PatientID}, {
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-        });
-
+        return axios.get(`${serverUrl}api/user/GetPatient`, { params:{id:PatientID}, headers: { 'Authorization': `Bearer ${user.token}` } })
     }
 
     

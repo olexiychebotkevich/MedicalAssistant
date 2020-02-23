@@ -39,7 +39,7 @@ namespace MedicalAssistant.Controllers
                 Recipe recipe = new Recipe
                 {
                     Diagnos = rec.Diagnos,
-                    Tablets = rec.Medicines,
+                    Tablets = rec.Tablets,
                     Doctor = _dbcontext.DetailedDoctors.Single(d=>d.Id==rec.DoctorID),
                     Patient=_dbcontext.DetailedUsers.Single(p=>p.Id==rec.PatientID),
                     Date=rec.Date

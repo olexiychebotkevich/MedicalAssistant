@@ -11,7 +11,7 @@ namespace MedicalAssistant.ViewModels
         public int PatientID { get; set; }
         public int DoctorID { get; set; }
         public string Diagnos { get; set; }
-        public List<Tablets> Medicines { get; set; }
+        public IEnumerable<Medicine> Tablets { get; set; }
         public DateTime Date { get; set; }
     }
 }

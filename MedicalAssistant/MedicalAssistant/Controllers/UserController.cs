@@ -41,18 +41,28 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("IsPatientExist")]
-        public IActionResult IsPatientExist([FromQuery]int id)
+        public async Task<IActionResult> IsPatientExist([FromQuery]int ? id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == id);
+                var detailuser = await _dbcontext.DetailedUsers.Include("User").AsNoTracking().FirstOrDefaultAsync(u => u.User.Id == id);
+
+                if (detailuser == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(detailuser);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Patient does not exist" });
+                return NotFound();
             }
 
         }
@@ -60,35 +70,49 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("IsDoctorExist")]
-        public IActionResult IsDoctorExist([FromQuery]int id)
+        public async Task<IActionResult> IsDoctorExist([FromQuery]int ? id)
         {
-
+            if (id == null)
+            {
+                return NotFound();
+            }
             try
             {
-                DetailedDoctor detailedDoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == id);
+                var detailedDoctor = await _dbcontext.DetailedDoctors.Include("User").SingleOrDefaultAsync(u => u.User.Id == id);
+
+                if (detailedDoctor == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(detailedDoctor);
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Patient does not exist" });
+                return NotFound();
             }
 
         }
 
 
         [Authorize]
-        [HttpPost("GetPatient")]
-        public object GetPatient([FromBody]DetailedUser user)
+        [HttpGet("GetPatient")]
+        public object GetPatient([FromQuery]int? id)
         {
 
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == user.Id);
+                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
+                if (detailuser == null)
+                {
+                    return NotFound();
+                }
+
                 DetailedUserViewModel viewModel = new DetailedUserViewModel
                 {
                     Id = detailuser.Id,
-                    UserName = detailuser.UserName,
+                    UserName =  detailuser.UserName,
                     UserSurname = detailuser.UserSurname,
                     DateOfBirth = detailuser.DateOfBirth,
                     User=detailuser.User,
@@ -114,13 +138,19 @@ namespace MedicalAssistant.Controllers
 
 
         [Authorize]
-        [HttpPost("GetDoctor")]
-        public object GetDoctor([FromBody]UserViewModel user)
+        [HttpGet("GetDoctor")]
+        public object GetDoctor([FromQuery] int ? id)
         {
 
             try
             {
-                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == user.Id);
+                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").SingleOrDefault(u => u.User.Id == id);
+
+                if (detaildoctor == null)
+                {
+                    return NotFound();
+                }
+
                 DetailedDoctorViewModel viewModel = new DetailedDoctorViewModel
                 {
                     Id = detaildoctor.Id,
@@ -151,27 +181,7 @@ namespace MedicalAssistant.Controllers
         }
 
 
-        [Authorize]
-        [HttpPost("GetPatientByID")]
-        public object GetPatientByID([FromBody]UserViewModel user)
-        {
 
-           try
-            {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Single(u=>u.Id==user.Id);
-                return detailuser;
-            }
-            catch (ArgumentNullException e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "User does not exist" });
-            }
-            catch(Exception e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "User does not exist" });
-            }
-        }
 
 
 
