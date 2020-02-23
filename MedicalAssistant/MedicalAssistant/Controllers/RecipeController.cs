@@ -41,7 +41,8 @@ namespace MedicalAssistant.Controllers
                     Diagnos = rec.Diagnos,
                     Tablets = rec.Medicines,
                     Doctor = _dbcontext.DetailedDoctors.Single(d=>d.Id==rec.DoctorID),
-                    Patient=_dbcontext.DetailedUsers.Single(p=>p.Id==rec.PatientID)
+                    Patient=_dbcontext.DetailedUsers.Single(p=>p.Id==rec.PatientID),
+                    Date=rec.Date
                 };
                 _dbcontext.Recipes.Add(recipe);
                 _dbcontext.SaveChanges();

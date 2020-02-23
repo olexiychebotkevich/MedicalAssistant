@@ -16,6 +16,7 @@ namespace MedicalAssistant.DAL.Entities
         public IEnumerable<Tablets> Tablets {get;set;}
         public DetailedUser Patient { get; set; }
         public DetailedDoctor Doctor { get; set; }
+        public DateTime Date { get; set; }
 
     }
 }

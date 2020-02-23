@@ -181,6 +181,7 @@ generateQR=e=> {
       month: 'numeric',
       day: 'numeric',
     };
+    const diagnoslength=30;
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
     return (
@@ -222,12 +223,12 @@ generateQR=e=> {
             <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage}/>
             </div>
             <div className="col-12 col-sm-6 p">
-                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Name:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Surname: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Date of birth: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options): null}</p>
+                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options): null}</p>
                 <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Phone: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Address: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
                </div>
         </div>
           
@@ -235,10 +236,10 @@ generateQR=e=> {
         {this.state.detailedpatient ? 
           this.state.detailedpatient.recipes.map((recipe) =>
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
-           <p>Diagnos: {recipe.diagnos}</p>
-           <p>Doctor: {recipe.doctor.userName}</p>
-           <p>Date:</p>
+          <Card title="Рецепт" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
+           <p>Діагноз: {recipe.diagnos.length >diagnoslength  ? recipe.diagnos.substring(0, diagnoslength)+"..." : recipe.diagnos}</p>
+           <p>Лікар: {recipe.doctor.userSurname+" "+recipe.doctor.userName}</p>
+           <p>Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
           </Card>
           </Col>
           ):
@@ -253,7 +254,7 @@ generateQR=e=> {
           <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
             <div style={{width:"100%"}} >
               <Button onClick={this.generateQR}>
-                GenerateQR QR!
+                Згенерувати QR-код!
               </Button>
             
             </div>
@@ -262,7 +263,7 @@ generateQR=e=> {
           <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
             <div>
               <Button onClick={this.GetMyID}>
-                Generate simple code!
+                Згенерувати простий код
               </Button>
               {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
             </div>

@@ -57,6 +57,9 @@ class DynamicFieldSet extends React.Component {
             if (!err) {
                 let medicines = [];
                 const { keys, names,kd,op,krd} = values;
+                var today = new Date();
+                 
+
                 keys.map(key => medicines.push({name:names[key],countdays:kd[key],receptionfeatures:op[key],counttimesaday:krd[key]}));
                 console.log('medicines: ', medicines);
                 const recipemodel = {
@@ -64,6 +67,7 @@ class DynamicFieldSet extends React.Component {
                     DoctorID:this.props.DoctorID,
                     Diagnos: values.diagnos,
                     Medicines: medicines,
+                    Date:today.toISOString().substring(0, 10)
                   
                    
                 };
