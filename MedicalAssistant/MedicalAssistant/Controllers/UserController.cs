@@ -54,7 +54,7 @@ namespace MedicalAssistant.Controllers
 
                 if (detailuser == null)
                 {
-                    return NotFound();
+                    return BadRequest(new { invalid = "Email does not exist" });
                 }
 
                 return Ok(detailuser);
@@ -82,7 +82,7 @@ namespace MedicalAssistant.Controllers
 
                 if (detailedDoctor == null)
                 {
-                    return NotFound();
+                    return BadRequest(new { invalid = "Email does not exist" });
                 }
 
                 return Ok(detailedDoctor);
@@ -98,7 +98,7 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("GetPatient")]
-        public object GetPatient([FromQuery]int? id)
+        public IActionResult GetPatient([FromQuery]int? id)
         {
 
             try
@@ -109,7 +109,7 @@ namespace MedicalAssistant.Controllers
                     return NotFound();
                 }
 
-                DetailedUserViewModel viewModel = new DetailedUserViewModel
+                DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel
                 {
                     Id = detailuser.Id,
                     UserName =  detailuser.UserName,
@@ -121,7 +121,7 @@ namespace MedicalAssistant.Controllers
                     recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
                 };
-                return viewModel;
+                return Ok(detailedUserViewModel);
             }
             catch (ArgumentNullException e)
             {
@@ -131,7 +131,7 @@ namespace MedicalAssistant.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Email does not exist" });
+                return NotFound();
             }
 
         }
@@ -139,7 +139,7 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("GetDoctor")]
-        public object GetDoctor([FromQuery] int ? id)
+        public IActionResult GetDoctor([FromQuery] int ? id)
         {
 
             try
@@ -151,7 +151,7 @@ namespace MedicalAssistant.Controllers
                     return NotFound();
                 }
 
-                DetailedDoctorViewModel viewModel = new DetailedDoctorViewModel
+                DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
                 {
                     Id = detaildoctor.Id,
                     UserName = detaildoctor.UserName,
@@ -165,7 +165,7 @@ namespace MedicalAssistant.Controllers
                     recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
 
                 };
-                return viewModel;
+                return Ok(detailedDoctorViewModel);
             }
             catch (ArgumentNullException e)
             {
@@ -175,7 +175,7 @@ namespace MedicalAssistant.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Email does not exist" });
+                return NotFound();
             }
 
         }
@@ -187,94 +187,120 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpPut("UpdateUser")]
-        public DetailedUser UpdateUser([FromBody]DetailedUser user)
+        public async Task<IActionResult> UpdateUser([FromBody]DetailedUser user)
         {
-            DetailedUser detailuser = null;
-           
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userToUpdate = await _dbcontext.DetailedUsers.Include("User").SingleOrDefaultAsync(u => u.User.Id == user.Id);
+
             try
             {
-                detailuser = _dbcontext.DetailedUsers.Include("User").Single(u => u.User.Id == user.Id);
-                if(detailuser!=null)
-                {
-                    string imageName = Guid.NewGuid().ToString() + ".jpg";
-                    string base64 = user.ImagePath;
-                    if (base64.Contains(","))
+                var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
+                string imageName = await AddImageResultTask;
+               
+                userToUpdate.ImagePath = imageName;
+                    if(await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
                     {
-                        base64 = base64.Split(',')[1];
-                    }
-
-                    var bmp = base64.FromBase64StringToImage();
-                    string fileDestDir = _env.ContentRootPath;
-                    fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-
-                    string fileSave = Path.Combine(fileDestDir, imageName);
-                    if (bmp != null)
+                    try
                     {
-                        int size = 1000;
-                        var image = ImageHelper.CompressImage(bmp, size, size);
-                        image.Save(fileSave, ImageFormat.Jpeg);
+                        await _dbcontext.SaveChangesAsync();
+                        return Ok(userToUpdate);
                     }
-
-                     detailuser.ImagePath = imageName;
-                    _dbcontext.Update(detailuser);
-                    _dbcontext.SaveChanges();
+                    catch (DbUpdateException ex )
+                    {
+                        Debug.WriteLine("{0} Exception caught.", ex);
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
+                    }
 
                 }
-               
-               
+                   
+
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest();
+              
             }
-            return detailuser;
+            return Ok(userToUpdate);
         }
 
 
 
         [Authorize]
         [HttpPut("UpdateDoctor")]
-        public DetailedDoctor UpdateDoctor([FromBody]DetailedDoctor doctor)
+        public async Task<IActionResult> UpdateDoctor([FromBody]DetailedDoctor doctor)
         {
-            DetailedDoctor detaildoctor = null;
+            if (doctor == null)
+            {
+                return NotFound();
+            }
 
+            var doctorToUpdate = await _dbcontext.DetailedDoctors.Include("User").SingleOrDefaultAsync(u => u.User.Id == doctor.Id);
             try
             {
-                detaildoctor = _dbcontext.DetailedDoctors.Include("User").Single(u => u.User.Id == doctor.Id);
-                if (detaildoctor != null)
-                {
-                    string imageName = Guid.NewGuid().ToString() + ".jpg";
-                    string base64 = doctor.ImagePath;
-                    if (base64.Contains(","))
+
+                    var AddImageResultTask = Task.Run(() => AddImage(doctor.ImagePath));
+                    string imageName = await AddImageResultTask;
+
+                    doctorToUpdate.ImagePath = imageName;
+                    if (await TryUpdateModelAsync<DetailedDoctor>(doctorToUpdate, "", s => s.ImagePath))
                     {
-                        base64 = base64.Split(',')[1];
+
+                        try
+                        {
+                        await _dbcontext.SaveChangesAsync();
+                        return Ok(doctorToUpdate);
+                        }
+                        catch (DbUpdateException  ex)
+                        {
+                        Debug.WriteLine("{0} Exception caught.", ex);
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
+                        }
+
                     }
-
-                    var bmp = base64.FromBase64StringToImage();
-                    string fileDestDir = _env.ContentRootPath;
-                    fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-
-                    string fileSave = Path.Combine(fileDestDir, imageName);
-                    if (bmp != null)
-                    {
-                        int size = 1000;
-                        var image = ImageHelper.CompressImage(bmp, size, size);
-                        image.Save(fileSave, ImageFormat.Jpeg);
-                    }
-
-                    detaildoctor.ImagePath = imageName;
-                    _dbcontext.Update(detaildoctor);
-                    _dbcontext.SaveChanges();
-
-                }
-
-
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
+               
             }
-            return detaildoctor;
+
+            return Ok(doctorToUpdate);
+
+        }
+
+
+
+        private string AddImage(string ImagePath)
+        {
+            string imageName = Guid.NewGuid().ToString() + ".jpg";
+            string base64 = ImagePath;
+            if (base64.Contains(","))
+            {
+                base64 = base64.Split(',')[1];
+            }
+
+            var bmp = base64.FromBase64StringToImage();
+            string fileDestDir = _env.ContentRootPath;
+            fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
+
+            string fileSave = Path.Combine(fileDestDir, imageName);
+            if (bmp != null)
+            {
+                int size = 1000;
+                var image = ImageHelper.CompressImage(bmp, size, size);
+                image.Save(fileSave, ImageFormat.Jpeg);
+            }
+
+            return imageName;
         }
     }
 }

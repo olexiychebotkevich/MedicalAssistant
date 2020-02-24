@@ -41,13 +41,13 @@ namespace MedicalAssistant.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    var errrors = CustomValidator.GetErrorsByModel(ModelState);
-            //    return BadRequest(errrors);
-            //}
+            if (!ModelState.IsValid)
+            {
+                var errrors = CustomValidator.GetErrorsByModel(ModelState);
+                return BadRequest(errrors);
+            }
 
-            if(_userManager.FindByEmailAsync(model.Email).Result==null)
+            if (_userManager.FindByEmailAsync(model.Email).Result==null)
                 return BadRequest(new { invalid = "Email does not exist" });
 
             var result = await _signInManager

@@ -17,8 +17,6 @@ namespace MedicalAssistant.Controllers
     public class RecipeController : ControllerBase
     {
 
-
-      
         private readonly EFDbContext _dbcontext;
        
         public RecipeController( EFDbContext context)
@@ -30,12 +28,11 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpPost("AddRecipe")]
-        public object AddRecipe([FromBody]RecipeViewModel rec)
+        public async Task<IActionResult> AddRecipe([FromBody]RecipeViewModel rec)
         {
 
             try
             {
-               
                 Recipe recipe = new Recipe
                 {
                     Diagnos = rec.Diagnos,
@@ -45,8 +42,8 @@ namespace MedicalAssistant.Controllers
                     Date=rec.Date
                 };
                 _dbcontext.Recipes.Add(recipe);
-                _dbcontext.SaveChanges();
-                return recipe;
+                await _dbcontext.SaveChangesAsync();
+                return Ok(recipe);
             }
             catch (ArgumentNullException e)
             {
@@ -56,28 +53,10 @@ namespace MedicalAssistant.Controllers
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Email does not exist" });
+                return NotFound();
             }
 
         }
-
-
-        [Authorize]
-        [HttpPost("GetDoctorRecipies")]
-        public IEnumerable<Recipe> GetPatient([FromBody]UserViewModel user)
-        {
-                List<Recipe> recipes = new List<Recipe>();
-                foreach(Recipe recipe in _dbcontext.Recipes)
-                {
-                   if(recipe.Doctor.Id==user.Id)
-                    {
-                        recipes.Add(recipe);
-                    }
-                }
-                return recipes;
-        
-        }
-
 
 
     }
