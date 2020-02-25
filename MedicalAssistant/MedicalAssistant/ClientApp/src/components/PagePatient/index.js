@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row,Card,Col, Button } from 'antd';
+import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as patientActions from './reducer';
 import { push } from 'connected-react-router';
@@ -11,7 +12,6 @@ import '../home.css';
 import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
-
 
 const propTypes = {
     GetDetailedPatient: PropTypes.func.isRequired,
@@ -60,6 +60,8 @@ componentDidMount() {
 
   this.props.GetDetailedPatient(patient);
 }
+
+
 
 static getDerivedStateFromProps = (props, state) => {
   return {
@@ -149,7 +151,7 @@ generateQR=e=> {
 
 
   render() {
-
+   
     const {src,isCropped}= this.state;
     console.log("user: ",this.state.user);
     console.log("detailed patient: ",this.state.detailedpatient);
@@ -187,7 +189,7 @@ generateQR=e=> {
         <Row gutter={16}>
        
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
+          <Card title="Illness" extra={<Link to="/patient/morerecipe">More</Link>} style={{backgroundColor: 'whitesmoke',marginTop:"10px"  }}>
       <p>Pill 1</p>
       <p>Pill 2</p>
       <p>Pill 3</p>
@@ -196,7 +198,7 @@ generateQR=e=> {
           </Col>
          
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
+          <Card title="Illness" extra={<Link to={"/patient/morerecipe"}>More</Link>} style={{backgroundColor: 'whitesmoke',marginTop: "10px" }}>
       <p>Pill 1</p>
       <p>Pill 2</p>
       <p>Pill 3</p>
@@ -205,7 +207,7 @@ generateQR=e=> {
           </Col>
           
           <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+          <Card title="Illness" extra={<Link to="/patient/morerecipe">More</Link>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
       <p>Pill 1</p>
       <p>Pill 2</p>
       <p>Pill 3</p>
@@ -213,7 +215,7 @@ generateQR=e=> {
     </Card>
         </Col>
         <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-          <Card title="Illness" extra={<a href="#">More</a>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
+          <Card  title="Illness" extra={<Link to="/patient/morerecipe">More</Link>} style={{backgroundColor: 'whitesmoke',marginTop:"10px" }}>
       <p>Pill 1</p>
       <p>Pill 2</p>
       <p>Pill 3</p>
