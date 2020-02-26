@@ -54,7 +54,6 @@ export const recipiesReducer = (state = initialState, action) => {
 
 
 export const AddRecipe=(recipe) =>{
-    console.log("Add recipe reducer",recipe);
     const user = jwt.decode(localStorage.getItem('jwtToken'))
     const token = localStorage.getItem('jwtToken')
     return (dispatch) => {

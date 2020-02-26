@@ -20,8 +20,6 @@ import {
 
 
 
-
-
 const propTypes = {
   loginUser: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
@@ -50,7 +48,6 @@ class NormalLoginForm extends React.Component {
 
   static getDerivedStateFromProps = (props, state) => {
 
-    //console.log('---nextProps---', props);
     return {
       loading: props.IsLoading,
       login: { ...props.login }
@@ -59,16 +56,15 @@ class NormalLoginForm extends React.Component {
 
 
   componentDidUpdate(prevProps) {
-    console.log("prevProps: ",prevProps);
 
     if (this.props.errors !== prevProps.errors) {
-        console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
+      
 
         this.props.form.validateFields((error, values) => {
    
 
             if (!error) {
-                console.log("----statuscode: ",this.props.statuscode);
+               
                 if (this.props.statuscode === 400) {
                    if(this.props.errors.invalid==="Email does not exist")
                    {
@@ -108,13 +104,10 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const usermodel = {
           Password: values.password,
           Email: values.username,
         };
-        console.log('Received values of form: ', usermodel);
-        console.log("Login page is Doctor: ",this.state.isDoctor);
         this.props.loginUser(usermodel,this.state.isDoctor);
       }
     });
@@ -125,7 +118,6 @@ class NormalLoginForm extends React.Component {
     const digitsRegex = /(?=.*?[0-9])/;
     const uppercaseRegex = /(?=.*?[A-Z])/;
     if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
-
         return callback('Password should contain uppercase letter etc')
     }
     callback()
@@ -137,7 +129,6 @@ class NormalLoginForm extends React.Component {
   this.state.isDoctor ? this.setState({isDoctor:false}) : this.setState({isDoctor:true})
   
  }
- 
 
 
   render() {

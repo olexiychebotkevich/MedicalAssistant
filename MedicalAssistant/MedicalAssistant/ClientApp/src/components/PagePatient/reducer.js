@@ -14,20 +14,20 @@ export const UPDATEPATIENT_FAILURE = "patient/PATIENT_UPDATE_FAILURE";
 
 const initialState = {
     detailedpatient: {
-    failed: false,
-    loading: false,
-    success: false,
-    patient: null,
-    errors:{},
-    statuscode:null
-    },
-    updatepatient:{
         failed: false,
         loading: false,
-        success: false,  
-        errors:{},
-        statuscode:null,
-        updatepatient: null
+        success: false,
+        patient: null,
+        errors: {},
+        statuscode: null
+    },
+    updatepatient: {
+        failed: false,
+        loading: false,
+        success: false,
+        errors: {},
+        statuscode: null,
+        patient: null
     }
 }
 
@@ -49,6 +49,7 @@ export const patientsReducer = (state = initialState, action) => {
 
         case GETPATIENT_FAILURE: {
             newState = update.set(state, 'detailedpatient.loading', false);
+            newState = update.set(newState, 'detailedpatient.success', false);
             newState = update.set(newState, 'detailedpatient.failed', true);
             newState = update.set(newState, 'detailedpatient.errors', action.errors);
             newState = update.set(newState, 'detailedpatient.statuscode', action.statuscode);
@@ -63,7 +64,7 @@ export const patientsReducer = (state = initialState, action) => {
         case UPDATEPATIENT_SUCCESS: {
             newState = update.set(state, 'updatepatient.loading', false);
             newState = update.set(newState, 'updatepatient.success', true);
-            newState = update.set(newState, 'updatepatient.updatepatient', action.payload.data);
+            newState = update.set(newState, 'updatepatient.patient', action.payload.data);
             break;
         }
 
@@ -92,11 +93,9 @@ export const GetDetailedPatient = (patient) => {
         dispatch(patientActions.getstarted());
         UserService.getdetailedpatient(patient)
             .then((response) => {
-                console.log("--------------redponse: ",response)
                 dispatch(patientActions.getsuccess(response));
             }, err => { throw err; })
             .catch(err => {
-                console.log("-------------error: ",err);
                 if(err.response!=null)
                 dispatch(patientActions.getfailed(err.response));
                 
@@ -114,11 +113,10 @@ export const changeImage = (user,patient) => {
         dispatch(patientActions.updatestarted());
         UserService.changeImage(user,patient)
             .then((response) => {
-                console.log("--------------redponse: ",response)
                 dispatch(patientActions.updatesuccess(response));
             }, err => { throw err; })
             .catch(err => {
-                console.log("error: ",err);
+                if(err.response!=null)
                 dispatch(patientActions.updatefailed(err.response));
                
             });

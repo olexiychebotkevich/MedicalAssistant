@@ -4,7 +4,7 @@ import { push } from 'connected-react-router';
 
 
 export const GETDOCTOR_REQUEST = "doctor/DOCTOR_GET_REQUEST";
-export const GETDOCTOR_SUCCESS = "doctorDOCTOR_GET_SUCCESS";
+export const GETDOCTOR_SUCCESS = "doctor/DOCTOR_GET_SUCCESS";
 export const GETDOCTOR_FAILURE = "doctor/DOCTOR_GET_FAILURE";
 
 
@@ -32,7 +32,7 @@ const initialState = {
         success: false,  
         errors:{},
         statuscode:null,
-        updatedoctor: null
+        doctor: null
     },
     getpatient:{
         failed: false,
@@ -76,7 +76,7 @@ export const doctorsReducer = (state = initialState, action) => {
         case UPDATEDOCTOR_SUCCESS: {
             newState = update.set(state, 'updatedoctor.loading', false);
             newState = update.set(newState, 'updatedoctor.success', true);
-            newState = update.set(newState, 'updatedoctor.updatedoctor', action.payload.data);
+            newState = update.set(newState, 'updatedoctor.doctor', action.payload.data);
             break;
         }
 
@@ -125,16 +125,11 @@ export const GetDetailedDoctor = (doctor) => {
         dispatch(doctorActions.getstarted());
         UserService.getdetaileddoctor(doctor)
             .then((response) => {
-                console.log("--------------redponse: ",response)
                 dispatch(doctorActions.getsuccess(response));
             }, err => { throw err; })
             .catch(err => {
-                console.log("-------------error: ",err);
                 if(err.response!=null)
                 dispatch(doctorActions.getfailed(err.response));
-                
-
-               
             });
     }
 }
@@ -147,13 +142,10 @@ export const changeImage = (user,doctor) => {
         dispatch(doctorActions.updatestarted());
         UserService.UpdateDoctor(user,doctor)
             .then((response) => {
-                console.log("--------------redponse: ",response)
                 dispatch(doctorActions.updatesuccess(response));
             }, err => { throw err; })
             .catch(err => {
-                console.log("error: ",err);
                 dispatch(doctorActions.updatefailed(err.response));
-               
             });
     }
 }
@@ -165,7 +157,6 @@ export const AddRecipe=(user,PatientID) =>{
         const patient={token:user.token,id:PatientID}
         UserService.IsPatientExist(patient)
             .then((response) => {
-                console.log("get recipe: ",response);
                 dispatch(doctorActions.getpatientsuccess(response));
                 dispatch(push('/doctor/addrecipe'));
                 

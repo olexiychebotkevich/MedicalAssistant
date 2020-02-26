@@ -63,7 +63,6 @@ function fetch(value, callback) {
                     const data = [];
 
                     res.data.forEach(r => {
-                        console.log("r: ", r);
                         if (r.altSpellings[1])
                             if (r.altSpellings[1].toString().startsWith(currentValue)) {
                                 data.push({
@@ -109,19 +108,15 @@ class RegistrationForm extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log("prevProps: ",prevProps);
 
         if (this.props.errors !== prevProps.errors) {
-            console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
 
             this.props.form.validateFields((error, values) => {
                 if(this.state.doctorCheck)
                 {
 
                 if (!error) {
-                    console.log("----statuscode: ",this.props.statuscode);
                     if (this.props.statuscode === 400) {
-                        console.log("----statuscode----400: ",this.props.statuscode);
                         this.props.form.setFields({
                             email: {
                                 value: values.email,
@@ -138,9 +133,7 @@ class RegistrationForm extends Component {
                else
                {
                 if (!error.Email&&!error.Password&&!error.UserName&&!error.UserSurname&&!error.PhoneNumber&&!error.Locality&&!error.DateOfBirth&&!error.confirm) {
-                    console.log("----statuscode: ",this.props.statuscode);
                     if (this.props.statuscode === 400) {
-                        console.log("----statuscode----400: ",this.props.statuscode);
                         this.props.form.setFields({
                             email: {
                                 value: values.email,
@@ -159,9 +152,6 @@ class RegistrationForm extends Component {
 
         }
     }
-
-
-
 
 
 
@@ -210,13 +200,6 @@ class RegistrationForm extends Component {
                     }
                    
                 }
-            
-
-           
-            
-
-
-
             
         }
         )

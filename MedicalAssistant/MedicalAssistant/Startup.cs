@@ -110,7 +110,9 @@ namespace MedicalAssistant
 
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseStaticFiles(new StaticFileOptions());
+  
+                  app.UseDeveloperExceptionPage();
             }
             else
             {

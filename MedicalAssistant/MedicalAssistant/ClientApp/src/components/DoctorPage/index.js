@@ -6,7 +6,6 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import jwt from 'jsonwebtoken';
 import '../home.css';
 import './index.css';
 import CropperWidget from '../CropperWidgetContainer';
@@ -52,7 +51,8 @@ class PageDoctor extends Component {
         UpdatedoctorLoading: false,
         UpdatedoctorFailed: false,
         UpdatedoctorSuccess: false,
-        patientID:null
+        patientID:null,
+        IsLoading:false
      
 
 
@@ -78,12 +78,12 @@ static getDerivedStateFromProps = (props, state) => {
       detaileddoctor:props.doctor,
       UpdatedoctorLoading:props.UpdatedoctorLoading,
       UpdatedoctorFailed: props.UpdatedoctorFailed,
-      UpdatedoctorSuccess: props.UpdatedoctorSuccess
+      UpdatedoctorSuccess: props.UpdatedoctorSuccess,
+      IsLoading:props.IsLoading
   };
 }
 
 onselectImage = (e) => {
-  console.log("Upload image");
   this.inputFileElement.click();
 }
 
@@ -94,14 +94,10 @@ const doctor ={
   token:this.state.token
 }
 this.props.AddRecipe(doctor,this.state.patientID);
-console.log("Patient ID: ",this.state.patientID);
 }
 
 croppImage = (value) => { 
-  this.setState({ImagePath:value});
-  this.setState({imagechanged:true});
-  this.setState({ isCropped: false });
-
+  this.setState({ImagePath:value,imagechanged:true,isCropped: false});
 }
 
 onCloseCropper=(e)=>{
@@ -154,44 +150,31 @@ changeImage = e => {
   }
   this.setState({imagechanged:false});
   const {detaileddoctor,ImagePath}=this.state;
-
-  console.log("----Image path: ",this.state.ImagePath);
-  console.log("Detailed patient image Change: ",detaileddoctor)
   detaileddoctor.imagePath=ImagePath;
-  // this.setState({ detailedpatient: {...detailedpatient,ImagePath}});
   this.props.changeImage(user,detaileddoctor);
   
 }
 
-  cancelchangeImagetmp = e => {
-    e.preventDefault();
-    console.log("Hello World");
-  }
 
 cancelchangeImage = e =>{
   e.preventDefault();
   this.setState({imagechanged:false});
 }
 
-
-  routeChange=()=> {
-    let path = ``;
-    this.props.history.push(path);
-  }
+  // routeChange=()=> {
+  //   let path = ``;
+  //   this.props.history.push(path);
+  // }
 
   handleScan = data => {
     if (data) {
         console.log("handleScan: ",data);
     }
 
-
-
-
 }
 
   render() {
   
-    console.log("detailed doctor: ",this.state.detaileddoctor);
     const {src,isCropped}= this.state; 
     const options = {
       year: 'numeric',
@@ -200,6 +183,7 @@ cancelchangeImage = e =>{
     };
     return (
       <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
+         {this.state.IsLoading === false ? null : <SpinnerWidget loading="true" />}
         <div className="row">
           <div className="col-12 col-sm-4">
 

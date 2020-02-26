@@ -67,7 +67,7 @@ export const registrUser = (user) => {
                 history.push('/login');
             }, err => { throw err; })
             .catch(err => {
-                console.log("error: ",err);
+                if(err.response!=null)
                 dispatch(registrActions.failed(err.response));
                
             });
@@ -84,7 +84,7 @@ export const registrDoctor = (user) => {
                 history.push('/login');
             }, err => { throw err; })
             .catch(err => {
-                console.log("error: ",err);
+                if(err.response!=null)
                 dispatch(registrActions.failed(err.response));
                
             });

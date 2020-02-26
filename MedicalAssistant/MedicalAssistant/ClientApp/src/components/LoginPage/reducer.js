@@ -13,7 +13,7 @@ export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
-// if(localStorage.getItem('jwtToken'))
+if(localStorage.getItem('jwtToken'))
 var user = jwt.decode(localStorage.getItem('jwtToken'));
  
 
@@ -86,12 +86,10 @@ export const loginUser = (user,isDoctor) => {
                 }
                 else
                 {
-                    console.log("check Patient ---------1");
                     checkPatient(dispatch);
                 }
             }, err => { throw err; })
             .catch(err=> {
-                console.log("check Patient error---------: ",err)
                 if(err.response!=null)
                 dispatch(loginActions.failed(err.response));
             });
@@ -133,18 +131,11 @@ export function checkPatient(dispatch)
 {
     const user = jwt.decode(localStorage.getItem('jwtToken'))
     const token = localStorage.getItem('jwtToken')
-    console.log("user: ",jwt.decode(localStorage.getItem('jwtToken')))
-    console.log("check Patient ---------2 token ",token);
-    console.log("reducer user --------- ",{...user,token});
-  
     UserService.IsPatientExist({...user,token})
     .then((response) => {
-        console.log("check Patient response ---------4");
         dispatch(push('/patient/pagepatient'));
-        console.log("check Patient ---------5");
     }, err => { throw err; })
     .catch(err=> {
-        console.log("check Patient error---------: ",err)
         if(err.response!=null)
         dispatch(loginActions.failed(err.response));
     });
@@ -157,7 +148,6 @@ export function checkDoctor(dispatch)
     const token = localStorage.getItem('jwtToken')
     UserService.IsDoctorExist({...user,token})
     .then((response) => {
-        console.log("checkdoctor response: ",response);
         dispatch(push('/doctor/pagedoctor'));
     }, err => { throw err; })
     .catch(err=> {
