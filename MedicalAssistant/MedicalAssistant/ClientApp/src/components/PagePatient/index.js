@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
-import { Row,Card,Col, Button } from 'antd';
 import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as patientActions from './reducer';
@@ -227,7 +226,7 @@ class PagePatient extends Component {
           {this.state.detailedpatient ?
             this.state.detailedpatient.recipes.map((recipe) =>
               <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                <Card title="Рецепт" extra={<a href="#">More</a>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
+                            <Card title="Рецепт" extra={<Link to="/patient/morerecipe">More</Link>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
                   <p>Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
                   <p>Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
                   <p>Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
