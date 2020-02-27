@@ -2,14 +2,18 @@
   white-space: normal;
   text-align: center;
   word-break: break-all;
+
+  
 }
 
 html {
-  font-size: 14px;
+  font-size: 40px;
+  /* background-color: 35ADC8; */
 }
 @media (min-width: 768px) {
   html {
     font-size: 16px;
+    
   }
 }
 

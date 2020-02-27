@@ -1,0 +1,18 @@
+
+body{
+    background-image: 'injection-plasturgie-medical-FPSA.jpg';
+
+}
+@media (max-width: 600px) {
+    .p{
+      text-align: center;
+      margin-top: 10px;
+    }
+  }
+
+  .imgUpload{
+    height: 200px;
+    width: 200px;
+    cursor: pointer;
+}
+   
