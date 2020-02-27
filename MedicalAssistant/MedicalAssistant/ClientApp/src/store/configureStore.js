@@ -42,10 +42,18 @@ export default function configureStore(history, initialState) {
 
 
 
-  const rootReducer = combineReducers({
+    const appReducer  = combineReducers({
     ...reducers,
     router: connectRouter(history)
-  });
+    });
+
+    const rootReducer = (state, action) => {
+        if (action.type === 'USERS_LOGOUT') {
+            state = undefined
+        }
+
+        return appReducer(state, action)
+    }
 
   return createStore(
     rootReducer,

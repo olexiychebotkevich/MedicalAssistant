@@ -181,97 +181,101 @@ cancelchangeImage = e =>{
       month: 'numeric',
       day: 'numeric',
     };
-    return (
-      <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
-         {this.state.IsLoading === false ? null : <SpinnerWidget loading="true" />}
-        <div className="row">
-          <div className="col-12 col-sm-4">
+      return (
+          <div>
+              {this.state.IsLoading === false ?
+                  <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
-            {
-              this.state.detaileddoctor ?
-                <img
-                  onClick={this.onselectImage}
-                  className="imgUpload"
-                  src={this.state.detaileddoctor.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detaileddoctor.imagePath)}
-                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                  width="500px">
+                      <div className="row">
+                          <div className="col-12 col-sm-4">
 
-                </img> :
-                <img
-                  onClick={this.onselectImage}
-                  className="imgUpload"
-                  src={this.state.startimage}
-                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                  width="500px">
-                </img>
+                              {
+                                  this.state.detaileddoctor ?
+                                      <img
+                                          onClick={this.onselectImage}
+                                          className="imgUpload"
+                                          src={this.state.detaileddoctor.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detaileddoctor.imagePath)}
+                                          onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                                          width="500px">
 
-            }
+                                      </img> :
+                                      <img
+                                          onClick={this.onselectImage}
+                                          className="imgUpload"
+                                          src={this.state.startimage}
+                                          onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                                          width="500px">
+                                      </img>
 
-            {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-            {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                              }
 
-
-            <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
-
-            <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
-          </div>
-            <div className="col-12 col-sm-8 p">
-                <p style={{ fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
-                <p style={{marginTop: '10px', fontFamily:"Bradley Hand, cursive	", color: 'whitesmoke'}}>Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
-               </div>
-        </div>
-        <Row gutter={16}>
-          {this.state.detaileddoctor ?
-            this.state.detaileddoctor.recipes.map((recipe) =>
-
-              <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-
-                <Card title={<p>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
-                  <p>Діагноз: {recipe.diagnos}</p>
-                  <Button type="dashed" style={{ color: 'black' }} onClick={this.routeChange}>Детальніше</Button>
-                </Card>
-              </Col>
-            ) :
-            null
-          }
-        </Row>
+                              {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                              {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
+                              <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
-          <Row style={{marginTop:"5%"}} type="flex" justify="center" >
-          <Col offset = {4} span={4}>
-            <div>
-            <Button type="primary">
-                Scan QR!
+                              <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
+                          </div>
+                          <div className="col-12 col-sm-8 p">
+                              <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
+                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
+                          </div>
+                      </div>
+                      <Row gutter={16}>
+                          {this.state.detaileddoctor ?
+                              this.state.detaileddoctor.recipes.map((recipe) =>
+
+                                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+
+                                      <Card title={<p>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
+                                          <p>Діагноз: {recipe.diagnos}</p>
+                                          <Button type="dashed" style={{ color: 'black' }} onClick={this.routeChange}>Детальніше</Button>
+                                      </Card>
+                                  </Col>
+                              ) :
+                              null
+                          }
+                      </Row>
+
+
+
+                      <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
+                          <Col offset={4} span={4}>
+                              <div>
+                                  <Button type="primary">
+                                      Scan QR!
              </Button>
-            </div>
-          </Col>
+                              </div>
+                          </Col>
 
-          <Col  span={8} offset = {4}>
-            <Row>
-              <Col span={8}  style={{marginRight:"2%"}}>
-                <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
-              </Col>
+                          <Col span={8} offset={4}>
+                              <Row>
+                                  <Col span={8} style={{ marginRight: "2%" }}>
+                                      <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
+                                  </Col>
 
-              <Col span={4}>
-                <Button type="primary" onClick={this.AddRecipe}>
-                  Add Recipe
+                                  <Col span={4}>
+                                      <Button type="primary" onClick={this.AddRecipe}>
+                                          Add Recipe
               </Button>
-              </Col>
-            </Row>
-          </Col>
+                                  </Col>
+                              </Row>
+                          </Col>
 
-        </Row>
- 
-     
-      </div>
-    );
+                      </Row>
+
+
+                  </div>
+                  : <SpinnerWidget loading="true" />}
+          </div>
+      );
   }
 }
 
