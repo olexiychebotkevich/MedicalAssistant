@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
+import { Row,Card,Col, Button } from 'antd';
+import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as patientActions from './reducer';
 import { push } from 'connected-react-router';
