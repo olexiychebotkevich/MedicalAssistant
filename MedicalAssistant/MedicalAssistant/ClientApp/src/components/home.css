@@ -1,0 +1,108 @@
+ body{
+  background-image: url('../pngfuel.com.png') ; 
+ background-color: rgb(213, 245, 227); 
+/* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
+ 
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 55vh;
+    position: absolute;
+    background-repeat: no-repeat; 
+    font-family: 'Comic Sans MS, Comic Sans, cursive';
+ 
+  }
+  
+.login-form {
+  
+  margin-top: 50px;
+}
+.tmp{
+  display: flex;
+
+  justify-content: center;
+}
+.moreHeader{
+  text-align: center;
+}
+.header{
+  font-family: 'Comic Sans MS, Comic Sans, cursive';
+  font-size: 80px;
+  color: rgb(151, 201, 218);
+  text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 2px #000;
+  -webkit-text-shadow: 0 0 2px #000;
+
+
+}
+.homeHeader{
+  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+  text-align: "center" ;
+  color:#3A7073;
+  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
+  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
+  
+  
+}
+
+
+.homeHeader1{
+  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+  text-align: center ;
+  color:rgb(27, 27, 27);
+  text-shadow: 0 0 2px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 2px #3A7073;
+  -webkit-text-shadow: 0 0 2px #3A7073;
+
+ 
+}
+
+
+
+.login-form-forgot {
+  float: left;
+  color: white;
+  } 
+  .pass{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    text-shadow: 0 0 3px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
+    -moz-text-shadow: 0 0 3px #3A7073;
+    -webkit-text-shadow: 0 0 3px #3A7073;
+  }
+@media (max-width: 768px) {
+  .header{
+    font-size: 60px;
+  }
+@media (max-width: 566px) {
+  .header{
+    font-size: 45px;
+  }
+ 
+} 
+@media (max-width: 600px) {
+  .login-form-forgot{
+    font-size: 16px;
+  }
+}
+ 
+} 
+ 
+
+.login-form-button {
+ 
+  width:100%;
+}
+.register-form-button {
+   
+    width:100%;
+  }
+
+
+  .steps{
+    font-size: 30px;
+    font-family: 'Comic Sans MS, Comic Sans, cursive';
+  }
+  

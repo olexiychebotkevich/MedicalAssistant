@@ -1,0 +1,37 @@
+.croppermodal {
+    background-color: rgba(34, 40, 46, 0.781);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index:1000;
+}
+.croppermodal.open {
+    display: block;
+ }
+
+ .croppermodal .position-center {
+    position: fixed;
+    width: 175px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+   
+.croppermodal .position-center i {
+    font-size: 150px;
+}
+.croppermodal .box{
+    display: inline-block;
+    padding: 10px;
+    box-sizing: border-box;
+
+
+  }
+  .croppermodal .img-preview{
+    overflow: hidden;
+    border-radius: 50%;
+
+  }

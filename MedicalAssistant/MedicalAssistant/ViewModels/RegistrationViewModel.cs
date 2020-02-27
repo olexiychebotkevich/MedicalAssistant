@@ -14,6 +14,9 @@ namespace MedicalAssistant.ViewModels
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Locality { get; set; }
+        public int WorkExpirience { get; set; }
+        public string DoctorSpecialty { get; set; }
+        public string ImagePath { get; set; }
 
     }
 }
