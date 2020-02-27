@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button,InputNumber} from 'antd';
 import '../home.css';
-
+import * as recipeActions from './reducer';
+import { push } from 'connected-react-router';
+import get from 'lodash.get';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import './Add-recipe.css';
 let id = 0;
+
+
+const propTypes = {
+    AddRecipe: PropTypes.func.isRequired,
+    IsLoading: PropTypes.bool.isRequired,
+    IsFailed: PropTypes.bool.isRequired,
+    IsSuccess: PropTypes.bool.isRequired,
+    errors: PropTypes.object,
+    statuscode: PropTypes.number,
+    PatientID: PropTypes.number,
+    DoctorID: PropTypes.number
+};
+
+const defaultProps = {};
 
 class DynamicFieldSet extends React.Component {
     remove = k => {
@@ -37,9 +55,25 @@ class DynamicFieldSet extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const { keys, names } = values;
-                console.log('Received values of form: ', values);
-                console.log('Merged values:', keys.map(key => names[key]));
+                let medicines = [];
+                const { keys, names,kd,op,krd} = values;
+                var today = new Date();
+                 
+
+                keys.map(key => medicines.push({name:names[key],countdays:kd[key],receptionfeatures:op[key],counttimesaday:krd[key]}));
+                console.log('medicines: ', medicines);
+                const recipemodel = {
+                    PatientID:this.props.PatientID,
+                    DoctorID:this.props.DoctorID,
+                    Diagnos: values.diagnos,
+                    Medicines: medicines,
+                    Date:today.toISOString().substring(0, 10)
+                  
+                   
+                };
+                console.log("recipemodel: ",recipemodel);
+                this.props.AddRecipe(recipemodel);
+                    
             }
         });
     };
@@ -78,7 +112,7 @@ class DynamicFieldSet extends React.Component {
                     required={false}
                     key={k}
                 >
-                    {getFieldDecorator('name', {
+                    {getFieldDecorator(`names[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
                             {
@@ -96,7 +130,7 @@ class DynamicFieldSet extends React.Component {
              <div className="col-12 col-sm-2">
 <Form.Item>
     
-                    {getFieldDecorator('kd', {
+                    {getFieldDecorator(`kd[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
                             {
@@ -114,7 +148,7 @@ class DynamicFieldSet extends React.Component {
 <div className="col-12 col-sm-6">
 <Form.Item>
 
-                    {getFieldDecorator('op', {
+                    {getFieldDecorator(`op[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
                             {
@@ -130,7 +164,7 @@ class DynamicFieldSet extends React.Component {
 </div>
 <div className="col-12 col-sm-2">
 <Form.Item>
-                    {getFieldDecorator('krd', {
+                    {getFieldDecorator(`krd[${k}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
                         rules: [
                             {
@@ -167,7 +201,7 @@ class DynamicFieldSet extends React.Component {
             <div className="row tmps">
                       <div className="col-12 col-sm-10 col-md-10">
                     <Form.Item label="Діагноз:">
-                        {getFieldDecorator('title', {
+                        {getFieldDecorator('diagnos', {
                             rules: [{ required: true, message: 'Введіть діагноз' }],
                         })(<Input.TextArea />)}
                     </Form.Item>
@@ -200,6 +234,37 @@ class DynamicFieldSet extends React.Component {
     }
 }
 
+
+const mapState = (state) => {
+    return {
+        IsLoading: get(state, 'recipiesReducer.recipe.loading'),
+        IsFailed: get(state, 'recipiesReducer.recipe.failed'),
+        IsSuccess: get(state, 'recipiesReducer.recipe.success'),
+        errors: get(state, 'recipiesReducer.recipe.errors'),
+        statuscode: get(state, 'recipiesReducer.recipe.statuscode'),
+        PatientID:get(state,'doctorsReducer.getpatient.PatientID'),
+        DoctorID:get(state,'doctorsReducer.detaileddoctor.doctor.id')
+    }
+  }
+  
+  const mapDispatch = {
+  
+    AddRecipe: (Recipe) => {
+        return recipeActions.AddRecipe(Recipe);
+    },
+  
+    push: (url) => {
+        return (dispatch) => {
+            dispatch(push(url));
+        }
+    }
+  }
+
+
+  DynamicFieldSet.propTypes = propTypes;
+  DynamicFieldSet.defaultProps = defaultProps;
+
+
 const WrappedDynamicFieldSet = Form.create({ name: 'dynamic_form_item' })(DynamicFieldSet);
 // ReactDOM.render(<WrappedDynamicFieldSet />, mountNode);
-export default WrappedDynamicFieldSet;
+export default connect(mapState,mapDispatch)(WrappedDynamicFieldSet);

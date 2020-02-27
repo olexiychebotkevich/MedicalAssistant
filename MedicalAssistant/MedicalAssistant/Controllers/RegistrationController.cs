@@ -34,11 +34,11 @@ namespace MedicalAssistant.Controllers
         [HttpPost("registration")]
         public async Task<IActionResult> Reg([FromBody]RegistrationViewModel model)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    var errors = CustomValidator.GetErrorsByModel(ModelState);
-            //    return BadRequest(errors);
-            //}
+            if (!ModelState.IsValid)
+            {
+                var errors = CustomValidator.GetErrorsByModel(ModelState);
+                return BadRequest(errors);
+            }
 
             //var userIdentity = _mapper.Map<DbUser>(model);
 
@@ -48,7 +48,7 @@ namespace MedicalAssistant.Controllers
 
             if (user.Succeeded)
             {
-                if (model.DoctorSpecialty != null && model.WorkExpirience != null)
+                if (model.DoctorSpecialty != null && model.WorkExpirience != 0)
                 {
                     DetailedDoctor doctorDetailed = new DetailedDoctor
                     {

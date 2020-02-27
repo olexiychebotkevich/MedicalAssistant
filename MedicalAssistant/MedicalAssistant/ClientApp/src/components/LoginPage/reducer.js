@@ -13,8 +13,9 @@ export const LOGIN_SET_CURRENT_USER = "login/SET_CURRENT_USER";
 
 export const LOGOUT = 'user/USERS_LOGOUT';
 
-// if(localStorage.getItem('jwtToken'))
+if(localStorage.getItem('jwtToken'))
 var user = jwt.decode(localStorage.getItem('jwtToken'));
+ 
 
 const initialState = {
     login: {
@@ -26,6 +27,7 @@ const initialState = {
     statuscode:null
     },
     user: user ? user : null,
+  
   
 }
 
@@ -69,17 +71,26 @@ export const loginReducer = (state = initialState, action) => {
     return newState;
 }
 
-export const loginUser = (user) => {
+export const loginUser = (user,isDoctor) => {
+
     return (dispatch) => {
         dispatch(loginActions.started());
         UserService.login(user)
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-                dispatch(push('/patient/pagepatient'));
-          
+               
+                if(isDoctor===true)
+                {
+                    checkDoctor(dispatch);
+                }
+                else
+                {
+                    checkPatient(dispatch);
+                }
             }, err => { throw err; })
             .catch(err=> {
+                if(err.response!=null)
                 dispatch(loginActions.failed(err.response));
             });
     }
@@ -98,7 +109,7 @@ export const loginActions = {
         }
     },
     failed: (response) => {
-        console.log("failed response: ",response);
+       
         return {
             type: LOGIN_FAILURE,
             errors: response.data,
@@ -116,9 +127,39 @@ export const loginActions = {
 }
 
 
+export function checkPatient(dispatch)
+{
+    const user = jwt.decode(localStorage.getItem('jwtToken'))
+    const token = localStorage.getItem('jwtToken')
+    UserService.IsPatientExist({...user,token})
+    .then((response) => {
+        dispatch(push('/patient/pagepatient'));
+    }, err => { throw err; })
+    .catch(err=> {
+        if(err.response!=null)
+        dispatch(loginActions.failed(err.response));
+    });
+}
+
+
+export function checkDoctor(dispatch)
+{
+    const user = jwt.decode(localStorage.getItem('jwtToken'))
+    const token = localStorage.getItem('jwtToken')
+    UserService.IsDoctorExist({...user,token})
+    .then((response) => {
+        dispatch(push('/doctor/pagedoctor'));
+    }, err => { throw err; })
+    .catch(err=> {
+        if(err.response!=null)
+        dispatch(loginActions.failed(err.response));
+    });
+}
+
 
 export function logout() {
     return dispatch => {
+        initialState.user=null;
         logoutByJWT(dispatch);
         dispatch(push('/'));
     };

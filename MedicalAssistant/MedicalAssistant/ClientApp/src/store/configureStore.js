@@ -5,7 +5,10 @@ import createHistory from 'history/createHashHistory'
 import {usersReducer} from '../components/RegistrationPage/reducer'
 import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
-import {patientsReducer} from '../components/PagePatient/reducer'
+import {patientsReducer} from '../components/PagePatient/reducer';
+import {doctorsReducer} from '../components/DoctorPage/reducer';
+import {recipiesReducer} from '../components/Add-recipe/reducer';
+
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
 
@@ -18,6 +21,8 @@ export default function configureStore(history, initialState) {
     usersReducer,
     loginReducer,
     patientsReducer,
+    doctorsReducer,
+    recipiesReducer,
     refreshToken: refreshReducer,
 
   };
@@ -37,10 +42,18 @@ export default function configureStore(history, initialState) {
 
 
 
-  const rootReducer = combineReducers({
+    const appReducer  = combineReducers({
     ...reducers,
     router: connectRouter(history)
-  });
+    });
+
+    const rootReducer = (state, action) => {
+        if (action.type === 'USERS_LOGOUT') {
+            state = undefined
+        }
+
+        return appReducer(state, action)
+    }
 
   return createStore(
     rootReducer,

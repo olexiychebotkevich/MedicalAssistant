@@ -33,24 +33,27 @@ export default class UserService {
         return axios.post(`${serverUrl}api/authorization/login`, user);
     }
 
-    static getdetaileduser(user) {
+    static getdetailedpatient(user) {
+        console.log("check Patient ---------3");
         // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
         // console.log("id: ",user.id);
-        return axios.post(`${serverUrl}api/user/GetUser`, {Id:user.id}, {
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-        });
-      
-        // console.log("patient token from service : ",user.token);
-        // const customHeaders = {
-        //      'Content-Type': 'application/json',
-        //      'Authorization': `Bearer ${user.token}`
-        //   };
-         
-       
-        //   return axios.post(`${serverUrl}api/user/GetUser`,{  Id:user.id} , customHeaders);
-
+        return axios.get(`${serverUrl}api/user/GetPatient`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } });
+        
 
     }
+
+    static getdetaileddoctor(user) {
+        // let usertoken = jwt.decode(localStorage.getItem('jwtToken'));
+        // console.log("id: ",user.id);
+        return axios.get(`${serverUrl}api/user/GetDoctor`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    
+    }
+
+    static GetPatientByID(user,PatientID) {
+        return axios.get(`${serverUrl}api/user/GetPatient`, { params:{id:PatientID}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    }
+
+    
 
 
     static changeImage(user,detailedpatient){
@@ -62,11 +65,29 @@ export default class UserService {
     }
 
 
+    static UpdateDoctor(user,detaileddoctor){
+        console.log(" user service--------: ",user);
+        console.log("detailed user service--------: ",detaileddoctor);
+        return axios.put(`${serverUrl}api/user/UpdateDoctor`, detaileddoctor, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+        });
+    }
 
 
     
-    
+    static IsPatientExist(user){
+        console.log(" user service IsPatientExist--------: ",user);
+        return axios.get(`${serverUrl}api/user/IsPatientExist`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    }
 
+    static IsDoctorExist(user){
+        console.log(" user service IsDoctorExist--------: ",user);
+        return axios.get(`${serverUrl}api/user/IsDoctorExist`, { params:{id:user.id}, headers: { 'Authorization': `Bearer ${user.token}` } })
+    }
+
+
+
+    
 
 
 

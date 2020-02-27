@@ -13,6 +13,9 @@ import {
   Input,
   Icon,
   Button,
+  Checkbox,
+  Row,
+  Col
 } from 'antd';
 
 
@@ -38,13 +41,13 @@ class NormalLoginForm extends React.Component {
     this.state = {
       loading: false,
       login: {},
+      isDoctor:false
     }
   }
 
 
   static getDerivedStateFromProps = (props, state) => {
 
-    //console.log('---nextProps---', props);
     return {
       loading: props.IsLoading,
       login: { ...props.login }
@@ -53,16 +56,15 @@ class NormalLoginForm extends React.Component {
 
 
   componentDidUpdate(prevProps) {
-    console.log("prevProps: ",prevProps);
 
     if (this.props.errors !== prevProps.errors) {
-        console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
+      
 
         this.props.form.validateFields((error, values) => {
    
 
             if (!error) {
-                console.log("----statuscode: ",this.props.statuscode);
+               
                 if (this.props.statuscode === 400) {
                    if(this.props.errors.invalid==="Email does not exist")
                    {
@@ -102,13 +104,11 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const usermodel = {
           Password: values.password,
           Email: values.username,
         };
-        console.log('Received values of form: ', usermodel);
-        this.props.loginUser(usermodel);
+        this.props.loginUser(usermodel,this.state.isDoctor);
       }
     });
   };
@@ -118,11 +118,18 @@ class NormalLoginForm extends React.Component {
     const digitsRegex = /(?=.*?[0-9])/;
     const uppercaseRegex = /(?=.*?[A-Z])/;
     if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
-
         return callback('Password should contain uppercase letter etc')
     }
     callback()
 }
+
+
+ checkDoctor=(e)=>{
+  e.preventDefault();
+  this.state.isDoctor ? this.setState({isDoctor:false}) : this.setState({isDoctor:true})
+  
+ }
+
 
   render() {
 
@@ -203,9 +210,26 @@ class NormalLoginForm extends React.Component {
                   </Button>
                 </div>
               </div>
+            
             </Form.Item>
-          </Form>
 
+            <Form.Item >
+              {getFieldDecorator('checkbox', {
+                initialValue: ['true', 'false'],
+              })(
+                <Checkbox.Group style={{ width: '100%' }} onChange={console.log("doctor Check: ",this.state.isDoctor)}>
+                <Row>
+                  <Col span={8}>
+                    <Checkbox  onChange={this.checkDoctor} checked={this.state.isDoctor ? true : false} value="doctor" >Doctor</Checkbox>
+                  </Col>
+                </Row>
+              </Checkbox.Group>
+              )}
+            </Form.Item>
+
+          </Form>
+         
+          
 
 
         </div>
@@ -239,8 +263,8 @@ const mapState = (state) => {
 
 const mapDispatch = {
 
-  loginUser: (user) => {
-    return usersActions.loginUser(user);
+  loginUser: (user,isDoctor) => {
+    return usersActions.loginUser(user,isDoctor);
   },
   
   push: (url) => {
