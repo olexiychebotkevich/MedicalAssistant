@@ -5,10 +5,13 @@ import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
+import '../style.css';
+
 import moment from 'moment';
 import {
     Form,
     Input,
+    Checkbox,
     Tooltip,
     Icon,
     Select,
@@ -41,7 +44,8 @@ class RegistrationForm extends Component {
         this.state = {
             confirmDirty: false,
             loading: false,
-            registration: {}
+            registration: {},
+            doctorCheck: false,
 
         }
     }
@@ -91,6 +95,10 @@ class RegistrationForm extends Component {
             callback();
         }
     };
+  CheckBoxOnChange=e=> {
+       (this.state.doctorCheck ?  this.setState({doctorCheck : false}) : this.setState({doctorCheck : true}))
+      
+      }
 
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
@@ -126,17 +134,18 @@ class RegistrationForm extends Component {
     // };
 
     render() {
+        
         const { getFieldDecorator } = this.props.form;
         // const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 4 },
+                sm: { span:6 },
             },
             wrapperCol: {
-                xs: { span: 24 },
-                sm: { span: 16 },
+                xs: { span: 28 },
+                sm: { span: 18 },
             },
         };
         const tailFormItemLayout = {
@@ -146,8 +155,8 @@ class RegistrationForm extends Component {
                     offset: 0,
                 },
                 sm: {
-                    span: 16,
-                    offset: 10,
+                    span: 6,
+                    offset: 6,
                 },
             },
         };
@@ -159,12 +168,49 @@ class RegistrationForm extends Component {
             </Select>,
         );
       
-       
+       const doctorfields=(
+        <div>
+        <Form.Item label="Посада">
+                   {getFieldDecorator('post', {
+                       rules: [
+                           {
+                               type: 'post',
+                               message: 'The input is not valid Post!',
+                           },
+                           {
+                               required: true,
+                               message: 'Please input your Post!',
+                           },
+                       ],
+                   })(<Input />)}
+               </Form.Item>
+               <Form.Item label="Робочий досвід">
+                   {getFieldDecorator('workExperience', {
+                       rules: [
+                           {
+                               type: 'workExperience',
+                               message: 'The input is not valid Work Experience!',
+                           },
+                           {
+                               required: true,
+                               message: 'Please input your Work Experience!',
+                           },
+                       ],
+                   })(<Input />)}
+               </Form.Item>
+              
+        </div>
+
+       );
 
 
         return (
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-                <Form.Item label="E-mail">
+            <div className="tmp">
+                <div style={{width: '50%'}}> 
+                <h1 className="header">Medical Assistant</h1>
+            <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
+            
+                <Form.Item label="Пошта">
                     {getFieldDecorator('email', {
                         rules: [
                             {
@@ -178,7 +224,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="Password" hasFeedback>
+                <Form.Item label="Пароль"hasFeedback>
                     {getFieldDecorator('password', {
                         rules: [
                             {
@@ -195,7 +241,7 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Confirm Password" hasFeedback>
+                <Form.Item label="Підтвердити пароль :" hasFeedback>
                     {getFieldDecorator('confirm', {
                         rules: [
                             {
@@ -215,7 +261,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Name&nbsp;
+                            Ім'я&nbsp;
                             <Tooltip title="Your name">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -230,7 +276,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Surname&nbsp;
+                            Призвіще&nbsp;
                             <Tooltip title="Your surname?">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -242,7 +288,7 @@ class RegistrationForm extends Component {
                     })(<Input />)}
                 </Form.Item>
 
-                <Form.Item label="Phone Number">
+                <Form.Item label="Телефон">
                     {getFieldDecorator('phone', {
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
@@ -262,7 +308,7 @@ class RegistrationForm extends Component {
                 </Form.Item> */}
 
 
-                <Form.Item label="Date of birth">
+                <Form.Item label="Дата народження">
                     {getFieldDecorator('DateofBirth', {
                         initialValue: moment(),
                         rules: [
@@ -276,15 +322,28 @@ class RegistrationForm extends Component {
                     })(<DatePicker initialValue={moment()} format={dateFormat} />)}
 
                 </Form.Item>
-         
 
+                
+        
+       
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
-                        Register
+                <Checkbox onChange={this.CheckBoxOnChange}>Лікар</Checkbox>
+                
+
+                
+                </Form.Item>
+
+                {this.state.doctorCheck ? doctorfields : null}
+                <Form.Item {...tailFormItemLayout}>
+                    <Button type="dashed" htmlType="submit" className="register-form-btn" >
+                        Зареєструвати
                     </Button>
                 </Form.Item>
+               
           
             </Form>
+            </div>
+            </div>
         );
     }
 }
