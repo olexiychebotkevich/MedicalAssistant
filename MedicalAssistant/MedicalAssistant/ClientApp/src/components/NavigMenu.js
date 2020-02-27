@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Icon,Typography,Button,Dropdown  } from 'antd';
 import 'antd/dist/antd.css';
+import * as usersActions from './LoginPage/reducer';
 
 
 
@@ -28,8 +29,20 @@ class NavigMenu extends Component {
         super(props);
         this.state = {
             current: 'mail',
+            isAuthenticated:false,
+            user:null
+
         }
     }
+
+
+    static getDerivedStateFromProps = (props, state) => {
+        return {
+            isAuthenticated: props.isAuthenticated,
+            user: props.user
+        };
+    }
+
 
     handleClick = e => {
         console.log('click ', e);
@@ -64,10 +77,7 @@ class NavigMenu extends Component {
                     <Icon type="user" />
                     <Link to="/pagepatient" />
                 </Menu.Item>
-                <Menu.Item key="user" title="AddRecipe" >
-                    <Icon type="swap-right" />
-                    <Link to="/addrecipe" />
-                </Menu.Item>
+
                 <Dropdown overlay={menu} placement='topRight'>
                 <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
                 </Dropdown>
@@ -81,4 +91,28 @@ class NavigMenu extends Component {
     }
 }
 
-export default NavigMenu;
+function mapStateToProps(state) {
+    const isAuthenticated = state.loginReducer.login.isAuthenticated;
+    const {user} = state.loginReducer;
+    return {
+        isAuthenticated,
+        user
+    };
+}
+
+
+
+const mapDispatch = {
+
+     logout: () => {
+        return usersActions.logout();
+      },
+      
+}
+
+
+
+
+NavigMenu.propTypes = propTypes;
+NavigMenu.defaultProps = defaultProps;
+export default connect(mapStateToProps,mapDispatch)(NavigMenu);

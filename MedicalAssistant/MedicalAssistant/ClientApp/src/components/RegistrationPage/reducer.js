@@ -1,5 +1,6 @@
-import UserService from './UserService';
-import update from '../helpers/update';
+import UserService from '../UserService';
+import update from '../../helpers/update';
+import {history} from '../../store/configureStore';
 
 export const REGISTER_REQUEST = "user/USERS_REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "user/USERS_REGISTER_SUCCESS";
@@ -21,7 +22,10 @@ const initialState = {
     registration: {
     failed: false,
     loading: false,
-    success: false
+    success: false,
+    user: null,
+    errors:{},
+    statuscode:null
     },
 }
 
@@ -35,13 +39,15 @@ export const usersReducer = (state = initialState, action) => {
         case REGISTER_SUCCESS: {
             newState = update.set(state, 'registration.loading', false);
             newState = update.set(newState, 'registration.success', true);
-           // newState = update.set(newState, 'registration.text', action.payload.data);
+            newState = update.set(newState, 'registration.user', action.payload.data);
             break;
         }
 
         case REGISTER_FAILURE: {
             newState = update.set(state, 'registration.loading', false);
             newState = update.set(newState, 'registration.failed', true);
+            newState = update.set(newState, 'registration.errors', action.errors);
+            newState = update.set(newState, 'registration.statuscode', action.statuscode);
             break;
         }
         default: {
@@ -58,10 +64,29 @@ export const registrUser = (user) => {
         UserService.register(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
+                history.push('/login');
             }, err => { throw err; })
             .catch(err => {
+                console.log("error: ",err);
                 dispatch(registrActions.failed(err.response));
-                //redirectStatusCode(err.response.status);
+               
+            });
+    }
+}
+
+
+export const registrDoctor = (user) => {
+    return (dispatch) => {
+        dispatch(registrActions.started());
+        UserService.register(user)
+            .then((response) => {
+                dispatch(registrActions.success(response));
+                history.push('/pagedoctor');
+            }, err => { throw err; })
+            .catch(err => {
+                console.log("error: ",err);
+                dispatch(registrActions.failed(err.response));
+               
             });
     }
 }
@@ -81,7 +106,8 @@ export const registrActions = {
     failed: (response) => {
         return {
             type: REGISTER_FAILURE,
-            errors: response.data
+            errors: response.data,
+            statuscode:response.status
         }
     }
 

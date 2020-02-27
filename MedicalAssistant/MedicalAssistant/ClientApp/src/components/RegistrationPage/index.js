@@ -5,9 +5,11 @@ import * as usersActions from './reducer';
 import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
-import '../style.css';
+import '../../style.css';
+import '../home.css';
 
 import moment from 'moment';
+import axios from 'axios';
 import {
     Form,
     Input,
@@ -19,22 +21,64 @@ import {
     Col,
     Button,
     DatePicker,
+    Menu,
+    InputNumber
 } from 'antd';
 const { Option } = Select;
 const dateFormat = 'DD/MM/YYYY';
+const { SubMenu } = Menu;
+let timeout;
+let currentValue;
 
 
 
 
 const propTypes = {
     registrUser: PropTypes.func.isRequired,
+    registrDoctor: PropTypes.func.isRequired,
     IsLoading: PropTypes.bool.isRequired,
     IsFailed: PropTypes.bool.isRequired,
     IsSuccess: PropTypes.bool.isRequired,
     registration: PropTypes.object.isRequired,
+    errors: PropTypes.object,
+    statuscode: PropTypes.number
 };
 
 const defaultProps = {};
+
+function fetch(value, callback) {
+    if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+    }
+    currentValue = value;
+
+    function fake() {
+
+        axios(`https://restcountries.eu/rest/v2/all`)
+            .then(res => {
+
+                if (currentValue === value) {
+                    const { result } = res.data;
+                    const data = [];
+
+                    res.data.forEach(r => {
+                        console.log("r: ", r);
+                        if (r.altSpellings[1])
+                            if (r.altSpellings[1].toString().startsWith(currentValue)) {
+                                data.push({
+                                    value: r.altSpellings[1],
+                                    text: r.altSpellings[1],
+                                });
+                            }
+                    });
+                    callback(data);
+                }
+            });
+    }
+
+    timeout = setTimeout(fake, 300);
+}
 
 
 
@@ -44,43 +88,140 @@ class RegistrationForm extends Component {
         this.state = {
             confirmDirty: false,
             loading: false,
-            registration: {},
             doctorCheck: false,
+            dataLocality: [],
+            value: undefined,
+            registration: {},
+            errors: {},
+            errorsServer: {}
+
 
         }
     }
 
 
     static getDerivedStateFromProps = (props, state) => {
-        //Тута пописати і змінити
-        ///333333333333
-        //4444444444444
-        //5555555555555
-        //console.log('---nextProps---', props);
         return {
             loading: props.IsLoading,
-            registration: { ...props.registration }
+            registration: { ...props.registration },
+            errorsServer: props.errors
         };
     }
+
+    componentDidUpdate(prevProps) {
+        console.log("prevProps: ",prevProps);
+
+        if (this.props.errors !== prevProps.errors) {
+            console.log("----------------------this.props.errors !== prevProps.errors: ",prevProps);
+
+            this.props.form.validateFields((error, values) => {
+                if(this.state.doctorCheck)
+                {
+
+                if (!error) {
+                    console.log("----statuscode: ",this.props.statuscode);
+                    if (this.props.statuscode === 400) {
+                        console.log("----statuscode----400: ",this.props.statuscode);
+                        this.props.form.setFields({
+                            email: {
+                                value: values.email,
+                                errors: [new Error('Email ' + values.email + " already exist")],
+                            },
+                        });
+                    }
+
+                } else {
+                    console.log('error', error, values);
+                }
+               }
+
+               else
+               {
+                if (!error.Email&&!error.Password&&!error.UserName&&!error.UserSurname&&!error.PhoneNumber&&!error.Locality&&!error.DateOfBirth&&!error.confirm) {
+                    console.log("----statuscode: ",this.props.statuscode);
+                    if (this.props.statuscode === 400) {
+                        console.log("----statuscode----400: ",this.props.statuscode);
+                        this.props.form.setFields({
+                            email: {
+                                value: values.email,
+                                errors: [new Error('Email ' + values.email + " already exist")],
+                            },
+                        });
+                    }
+
+                } else {
+                    console.log('error', error, values);
+                }
+
+               }
+
+            });
+
+        }
+    }
+
+
+
+
 
 
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                const usermodel = {
-                    Password: values.password,
-                    Email: values.email,
-                    UserName: values.username,
-                    UserSurname: values.usersurname,
-                    PhoneNumber: values.prefix + values.phone
-                };
-                console.log('Received values of form: ', usermodel);
-                this.props.registrUser(usermodel);
-            }
-        });
+          
+   
 
+                if(this.state.doctorCheck)
+                {
+                    if(!err)
+                    {
+                    const usermodel = {
+                        Password: values.password,
+                        Email: values.email,
+                        UserName: values.username,
+                        UserSurname: values.usersurname,
+                        PhoneNumber: values.prefix + values.phone,
+                        Locality: values.Locality,
+                        DateOfBirth: values.DateofBirth,
+                        DoctorSpecialty:values.post,
+                        WorkExpirience:values.workExperience,
+                        ImagePath:"Placeholder.jpg"
+                    };
+
+                    this.props.registrDoctor(usermodel);
+                    }
+                }
+                else
+                {
+                    if(!err.Email&&!err.Password&&!err.UserName&&!err.UserSurname&&!err.PhoneNumber&&!err.Locality&&!err.DateOfBirth&&!err.confirm)
+                    {
+                        const usermodel = {
+                            Password: values.password,
+                            Email: values.email,
+                            UserName: values.username,
+                            UserSurname: values.usersurname,
+                            PhoneNumber: values.prefix + values.phone,
+                            Locality: values.Locality,
+                            DateOfBirth: values.DateofBirth,
+                            ImagePath:"https://getstamped.co.uk/wp-content/uploads/WebsiteAssets/Placeholder.jpg"
+                        };
+    
+                        this.props.registrUser(usermodel);
+                    }
+                   
+                }
+            
+
+           
+            
+
+
+
+            
+        }
+        )
     };
+
 
     handleConfirmBlur = e => {
         const { value } = e.target;
@@ -108,18 +249,31 @@ class RegistrationForm extends Component {
         callback();
     };
 
+
+
+
+    strongValidator = (rule, value, callback) => {
+        const digitsRegex = /(?=.*?[0-9])/;
+        const uppercaseRegex = /(?=.*?[A-Z])/;
+        if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
+
+            return callback('Password should contain uppercase letter etc')
+        }
+        callback()
+    }
+
     //  validateDate = (rule, value, callback) => {
     //     let errors;
-      
+
     //     if (!value) {
     //         callback('Required!');
-         
+
     //     } else if (
     //       moment(value).format(dateFormat) < moment(Date.now()).format(dateFormat)
     //     ) {
     //         callback("Invalid date!");
     //     }
-      
+
     //     return errors;
     //   };
 
@@ -133,15 +287,30 @@ class RegistrationForm extends Component {
     //     this.setState({ autoCompleteResult });
     // };
 
+
+
+    handleSearch = value => {
+        if (value) {
+            fetch(value, data => this.setState({ dataLocality: data }));
+        } else {
+            this.setState({ dataLocality: [] });
+        }
+    };
+
+    handleChange = value => {
+        this.setState({ value });
+    };
+
     render() {
-        
+
+        // }
         const { getFieldDecorator } = this.props.form;
         // const { autoCompleteResult } = this.state;
 
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span:6 },
+                sm: { span: 6 },
             },
             wrapperCol: {
                 xs: { span: 28 },
@@ -167,16 +336,14 @@ class RegistrationForm extends Component {
                 <Option value="38">+38</Option>
             </Select>,
         );
+
+        const options = this.state.dataLocality.map(d => <Option key={d.value}>{d.text}</Option>);
       
        const doctorfields=(
         <div>
-        <Form.Item label="Посада">
+        <Form.Item label="Post">
                    {getFieldDecorator('post', {
                        rules: [
-                           {
-                               type: 'post',
-                               message: 'The input is not valid Post!',
-                           },
                            {
                                required: true,
                                message: 'Please input your Post!',
@@ -184,19 +351,15 @@ class RegistrationForm extends Component {
                        ],
                    })(<Input />)}
                </Form.Item>
-               <Form.Item label="Робочий досвід">
+               <Form.Item label=" Work experience">
                    {getFieldDecorator('workExperience', {
                        rules: [
-                           {
-                               type: 'workExperience',
-                               message: 'The input is not valid Work Experience!',
-                           },
                            {
                                required: true,
                                message: 'Please input your Work Experience!',
                            },
                        ],
-                   })(<Input />)}
+                   })( <InputNumber min={1} max={50} initialValue={3}  />)}
                </Form.Item>
               
         </div>
@@ -207,11 +370,11 @@ class RegistrationForm extends Component {
         return (
             <div className="tmp">
                 <div style={{width: '50%'}}> 
-                <h1 className="header">Medical Assistant</h1>
-            <Form{...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
-            
-                <Form.Item label="Пошта">
+            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
+    
+                <Form.Item label="Email">
                     {getFieldDecorator('email', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 type: 'email',
@@ -221,11 +384,13 @@ class RegistrationForm extends Component {
                                 required: true,
                                 message: 'Please input your E-mail!',
                             },
+
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="Пароль"hasFeedback>
+                <Form.Item label="Password" hasFeedback>
                     {getFieldDecorator('password', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -238,11 +403,15 @@ class RegistrationForm extends Component {
                             {
                                 validator: this.validateToNextPassword,
                             },
+                            {
+                                validator: this.strongValidator
+                            }
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Підтвердити пароль :" hasFeedback>
+                <Form.Item label="Confirm Password" hasFeedback>
                     {getFieldDecorator('confirm', {
+                        initialValue: undefined,
                         rules: [
                             {
                                 required: true,
@@ -261,7 +430,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Ім'я&nbsp;
+                            Name&nbsp;
                             <Tooltip title="Your name">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -269,6 +438,7 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('username', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
@@ -276,7 +446,7 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Призвіще&nbsp;
+                            Surname&nbsp;
                             <Tooltip title="Your surname?">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
@@ -284,12 +454,14 @@ class RegistrationForm extends Component {
                     }
                 >
                     {getFieldDecorator('usersurname', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
-                <Form.Item label="Телефон">
+                <Form.Item label="Phone Number">
                     {getFieldDecorator('phone', {
+                        initialValue: undefined,
                         rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
@@ -308,9 +480,9 @@ class RegistrationForm extends Component {
                 </Form.Item> */}
 
 
-                <Form.Item label="Дата народження">
+                <Form.Item label="Date of birth">
                     {getFieldDecorator('DateofBirth', {
-                        initialValue: moment(),
+                        initialValue: moment("2015-12-31"),
                         rules: [
                             {
                                 type: 'object',
@@ -319,15 +491,42 @@ class RegistrationForm extends Component {
                                 whitespace: true,
                             },
                         ],
-                    })(<DatePicker initialValue={moment()} format={dateFormat} />)}
+                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1960-01-01")} format={dateFormat} />)}
 
+                </Form.Item>
+
+
+                <Form.Item label="Locality">
+                    {getFieldDecorator('Locality', {
+                        rules: [
+                            {
+                                required: true,
+                                message: 'Please choose your Locality ',
+                                whitespace: true,
+                            },
+                        ],
+                    })(
+                        <Select
+                            showSearch
+                            initialValue={this.state.value}
+                            placeholder={this.props.placeholder}
+                            style={this.props.style}
+                            defaultActiveFirstOption={false}
+                            showArrow={false}
+                            filterOption={false}
+                            onSearch={this.handleSearch}
+                            onChange={this.handleChange}
+                            notFoundContent={null}
+                        >
+                            {options}
+                        </Select>)}
                 </Form.Item>
 
                 
         
        
                 <Form.Item {...tailFormItemLayout}>
-                <Checkbox onChange={this.CheckBoxOnChange}>Лікар</Checkbox>
+                <Checkbox onChange={this.CheckBoxOnChange}>Doctor</Checkbox>
                 
 
                 
@@ -336,14 +535,15 @@ class RegistrationForm extends Component {
                 {this.state.doctorCheck ? doctorfields : null}
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="dashed" htmlType="submit" className="register-form-btn" >
-                        Зареєструвати
+                        Register
                     </Button>
                 </Form.Item>
                
           
             </Form>
-            </div>
-            </div>
+      </div>
+      </div>
+      
         );
     }
 }
@@ -358,6 +558,8 @@ const mapState = (state) => {
             IsFailed: get(state, 'usersReducer.registration.failed'),
             IsSuccess: get(state, 'usersReducer.registration.success'),
         },
+        errors: get(state, 'usersReducer.registration.errors'),
+        statuscode: get(state, 'usersReducer.registration.statuscode')
 
 
 
@@ -368,6 +570,9 @@ const mapDispatch = {
 
     registrUser: (user) => {
         return usersActions.registrUser(user);
+    },
+    registrDoctor:(doctor)=>{
+        return usersActions.registrDoctor(doctor);
     },
     push: (url) => {
         return (dispatch) => {
