@@ -8,3 +8,16 @@
   
     justify-content: center;
   }
+  .QrCanvas
+  {
+      display: inline;
+    
+  }
+
+  /* @media (max-width: 300px)
+  {
+    .QrCanvas{
+        display:inline;
+       
+    }
+  } */

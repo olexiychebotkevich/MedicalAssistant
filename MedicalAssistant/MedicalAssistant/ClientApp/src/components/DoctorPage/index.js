@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row,Card,Col, Button,Input} from 'antd';
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
-import { push } from 'connected-react-router';
+import { push} from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -52,7 +52,9 @@ class PageDoctor extends Component {
         UpdatedoctorFailed: false,
         UpdatedoctorSuccess: false,
         patientID:null,
-        IsLoading:false
+        IsLoading:false,
+        scanQr:false,
+        scanQRresult:""
      
 
 
@@ -166,16 +168,26 @@ cancelchangeImage = e =>{
   //   this.props.history.push(path);
   // }
 
+  scanQRCode = e => {
+    e.preventDefault();
+    this.setState({scanQr:!this.state.scanQr});
+  }
+
   handleScan = data => {
     if (data) {
         console.log("handleScan: ",data);
+        this.setState({scanQRresult:"/home"});
+        let path = `/doctor/pagedoctor`;
+        this.props.history.push(path);
     }
+
+   
 
 }
 
   render() {
   
-    const {src,isCropped}= this.state; 
+    const {src,isCropped,scanQr}= this.state; 
     const options = {
       year: 'numeric',
       month: 'numeric',
@@ -247,15 +259,28 @@ cancelchangeImage = e =>{
 
 
                       <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
-                          <Col offset={4} span={4}>
+                          <Col  style={{height:"15rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
                               <div>
-                                  <Button type="primary">
+                                  <Button onClick={this.scanQRCode}  type="primary">
                                       Scan QR!
-             </Button>
+                                  </Button>
+                                  {scanQr ? 
+                           <React.Fragment>
+                                <QrReader
+                                className="scanner"
+                                resolution="500"
+                                delay={300}
+                                onError={this.handleError}
+                                onScan={this.handleScan}
+                                style={{height:"70%",width: '70%'}}
+                                />
+                             </React.Fragment>
+                             :null
+                             }
                               </div>
                           </Col>
 
-                          <Col span={8} offset={4}>
+                          <Col  style={{height:"12rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
                               <Row>
                                   <Col span={8} style={{ marginRight: "2%" }}>
                                       <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />

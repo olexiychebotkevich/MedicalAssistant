@@ -157,8 +157,8 @@ class PagePatient extends Component {
 
   generateQR = e => {
     e.preventDefault();
-    console.log("generate qr");
-    let str = ("Hello world");
+    let str = ("patientID:"+this.state.detailedpatient.id);
+    console.log("QR: ",str);
     QRCode.toCanvas(document.getElementById('canvas'), str, function (error) {
       if (error) console.error(error)
     })
@@ -239,28 +239,25 @@ class PagePatient extends Component {
 
 
 
-                      <Row style={{ marginTop: "5%" }} type="flex" justify="center">
+              <Row  align="middle" style={{ marginTop: "5%"}} type="flex" justify="center">
 
-                          <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                              <div style={{ width: "100%" }} >
-                                  <Button onClick={this.generateQR}>
-                                      Згенерувати QR-код!
-              </Button>
-
-                              </div>
-                              <canvas style={{ marginTop: "2%" }} id="canvas" />
-                          </Col>
-                          <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                              <div>
-                                  <Button onClick={this.GetMyID}>
-                                      Згенерувати простий код
-              </Button>
-                                  {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
-                              </div>
-                          </Col>
-
-                      </Row>
-
+                <Col style={{height:"10rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
+                  <div style={{ width: "100%" }} >
+                    <Button onClick={this.generateQR}>
+                      Згенерувати QR-код!
+                   </Button>
+                  </div>
+                  <canvas className="QrCanvas"  id="canvas" />
+                </Col>
+                <Col style={{height:"10rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
+                  <div>
+                    <Button onClick={this.GetMyID}>
+                      Згенерувати простий код
+                   </Button>
+                    {this.state.GetID ? <Input  value={this.state.user.id} disabled placeholder="Your ID" /> : null}
+                  </div>
+                </Col>
+              </Row>
                   </div>
                   : <SpinnerWidget loading="true" />}
           </div>
