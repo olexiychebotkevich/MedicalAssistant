@@ -281,24 +281,32 @@ namespace MedicalAssistant.Controllers
 
         private string AddImage(string ImagePath)
         {
+            Debug.WriteLine("1----");
             string imageName = Guid.NewGuid().ToString() + ".jpg";
+            Debug.WriteLine("2----");
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
                 base64 = base64.Split(',')[1];
             }
-
+            Debug.WriteLine("3----");
             var bmp = base64.FromBase64StringToImage();
+            Debug.WriteLine("4----");
             string fileDestDir = _env.ContentRootPath;
+            Debug.WriteLine("5----");
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
+            Debug.WriteLine("6----");
 
             string fileSave = Path.Combine(fileDestDir, imageName);
+            Debug.WriteLine("7----");
             if (bmp != null)
             {
                 int size = 1000;
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
+            Debug.WriteLine("8----");
+
 
             return imageName;
         }
