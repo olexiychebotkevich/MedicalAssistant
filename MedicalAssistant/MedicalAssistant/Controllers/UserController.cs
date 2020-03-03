@@ -117,7 +117,7 @@ namespace MedicalAssistant.Controllers
                     DateOfBirth = detailuser.DateOfBirth,
                     User=detailuser.User,
                     Locality = detailuser.Locality,
-                    ImagePath = detailuser.ImagePath,
+                    ImagePath = $"Images/{detailuser.ImagePath}",
                     recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
                 };

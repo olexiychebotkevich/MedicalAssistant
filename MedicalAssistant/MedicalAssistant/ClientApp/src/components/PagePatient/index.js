@@ -173,9 +173,11 @@ class PagePatient extends Component {
       month: 'numeric',
       day: 'numeric',
     };
-    const diagnoslength = 30;
+      const diagnoslength = 30;
+      console.log("---------",  this.state.detailedpatient ? this.state.detailedpatient.imagePath : "null");
       return (
           <div>
+             
               {this.state.IsLoading === false ?
                   <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
@@ -186,10 +188,12 @@ class PagePatient extends Component {
 
                               {
                                   this.state.detailedpatient ?
+                
                                       <img
                                           onClick={this.onselectImage}
                                           className="imgUpload"
-                                          src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detailedpatient.imagePath)}
+                                          //src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + this.state.detailedpatient.imagePath)}
+                                          src={this.state.detailedpatient.imagePath}
                                           onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                                           width="500px">
 
