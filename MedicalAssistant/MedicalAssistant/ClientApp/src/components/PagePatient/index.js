@@ -190,8 +190,8 @@ class PagePatient extends Component {
                                       <img
                                           onClick={this.onselectImage}
                                           className="imgUpload"
-                                          //src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + this.state.detailedpatient.imagePath)}
-                                          src={this.state.detailedpatient.imagePath}
+                                          //src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? () : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + this.state.detailedpatient.imagePath)}
+                                          src={this.state.imagechanged ? this.state.ImagePath : this.state.detailedpatient.imagePath}
                                           onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                                           width="500px">
 
