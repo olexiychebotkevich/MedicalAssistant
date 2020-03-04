@@ -196,21 +196,21 @@ namespace MedicalAssistant.Controllers
 
             var userToUpdate = await _dbcontext.DetailedUsers.Include("User").SingleOrDefaultAsync(u => u.User.Id == user.Id);
 
-            //try
-            //{
-                //var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
+            try
+            {
+                var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
                 string imageName = AddImage(user.ImagePath);
-                //string imageName = await AddImageResultTask;
-               
+               // string imageName = await AddImageResultTask;
+
                 userToUpdate.ImagePath = imageName;
-                    if(await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
-                    {
+                if (await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
+                {
                     try
                     {
                         await _dbcontext.SaveChangesAsync();
                         return Ok(userToUpdate);
                     }
-                    catch (DbUpdateException ex )
+                    catch (DbUpdateException ex)
                     {
                         Debug.WriteLine("{0} Exception caught.", ex);
                         ModelState.AddModelError("", "Unable to save changes. " +
@@ -219,15 +219,15 @@ namespace MedicalAssistant.Controllers
                     }
 
                 }
-                   
 
-           // }
-            //catch (Exception e)
-            //{
-            //    Debug.WriteLine("{0} Exception caught.", e);
-            //    return BadRequest();
-              
-            //}
+
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return BadRequest();
+
+            }
             return Ok(userToUpdate);
 
         }
