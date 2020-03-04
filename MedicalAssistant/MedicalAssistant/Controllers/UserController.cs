@@ -118,7 +118,7 @@ namespace MedicalAssistant.Controllers
                     DateOfBirth = detailuser.DateOfBirth,
                     User=detailuser.User,
                     Locality = detailuser.Locality,
-                    ImagePath = $"Images/{detailuser.ImagePath}",
+                    ImagePath = $"Images /{detailuser.ImagePath}",
                     //ImagePath = _env.WebRootFileProvider.GetFileInfo($"uploadedimages/{detailuser.ImagePath}")?.PhysicalPath,
                     recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
