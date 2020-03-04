@@ -145,6 +145,7 @@ namespace MedicalAssistant
             });
 
             string contentRoot = Path.Combine(env.ContentRootPath, "uploadedimages");
+            Console.WriteLine("-----------------------"+Path.Combine(Directory.GetCurrentDirectory(), "uploadedimages"));
             app.UseStaticFiles(new StaticFileOptions()
             {
                 //FileProvider = new PhysicalFileProvider(contentRoot),
