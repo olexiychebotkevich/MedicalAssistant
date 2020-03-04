@@ -281,6 +281,7 @@ namespace MedicalAssistant.Controllers
 
 
 
+
         private string AddImage(string ImagePath)
         {
             Debug.WriteLine("1----");
