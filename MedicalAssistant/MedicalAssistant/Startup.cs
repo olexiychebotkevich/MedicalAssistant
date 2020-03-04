@@ -144,11 +144,16 @@ namespace MedicalAssistant
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            string path = Path.Combine(env.ContentRootPath, "uploadedimages");
+            string contentRoot = Path.Combine(env.ContentRootPath, "uploadedimages");
             app.UseStaticFiles(new StaticFileOptions()
             {
-                FileProvider = new PhysicalFileProvider(path),
-                RequestPath = new PathString("/Images")
+                //FileProvider = new PhysicalFileProvider(contentRoot),
+                //RequestPath = new PathString("/Images")
+
+
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(Directory.GetCurrentDirectory(), "uploadedimages")),
+                RequestPath = "/Images"
             });
 
             app.UseSpa(spa =>

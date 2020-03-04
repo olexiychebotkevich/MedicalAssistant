@@ -108,6 +108,7 @@ namespace MedicalAssistant.Controllers
                 {
                     return NotFound();
                 }
+               
 
                 DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel
                 {

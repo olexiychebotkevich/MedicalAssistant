@@ -177,8 +177,8 @@ class PagePatient extends Component {
       console.log("---------",  this.state.detailedpatient ? this.state.detailedpatient.imagePath : "null");
       return (
           <div>
-             
-              {this.state.IsLoading === false ?
+
+              {this.state.IsLoading === false && this.state.detailedpatient ?
                   <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
 
@@ -186,8 +186,6 @@ class PagePatient extends Component {
                       <div className="row">
                           <div className="col-12 col-sm-4">
 
-                              {
-                                  this.state.detailedpatient ?
                 
                                       <img
                                           onClick={this.onselectImage}
@@ -197,16 +195,7 @@ class PagePatient extends Component {
                                           onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                                           width="500px">
 
-                                      </img> :
-                                      <img
-                                          onClick={this.onselectImage}
-                                          className="imgUpload"
-                                          src={this.state.startimage}
-                                          onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                                          width="500px">
-                                      </img>
-
-                              }
+                                      </img> 
 
                               {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                               {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
