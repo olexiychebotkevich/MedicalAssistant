@@ -286,6 +286,7 @@ namespace MedicalAssistant.Controllers
         private string AddImage(string ImagePath)
         {
             Console.WriteLine("1----");
+            Console.WriteLine("----ImagePath: ", ImagePath);
             string imageName = Guid.NewGuid().ToString() + ".jpg";
             Console.WriteLine("-----Image name:", imageName);
             string base64 = ImagePath;
