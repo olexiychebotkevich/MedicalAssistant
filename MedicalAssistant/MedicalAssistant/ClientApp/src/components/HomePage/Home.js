@@ -25,14 +25,17 @@ class NormalHomeForm extends React.Component {
     const { current } = this.state;
     return (
 <div className="tmp">
-  <div  style={{width:'70%'}}>    
-<h1 className="homeHeader"> MEDICAL ASSISTANT - ВАШ НАДІЙНИЙ ПАРТНЕР</h1>
+  <div align="center" style={{width:'70%'} }>    
+  <div align="center" >    
+ <h1 className="homeHeader"> MEDICAL ASSISTANT <br/> ваш надійний партнер</h1> 
+ </div>
+{/* <h1 className="homeHeaderG"> MEDICAL ASSISTANT</h1>
+<h1 className="homeHeader"> ваш надійний партнер</h1>  */}
 <h4 className="homeHeader1" >
 Ви забудько?<br/>
 У Вас підліткова розсіяність?<br/>
 Чи можливо від сірої буденності часткова втрата пам'яті?
 </h4>
-
 <h3 className="homeHeader1" >Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
  <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
    <Step  title="Крок 1" description="Спочатку зареєструйся!✅" />

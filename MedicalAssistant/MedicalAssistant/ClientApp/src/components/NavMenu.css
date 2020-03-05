@@ -2,13 +2,13 @@
   white-space: normal;
   text-align: center;
   word-break: break-all;
-
+/* background-color: rgba(152,197,178); */
   
 }
 
 html {
   font-size: 40px;
-  /* background-color: 35ADC8; */
+   /* background-color: rgba(152,197,178) */
 }
 @media (min-width: 768px) {
   html {
@@ -20,5 +20,7 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+
 
 

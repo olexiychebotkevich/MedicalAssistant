@@ -1,7 +1,8 @@
  body{
-  background-image: url('../pngfuel.com.png') ; 
+   align-items: bottom;
+   background-image: url('../pngfuel.com_3.png') ;  
  background-color: rgb(213, 245, 227); 
-/* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
+ /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com1.png";  */
  
     background-position: center top;
     background-repeat: no-repeat;
@@ -17,6 +18,7 @@
 .login-form {
   
   margin-top: 50px;
+  font-family: 'Candara';
 }
 .tmp{
   display: flex;
@@ -27,18 +29,32 @@
   text-align: center;
 }
 .header{
-  font-family: 'Comic Sans MS, Comic Sans, cursive';
-  font-size: 80px;
-  color: rgb(151, 201, 218);
+  font-family: 'Candara';
+  font-size: 60px;
+  color:rgb(152, 197,178);
   text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 2px #000;
   -webkit-text-shadow: 0 0 2px #000;
 
 
 }
-.homeHeader{
-  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+h1.homeHeader{
+  /* font-family: "Comic Sans MS, Comic Sans, cursive";  */
+  font-family: "Candara"; 
+  font-weight:100;
   text-align: "center" ;
+  color:#3A7073;
+  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
+  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
+  
+  
+}
+h1.homeHeaderG{
+  /* font-family: "Comic Sans MS, Comic Sans, cursive";  */
+  font-family: "Candara"; 
+  font-weight:bolder;
+  text-align: "left" ;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
@@ -49,7 +65,7 @@
 
 
 .homeHeader1{
-  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+  font-family: "Garamond"; 
   text-align: center ;
   color:rgb(27, 27, 27);
   text-shadow: 0 0 2px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
@@ -63,10 +79,10 @@
 
 .login-form-forgot {
   float: left;
-  color: white;
+  color: rgb(49, 112, 83);
   } 
   .pass{
-    color: rgb(255, 255, 255);
+    color:rgb(49, 112, 83);
     font-size: 20px;
     text-shadow: 0 0 3px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
     -moz-text-shadow: 0 0 3px #3A7073;
@@ -92,11 +108,13 @@
  
 
 .login-form-button {
- 
+  font-family: 'Candara';
+  background-color: whitesmoke;
   width:100%;
 }
 .register-form-button {
-   
+  font-family: 'Candara';
+  background-color: whitesmoke;
     width:100%;
   }
 

@@ -139,7 +139,7 @@ class NormalLoginForm extends React.Component {
     return (
 
 
-      <div className="container">
+      <div className="container" align="center">
 
         <h1 className="header">Medical Assistant</h1>
 
@@ -205,7 +205,7 @@ class NormalLoginForm extends React.Component {
                   </Button>
                 </div>
                 <div className="col-6">
-                  <Button type="dashed" htmlType="submit" className="register-form-button" >
+                  <Button  type="dashed" htmlType="submit" className="register-form-button" >
                     Зареєструватися
                   </Button>
                 </div>
