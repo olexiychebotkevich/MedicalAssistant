@@ -201,8 +201,8 @@ namespace MedicalAssistant.Controllers
             {
                 Console.WriteLine($"user.ImagePath: {user.ImagePath}");
                 var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
-                string imageName = AddImage(user.ImagePath);
-               // string imageName = await AddImageResultTask;
+                //string imageName = AddImage(user.ImagePath);
+                string imageName = await AddImageResultTask;
 
                 userToUpdate.ImagePath = imageName;
                 if (await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
@@ -287,7 +287,7 @@ namespace MedicalAssistant.Controllers
         private string AddImage(string ImagePath)
         {
             Console.WriteLine("1----");
-            Console.WriteLine("----ImagePath: ", ImagePath);
+            Console.WriteLine($"----ImagePath: {ImagePath} ");
             string imageName = Guid.NewGuid().ToString() + ".jpg";
             Console.WriteLine("-----Image name:", imageName);
             string base64 = ImagePath;
