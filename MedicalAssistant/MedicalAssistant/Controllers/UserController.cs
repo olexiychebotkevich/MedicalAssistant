@@ -296,7 +296,7 @@ namespace MedicalAssistant.Controllers
             Console.WriteLine("3----");
             var bmp = base64.FromBase64StringToImage();
             Console.WriteLine("4----");
-            string fileDestDir = _env.ContentRootPath;
+            string fileDestDir = Path.Combine(Directory.GetCurrentDirectory());
             Console.WriteLine("-----fileDestDir:", fileDestDir);
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
             Console.WriteLine("-----fileDestDir2:", fileDestDir);
