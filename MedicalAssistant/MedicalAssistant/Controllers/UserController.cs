@@ -285,31 +285,33 @@ namespace MedicalAssistant.Controllers
 
         private string AddImage(string ImagePath)
         {
-            Debug.WriteLine("1----");
+            Console.WriteLine("1----");
             string imageName = Guid.NewGuid().ToString() + ".jpg";
-            Debug.WriteLine("2----");
+            Console.WriteLine("-----Image name:", imageName);
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
                 base64 = base64.Split(',')[1];
             }
-            Debug.WriteLine("3----");
+            Console.WriteLine("3----");
             var bmp = base64.FromBase64StringToImage();
-            Debug.WriteLine("4----");
+            Console.WriteLine("4----");
             string fileDestDir = _env.ContentRootPath;
-            Debug.WriteLine("5----");
+            Console.WriteLine("-----fileDestDir:", fileDestDir);
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-            Debug.WriteLine("6----");
+            Console.WriteLine("-----fileDestDir2:", fileDestDir);
 
             string fileSave = Path.Combine(fileDestDir, imageName);
-            Debug.WriteLine("7----");
+            Console.WriteLine("-----fileSave:", fileSave);
+            Console.WriteLine("7----");
             if (bmp != null)
             {
+                Console.WriteLine("bmp != null");
                 int size = 1000;
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
-            Debug.WriteLine("8----");
+            Console.WriteLine("8----");
 
 
             return imageName;
