@@ -144,7 +144,7 @@ namespace MedicalAssistant
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            string contentRoot = Path.Combine(env.ContentRootPath, "uploadedimages");
+         
             Console.WriteLine("-----------------------"+Path.Combine(Directory.GetCurrentDirectory(), "uploadedimages"));
             app.UseStaticFiles(new StaticFileOptions()
             {

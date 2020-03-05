@@ -162,7 +162,7 @@ namespace MedicalAssistant.Controllers
                     Locality = detaildoctor.Locality,
                     User = detaildoctor.User,
                     WorkExpirience = detaildoctor.WorkExpirience,
-                    ImagePath=detaildoctor.ImagePath,
+                    ImagePath = $"Images/{detaildoctor.ImagePath}",
                     recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
 
                 };
@@ -199,7 +199,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                Console.WriteLine($"user.ImagePath: {user.ImagePath}");
+              
                 var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
                 //string imageName = AddImage(user.ImagePath);
                 string imageName = await AddImageResultTask;
@@ -286,37 +286,32 @@ namespace MedicalAssistant.Controllers
 
         private string AddImage(string ImagePath)
         {
-            Console.WriteLine("1----");
-            Console.WriteLine($"----ImagePath: {ImagePath} ");
+           
             string imageName = Guid.NewGuid().ToString() + ".jpg";
-            Console.WriteLine($"----Image name: {imageName} ");
+         
            
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
                 base64 = base64.Split(',')[1];
             }
-            Console.WriteLine("3----");
+           
             var bmp = base64.FromBase64StringToImage();
-            Console.WriteLine("4----");
+         
             string fileDestDir = _env.ContentRootPath;
-            Console.WriteLine($"----fileDestDir: {fileDestDir} ");
+         
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-            Console.WriteLine($"----fileDestDir2: {fileDestDir} ");
-
+          
             string fileSave = Path.Combine(fileDestDir, imageName);
-            Console.WriteLine($"----fileSave: {fileSave} ");
-            Console.WriteLine("7----");
+         
             if (bmp != null)
             {
-                Console.WriteLine("bmp != null");
+               
                 int size = 1000;
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
-            Console.WriteLine($"8---- imageName {imageName}");
-
-
+           
             return imageName;
         }
     }
