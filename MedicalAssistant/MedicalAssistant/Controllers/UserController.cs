@@ -199,6 +199,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
+                Console.WriteLine($"user.ImagePath: {user.ImagePath}");
                 var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
                 string imageName = AddImage(user.ImagePath);
                // string imageName = await AddImageResultTask;
