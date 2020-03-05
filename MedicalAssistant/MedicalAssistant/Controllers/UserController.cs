@@ -289,7 +289,8 @@ namespace MedicalAssistant.Controllers
             Console.WriteLine("1----");
             Console.WriteLine($"----ImagePath: {ImagePath} ");
             string imageName = Guid.NewGuid().ToString() + ".jpg";
-            Console.WriteLine("-----Image name:", imageName);
+            Console.WriteLine($"----Image name: {imageName} ");
+           
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
@@ -298,13 +299,13 @@ namespace MedicalAssistant.Controllers
             Console.WriteLine("3----");
             var bmp = base64.FromBase64StringToImage();
             Console.WriteLine("4----");
-            string fileDestDir = Path.Combine(Directory.GetCurrentDirectory());
-            Console.WriteLine("-----fileDestDir:", fileDestDir);
+            string fileDestDir = _env.ContentRootPath;
+            Console.WriteLine($"----fileDestDir: {fileDestDir} ");
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-            Console.WriteLine("-----fileDestDir2:", fileDestDir);
+            Console.WriteLine($"----fileDestDir2: {fileDestDir} ");
 
             string fileSave = Path.Combine(fileDestDir, imageName);
-            Console.WriteLine("-----fileSave:", fileSave);
+            Console.WriteLine($"----fileSave: {fileSave} ");
             Console.WriteLine("7----");
             if (bmp != null)
             {
@@ -313,7 +314,7 @@ namespace MedicalAssistant.Controllers
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
-            Console.WriteLine("8----");
+            Console.WriteLine($"8---- imageName {imageName}");
 
 
             return imageName;
