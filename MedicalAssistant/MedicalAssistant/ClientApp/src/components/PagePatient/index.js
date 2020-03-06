@@ -227,7 +227,7 @@ class PagePatient extends Component {
               {this.state.detailedpatient ?
                 this.state.detailedpatient.recipes.map((recipe) =>
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                    <Card  title="Рецепт" extra={<Link style={{color:'white'}} to="/patient/morerecipe">More</Link>} headStyle={{color:' rgb(221, 252, 200)',fontFamily:'Candara'}} style={{ backgroundColor: 'rgb(157,181,176)',fontFamily:'Candara',fontWeight:'500',marginTop: "10px" }}>
+                    <Card  title="Рецепт" extra={<Link style={{color:'white'}} to="/patient/morerecipe">More</Link>} headStyle={{color:' rgb(221, 252, 200)',fontFamily:'Candara'}} style={{ backgroundColor: 'rgb(157,181,167)',fontFamily:'Candara',fontWeight:'500',marginTop: "10px" }}>
                       <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
                       <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
                       <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
