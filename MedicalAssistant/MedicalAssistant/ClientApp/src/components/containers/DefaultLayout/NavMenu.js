@@ -92,7 +92,7 @@ class NavMenu extends Component {
                
           
                 <Menu.Item style={{float: 'left'}} key="app" disabled>
-                <Text  style={{fontFamily: 'Candara' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
                 </Menu.Item>
 
                

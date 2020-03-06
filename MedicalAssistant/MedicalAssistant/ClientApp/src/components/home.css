@@ -1,5 +1,7 @@
  body{
   background-image: url('../pngfuel.com_3.png') ; 
+  background-position: bottom;
+  
  background-color: rgb(213, 245, 227); 
 /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
  
@@ -10,7 +12,7 @@
     height: 55vh;
     position: absolute;
     background-repeat: no-repeat; 
-    font-family: 'Comic Sans MS, Comic Sans, cursive';
+    font-family: 'Footlight MT';
  
   }
   
@@ -60,11 +62,11 @@
   
 }
 .homeHeaderG{
-  font-family: "Candara"; 
+  font-family: "Candara";
   text-align: "center" ;
-  /* font-style: italic; */
-  font-size: 50px;
-  font-weight: 300;
+   /* font-style: italic;  */
+  font-size: 70px;
+  font-weight: 500;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
@@ -139,7 +141,7 @@
   .steps{
     font-size: 30px;
     /* font-family: 'Candara'; */
-    font-family: "Candara"; 
+    font-family: "Footlight MT"; 
   /* font-style: italic; */
   }
   

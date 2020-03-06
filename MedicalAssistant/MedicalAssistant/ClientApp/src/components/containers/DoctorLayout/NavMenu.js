@@ -56,7 +56,7 @@ class NavMenu extends Component {
         return (
             <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(152,197,178)'}}>
                 <Menu.Item style={{float: 'left'}} key="app" disabled>
-                <Text  style={{fontFamily: 'Candara' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
                 </Menu.Item>
 
                 {this.state.isAuthenticated ? 
