@@ -352,9 +352,10 @@ class RegistrationForm extends Component {
 
         return (
             <div className="tmp">
-                <div style={{width: '50%'}}> 
+                <div align="center" style={{width: '70%'}}> 
+                <h1 className="header">Medical Assistant</h1>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
-    
+      
                 <Form.Item label="Email">
                     {getFieldDecorator('email', {
                         initialValue: undefined,
@@ -517,7 +518,7 @@ class RegistrationForm extends Component {
 
                 {this.state.doctorCheck ? doctorfields : null}
                 <Form.Item {...tailFormItemLayout}>
-                    <Button type="dashed" htmlType="submit" className="register-form-btn" >
+                    <Button align="center" type="dashed" htmlType="submit" className="register-form-btn" >
                         Register
                     </Button>
                 </Form.Item>

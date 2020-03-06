@@ -23,42 +23,18 @@ class NormalMoreForm extends React.Component {
   
     const { current } = this.state;
     return (
-<div className="container" style={{backgroundColor: 'rgb(151, 201, 218)'}}>
+<div className="container" style={{backgroundColor: 'transparent'}}>
 <h3 className="moreHeader"> Діагноз</h3>
   <Row gutter={16}>
        
        <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-       <Card title="Name Pill" style={{backgroundColor: 'whitesmoke',marginTop:"10px" ,marginBottom:"10px"  }}>
-       <p>Кількість днів</p>
-   <p>Особливості прийому</p>
-   <p>Кількість разів в день</p>
+       <Card title="Name Pill" headStyle={{color: 'rgb(221, 252, 200)',fontFamily:'Candara',fontStyle:'Normal'}} style={{backgroundColor: 'rgb(157,181,167)',fontFamily:'Candara',fontStyle:'Italic',marginTop:"10px" ,marginBottom:"10px"  }}>
+       <p style={{color:'rgb(217, 241, 227)'}}>Кількість днів</p>
+   <p style={{color:'rgb(217, 241, 227)'}}>Особливості прийому</p>
+   <p style={{color:'rgb(217, 241, 227)'}}>Кількість разів в день</p>
  
  </Card>
-       </Col>
-      
-       <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-       <Card title="Name Pill"  style={{backgroundColor: 'whitesmoke',marginTop: "10px",marginBottom:"10px" }}>
-   <p>Кількість днів</p>
-   <p>Особливості прийому</p>
-   <p>Кількість разів в день</p>
-  
- </Card>
-       </Col>
-       
-       <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-       <Card title="Name Pill"  style={{backgroundColor: 'whitesmoke',marginTop:"10px" ,marginBottom:"10px"}}>
-       <p>Кількість днів</p>
-   <p>Особливості прийому</p>
-   <p>Кількість разів в день</p>
-  
- </Card>
-     </Col>
-     <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-       <Card title="Name Pill"  style={{backgroundColor: 'whitesmoke',marginTop:"10px" ,marginBottom:"10px"}}>
-       <p>Кількість днів</p>
-   <p>Особливості прийому</p>
-   <p>Кількість разів в день</p>
- </Card>
+     
      </Col>
 
    

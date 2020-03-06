@@ -55,7 +55,7 @@ class NavigMenu extends Component {
         return (
             <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(232, 248, 245)'}}>
                 <Menu.Item key="app" disabled>
-                <Text  style={{fontFamily: 'Chiller' ,fontWeight: '600', fontSize: '24px'}}>M e d i c a l   A s s i s t a n t</Text>
+                <Text  style={{fontFamily: 'Candara' ,fontWeight: '600', fontSize: '24px'}}>M e d i c a l   A s s i s t a n t</Text>
                 </Menu.Item>
                 <Menu.Item key="bank" title="Home">
                     <Icon type="bank" />
@@ -79,7 +79,7 @@ class NavigMenu extends Component {
                 </Menu.Item>
 
                 <Dropdown overlay={menu} placement='topRight'>
-                <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>
+                <Button className="ButtoP" type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(157,181,167)', placeItems:'right'}}/>
                 </Dropdown>
                 {/* <Button type="primary" shape="circle" icon="home" style={{backgroundColor: 'rgb(69, 179, 157  )', placeItems:'right'}}/>  */}
                 {/* <Dropdown overlay={menu} placement='topRight'>

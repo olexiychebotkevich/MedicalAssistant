@@ -8,3 +8,9 @@
   
     justify-content: center;
   }
+  p.textr{
+   font-family:'Candara' ;
+   font-style: italic;
+   font-weight: 500;
+  color: rgb(227, 241, 217);
+  }
