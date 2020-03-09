@@ -232,27 +232,28 @@ class PagePatient extends Component {
 
 
 
-                  <Row style={{ marginTop: "5%" }} type="flex" justify="center">
+                      <Row style={{ marginTop: "5%" }} type="flex" justify="center">
 
-                      <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                          <div style={{ width: "100%" }} >
-                              <Button onClick={this.generateQR}>
-                                  Згенерувати QR-код!
+                          <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+                              <div style={{ width: "100%" }} >
+                                  {/* <Button style={{backgroundColor:'rgb(157,181,167)'}} onClick={this.generateQR}> */}
+                                  <Button style={{ backgroundColor: 'rgb(152,197,178)', fontFamily: 'Candara' }} onClick={this.generateQR}>
+                                      Згенерувати QR-код!
               </Button>
 
-                          </div>
-                          <canvas style={{ marginTop: "2%" }} id="canvas" />
-                      </Col>
-                      <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                          <div>
-                              <Button onClick={this.GetMyID}>
-                                  Згенерувати простий код
+                              </div>
+                              <canvas style={{ marginTop: "2%" }} id="canvas" />
+                          </Col>
+                          <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+                              <div>
+                                  <Button style={{ backgroundColor: 'rgb(152,197,178)', fontFamily: 'Candara' }} onClick={this.GetMyID}>
+                                      Згенерувати простий код
               </Button>
-                              {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
-                          </div>
-                      </Col>
+                                  {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
+                              </div>
+                          </Col>
 
-                  </Row>
+                      </Row>
 
               </div>
               : <SpinnerWidget loading="true" />}
