@@ -173,7 +173,8 @@ class PagePatient extends Component {
       month: 'numeric',
       day: 'numeric',
     };
-    const diagnoslength = 30;
+      const diagnoslength = 30;
+      return(
       <div>
 
           {this.state.IsLoading === false && this.state.detailedpatient ?
