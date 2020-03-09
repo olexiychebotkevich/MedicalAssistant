@@ -12,7 +12,7 @@ import './NavMenu.css';
 const { Text  } = Typography;
 
 const menu = (
-    <Menu onClick={handleMenuClick}>
+    <Menu onClick={handleMenuClick} style={{backgroundColor: 'rgb(152,197,178)'}}>
      <Menu.Item key="login" title="Login">
          {/* <a href="login">Log in</a> */}
         <Link to="/login">Login</Link>
@@ -88,18 +88,18 @@ class NavMenu extends Component {
     };
     render() {
         return (
-            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'whitesmoke'}}>
+            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(152,197,178)'}}>
                
           
                 <Menu.Item style={{float: 'left'}} key="app" disabled>
-                <Text  style={{fontFamily: 'Chiller' ,fontWeight: '600', fontSize: '24px'}}>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
                 </Menu.Item>
 
                
                 <Menu.Item style={{float: 'right'}}>
                 <Row type="flex"  justify="center" align="middle">
                 <Dropdown overlay={menu} placement="topRight">
-                <Button type="primary" shape="circle"  size="large" style={{backgroundColor: 'rgb(69, 179, 157  )'}}><Icon style={{ fontSize: '18px'}} className="icon" type="bank" /></Button>
+                <Button type="primary" shape="circle"  size="large" style={{backgroundColor: 'rgb(157,181,167)',margin:'10px'}}><Icon style={{ fontSize: '18px'}} className="icon" type="bank" /></Button>
                 </Dropdown>
                 </Row>
                 </Menu.Item>

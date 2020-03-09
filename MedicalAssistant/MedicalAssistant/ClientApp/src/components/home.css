@@ -1,16 +1,18 @@
  body{
-  background-image: url('../pngfuel.com.png') ; 
+  background-image: url('../pngfuel.com_3.png') ; 
+  background-position: bottom;
+  
  background-color: rgb(213, 245, 227); 
 /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
  
-    background-position: center top;
+    background-position: inherit ;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
     height: 55vh;
     position: absolute;
     background-repeat: no-repeat; 
-    font-family: 'Comic Sans MS, Comic Sans, cursive';
+    font-family: 'Footlight MT';
  
   }
   
@@ -25,20 +27,46 @@
 }
 .moreHeader{
   text-align: center;
-}
-.header{
-  font-family: 'Comic Sans MS, Comic Sans, cursive';
-  font-size: 80px;
-  color: rgb(151, 201, 218);
+  /* font-style: italic;  */
+  font-family: 'Candara';
+  font-size: 50px;
+  color:rgb(152, 197,178);
   text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 2px #000;
   -webkit-text-shadow: 0 0 2px #000;
+  text-align: center;
+}
+.header{
+  font-family: 'Candara';
+  font-style: italic; 
+  font-size: 80px;
+  color:rgb(152, 197,178);
+  text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 2px #000;
+  -webkit-text-shadow: 0 0 2px #000;
+  text-align: center;
 
 
 }
 .homeHeader{
-  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+  font-family: "Candara"; 
+  text-align: "cener" ;
+   font-style: italic; 
+   font-size: 50px;
+   font-weight: 300;
+  color:#3A7073;
+  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
+  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
+  
+  
+}
+.homeHeaderG{
+  font-family: "Candara";
   text-align: "center" ;
+   /* font-style: italic;  */
+  font-size: 70px;
+  font-weight: 500;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
@@ -49,8 +77,10 @@
 
 
 .homeHeader1{
-  font-family: "Comic Sans MS, Comic Sans, cursive"; 
+  font-family: "Candara"; 
+  font-style: italic;
   text-align: center ;
+  font-weight: 300;
   color:rgb(27, 27, 27);
   text-shadow: 0 0 2px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 2px #3A7073;
@@ -63,11 +93,16 @@
 
 .login-form-forgot {
   float: left;
-  color: white;
+  color: rgb(49, 112, 83);
+  font-family: "Candara"; 
+  text-align: "cener" ;
+   font-style: italic; 
   } 
   .pass{
-    color: rgb(255, 255, 255);
+    color:rgb(49, 112, 83);
     font-size: 20px;
+    font-family: "Candara"; 
+    font-style: italic; 
     text-shadow: 0 0 3px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
     -moz-text-shadow: 0 0 3px #3A7073;
     -webkit-text-shadow: 0 0 3px #3A7073;
@@ -92,17 +127,33 @@
  
 
 .login-form-button {
- 
+  font-family: "Candara"; 
   width:100%;
+  background-color: rgb(157, 181,167);
 }
 .register-form-button {
-   
+  font-family: "Candara"; 
     width:100%;
+    background-color: rgb(157, 181,167);
   }
 
 
   .steps{
     font-size: 30px;
-    font-family: 'Comic Sans MS, Comic Sans, cursive';
+    /* font-family: 'Candara'; */
+    font-family: "Footlight MT"; 
+  /* font-style: italic; */
   }
   
+  /* .register-form{
+    font-family: "Candara"; 
+  text-align: "cener" ;
+   font-style: italic; 
+  
+  } */
+  .register-form-btn{
+    background-color: rgb(157, 181,167);
+   
+  }
+ 
+ 

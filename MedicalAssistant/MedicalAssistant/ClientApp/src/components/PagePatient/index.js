@@ -54,8 +54,8 @@ class PagePatient extends Component {
       UpdatepatientFailed: false,
       UpdatepatientSuccess: false,
       GetID: false,
-      IsLoading:false,
-      IsSuccess:false
+      IsLoading: false,
+      IsSuccess: false
 
 
     };
@@ -83,7 +83,7 @@ class PagePatient extends Component {
       UpdatepatientLoading: props.UpdatepatientLoading,
       UpdatepatientFailed: props.UpdatepatientFailed,
       UpdatepatientSuccess: props.UpdatepatientSuccess,
-      IsLoading:props.IsLoading
+      IsLoading: props.IsLoading
     };
   }
 
@@ -181,10 +181,10 @@ class PagePatient extends Component {
               {this.state.IsLoading === false && this.state.detailedpatient ?
                   <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
+<h3 className="moreHeader"> Особистий профіль</h3>
 
-
-                      <div className="row">
-                          <div className="col-12 col-sm-4">
+            <div className="row">
+              <div className="col-12 col-sm-4">
 
                 
                                       <img
@@ -200,33 +200,34 @@ class PagePatient extends Component {
                               {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
-                              <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
+                <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
-                              <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
-                          </div>
-                          <div className="col-12 col-sm-6 p">
-                              <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p>
-                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                              <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
-                          </div>
-                      </div>
+                <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
+              </div>
+              <div className="col-12 col-sm-6 p">
+                 <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)',fontSize:'17px'}}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
+               
+               <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+              </div>
+            </div>
 
-                      <Row gutter={16}>
-                          {this.state.detailedpatient ?
-                              this.state.detailedpatient.recipes.map((recipe) =>
-                                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                                      <Card title="Рецепт" extra={<Link to="/patient/morerecipe">More</Link>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
-                                          <p>Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
-                                          <p>Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
-                                          <p>Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
-                                      </Card>
-                                  </Col>
-                              ) :
-                              null}
-                      </Row>
+            <Row gutter={16}>
+              {this.state.detailedpatient ?
+                this.state.detailedpatient.recipes.map((recipe) =>
+                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                    <Card  title="Рецепт" extra={<Link style={{color:'white'}} to="/patient/morerecipe">More</Link>} headStyle={{color:' rgb(221, 252, 200)',fontFamily:'Candara'}} style={{ backgroundColor: 'rgb(157,181,167)',fontFamily:'Candara',fontWeight:'500',marginTop: "10px" }}>
+                      <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
+                      <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
+                      <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
+                    </Card>
+                  </Col>
+                ) :
+                null}
+            </Row>
 
 
 

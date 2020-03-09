@@ -139,11 +139,11 @@ class NormalLoginForm extends React.Component {
     return (
 
 
-      <div className="container">
+      <div className="container" align="center">
 
         <h1 className="header">Medical Assistant</h1>
 
-
+          {/* <img src="hotpng.com.png" alt=""/> */}
         <div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
@@ -205,7 +205,7 @@ class NormalLoginForm extends React.Component {
                   </Button>
                 </div>
                 <div className="col-6">
-                  <Button type="dashed" htmlType="submit" className="register-form-button" >
+                  <Button  type="dashed" htmlType="submit" className="register-form-button" >
                     Зареєструватися
                   </Button>
                 </div>
@@ -220,7 +220,7 @@ class NormalLoginForm extends React.Component {
                 <Checkbox.Group style={{ width: '100%' }} onChange={console.log("doctor Check: ",this.state.isDoctor)}>
                 <Row>
                   <Col span={8}>
-                    <Checkbox  onChange={this.checkDoctor} checked={this.state.isDoctor ? true : false} value="doctor" >Doctor</Checkbox>
+                    <Checkbox  onChange={this.checkDoctor} checked={this.state.isDoctor ? true : false} value="doctor" >Лікар</Checkbox>
                   </Col>
                 </Row>
               </Checkbox.Group>

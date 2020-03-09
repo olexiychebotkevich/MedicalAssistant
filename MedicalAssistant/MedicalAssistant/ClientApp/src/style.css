@@ -3,6 +3,9 @@
       /* display:block;
     margin: auto;   */
     margin-top: 20px;
+    font-family: "Candara"; 
+    text-align: "cener" ;
+     font-style: italic; 
   } 
 .tmp{
   display: flex;
