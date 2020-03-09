@@ -174,99 +174,88 @@ class PagePatient extends Component {
       day: 'numeric',
     };
     const diagnoslength = 30;
-    return (
       <div>
-        {this.state.IsLoading === false ?
-          <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
-<h3 className="moreHeader"> Особистий профіль</h3>
-
-            <div className="row">
-              <div className="col-12 col-sm-4">
-
-                {
-                  this.state.detailedpatient ?
-                    <img
-                      onClick={this.onselectImage}
-                      className="imgUpload"
-                      src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detailedpatient.imagePath)}
-                      onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                      width="500px">
-
-                    </img> :
-                    <img 
-                      onClick={this.onselectImage}
-                      className="imgUpload" 
-                      src={this.state.startimage}
-                      onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                      width="500px">
-                    </img>
-
-                }
-
-                {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-                {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+          {this.state.IsLoading === false && this.state.detailedpatient ?
+              <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
 
-                <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
-                <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
-              </div>
-              <div className="col-12 col-sm-6 p">
-                 <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)',fontSize:'17px'}}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
-               
-               <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
-              </div>
-            </div>
+                  <div className="row">
+                      <div className="col-12 col-sm-4">
 
-            <Row gutter={16}>
-              {this.state.detailedpatient ?
-                this.state.detailedpatient.recipes.map((recipe) =>
-                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                    <Card  title="Рецепт" extra={<Link style={{color:'white'}} to="/patient/morerecipe">More</Link>} headStyle={{color:' rgb(221, 252, 200)',fontFamily:'Candara'}} style={{ backgroundColor: 'rgb(157,181,167)',fontFamily:'Candara',fontWeight:'500',marginTop: "10px" }}>
-                      <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
-                      <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
-                      <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
-                    </Card>
-                  </Col>
-                ) :
-                null}
-            </Row>
+
+                          <img
+                              onClick={this.onselectImage}
+                              className="imgUpload"
+                              //src={this.state.detailedpatient.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + this.state.detailedpatient.imagePath)}
+                              src={this.state.detailedpatient.imagePath}
+                              onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                              width="500px">
+
+                          </img>
+
+                          {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                          {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+
+
+                          <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
+
+                          <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
+                      </div>
+                      <div className="col-12 col-sm-6 p">
+                          <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p>
+                          <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                          <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                          <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                          <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                          <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'whitesmoke' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+                      </div>
+                  </div>
+
+                  <Row gutter={16}>
+                      {this.state.detailedpatient ?
+                          this.state.detailedpatient.recipes.map((recipe) =>
+                              <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                                  <Card title="Рецепт" extra={<Link to="/patient/morerecipe">More</Link>} style={{ backgroundColor: 'whitesmoke', marginTop: "10px" }}>
+                                      <p>Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
+                                      <p>Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
+                                      <p>Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
+                                  </Card>
+                              </Col>
+                          ) :
+                          null}
+                  </Row>
 
 
 
 
-            <Row style={{ marginTop: "5%" }} type="flex" justify="center">
+                  <Row style={{ marginTop: "5%" }} type="flex" justify="center">
 
-              <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                <div style={{ width: "100%" }} >
-                  {/* <Button style={{backgroundColor:'rgb(157,181,167)'}} onClick={this.generateQR}> */}
-                  <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.generateQR}>
-                    Згенерувати QR-код!
+                      <Col xs={{ span: 5, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+                          <div style={{ width: "100%" }} >
+                              <Button onClick={this.generateQR}>
+                                  Згенерувати QR-код!
               </Button>
 
-                </div>
-                <canvas style={{ marginTop: "2%" }} id="canvas" />
-              </Col>
-              <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
-                <div>
-                  <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.GetMyID}>
-                    Згенерувати простий код
+                          </div>
+                          <canvas style={{ marginTop: "2%" }} id="canvas" />
+                      </Col>
+                      <Col xs={{ span: 11, offset: 1 }} lg={{ span: 6, offset: 2 }}>
+                          <div>
+                              <Button onClick={this.GetMyID}>
+                                  Згенерувати простий код
               </Button>
-                  {this.state.GetID ? <Input  value={this.state.user.id} disabled placeholder="Your ID" /> : null}
-                </div>
-              </Col>
+                              {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
+                          </div>
+                      </Col>
 
-            </Row>
+                  </Row>
 
-          </div>
-          : <SpinnerWidget loading="true" />}
+              </div>
+              : <SpinnerWidget loading="true" />}
       </div>
-    );
+      );
   }
 }
 
