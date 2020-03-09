@@ -178,7 +178,7 @@ class PagePatient extends Component {
       <div>
 
           {this.state.IsLoading === false && this.state.detailedpatient ?
-              <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
+                  <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
 
 
