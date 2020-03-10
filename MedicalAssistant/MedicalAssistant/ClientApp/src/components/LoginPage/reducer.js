@@ -83,10 +83,12 @@ export const loginUser = (user,isDoctor) => {
                 if(isDoctor===true)
                 {
                     checkDoctor(dispatch);
+                    localStorage.setItem('isDoctor', true);
                 }
                 else
                 {
                     checkPatient(dispatch);
+                    localStorage.setItem('isDoctor', false);
                 }
             }, err => { throw err; })
             .catch(err=> {
@@ -166,6 +168,7 @@ export function logout() {
 }
 
 export const loginByJWT = (tokens, dispatch) => {
+    console.log("-------login by jwt");
     const {token, refToken}=tokens;
     var user = jwt.decode(token);
     if (!Array.isArray(user.roles)) {

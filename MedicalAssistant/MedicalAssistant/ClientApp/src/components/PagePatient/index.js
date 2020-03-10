@@ -157,8 +157,8 @@ class PagePatient extends Component {
 
   generateQR = e => {
     e.preventDefault();
-    let str = ("patientID:"+this.state.detailedpatient.id);
-    console.log("QR: ",str);
+    let str = ("patientID:" + this.state.detailedpatient.id);
+    console.log("QR: ", str);
     QRCode.toCanvas(document.getElementById('canvas'), str, function (error) {
       if (error) console.error(error)
     })
@@ -173,31 +173,31 @@ class PagePatient extends Component {
       month: 'numeric',
       day: 'numeric',
     };
-      const diagnoslength = 30;
-      console.log("---------",  this.state.detailedpatient ? this.state.detailedpatient.imagePath : "null");
-      return (
-          <div>
+    const diagnoslength = 30;
+    console.log("---------", this.state.detailedpatient ? this.state.detailedpatient.imagePath : "null");
+    return (
+      <div>
 
-              {this.state.IsLoading === false && this.state.detailedpatient ?
-                  <div style={{ backgroundColor: 'rgb(151, 201, 218)', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
+        {this.state.IsLoading === false && this.state.detailedpatient ?
+           <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
-<h3 className="moreHeader"> Особистий профіль</h3>
+            <h3 className="moreHeader"> Особистий профіль</h3>
 
             <div className="row">
               <div className="col-12 col-sm-4">
 
-                
-                                      <img
-                                          onClick={this.onselectImage}
-                                          className="imgUpload"
-                                          src={this.state.imagechanged ? this.state.ImagePath : this.state.detailedpatient.imagePath}
-                                          onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                                          width="500px">
 
-                                      </img> 
+                <img
+                  onClick={this.onselectImage}
+                  className="imgUpload"
+                  src={this.state.imagechanged ? this.state.ImagePath : this.state.detailedpatient.imagePath}
+                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  width="500px">
 
-                              {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-                              {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                </img>
+
+                {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
@@ -205,13 +205,12 @@ class PagePatient extends Component {
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
               <div className="col-12 col-sm-6 p">
-                 <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)',fontSize:'17px'}}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
-               
-               <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)',fontSize:'17px'  }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color:  'rgb(152,197,178)' ,fontSize:'17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+                <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
               </div>
             </div>
 
@@ -231,35 +230,34 @@ class PagePatient extends Component {
 
 
 
+            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center">
 
-              <Row  align="middle" style={{ marginTop: "5%"}} type="flex" justify="center">
-
-                <Col style={{height:"10rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
-                  <div style={{ width: "100%" }} >
-                    <Button onClick={this.generateQR}>
-                      Згенерувати QR-код!
+              <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
+                <div style={{ width: "100%" }} >
+                  <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.generateQR}>
+                    Згенерувати QR-код!
                    </Button>
-                  </div>
-                  <canvas className="QrCanvas"  id="canvas" />
-                </Col>
-                <Col style={{height:"10rem"}}  xs={{ span: 24,offset:2}} lg={{ span: 6, offset: 2 }}>
-                  <div>
-                    <Button onClick={this.GetMyID}>
-                      Згенерувати простий код
+                </div>
+                <canvas className="QrCanvas" id="canvas" />
+              </Col>
+              <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
+                <div>
+                <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.GetMyID}>
+                    Згенерувати простий код
                    </Button>
-                    {this.state.GetID ? <Input  value={this.state.user.id} disabled placeholder="Your ID" /> : null}
-                  </div>
-                </Col>
-              </Row>
-                  </div>
-                  : <SpinnerWidget loading="true" />}
+                  {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
+                </div>
+              </Col>
+            </Row>
           </div>
-      );
-                    }
-                  }
-                  
-                  
-                  
+          : <SpinnerWidget loading="true" />}
+      </div>
+    );
+  }
+}
+
+
+
 const mapState = (state) => {
   return {
     IsLoading: get(state, 'patientsReducer.detailedpatient.loading'),
