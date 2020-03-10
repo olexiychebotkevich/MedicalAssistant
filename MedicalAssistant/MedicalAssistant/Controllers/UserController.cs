@@ -108,6 +108,7 @@ namespace MedicalAssistant.Controllers
                 {
                     return NotFound();
                 }
+               
 
                 DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel
                 {
@@ -117,7 +118,7 @@ namespace MedicalAssistant.Controllers
                     DateOfBirth = detailuser.DateOfBirth,
                     User=detailuser.User,
                     Locality = detailuser.Locality,
-                    ImagePath = detailuser.ImagePath,
+                    ImagePath = $"Images/{detailuser.ImagePath}",
                     recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
                 };
@@ -161,7 +162,7 @@ namespace MedicalAssistant.Controllers
                     Locality = detaildoctor.Locality,
                     User = detaildoctor.User,
                     WorkExpirience = detaildoctor.WorkExpirience,
-                    ImagePath=detaildoctor.ImagePath,
+                    ImagePath = $"Images/{detaildoctor.ImagePath}",
                     recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
 
                 };
@@ -198,18 +199,20 @@ namespace MedicalAssistant.Controllers
 
             try
             {
+              
                 var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
+                //string imageName = AddImage(user.ImagePath);
                 string imageName = await AddImageResultTask;
-               
+
                 userToUpdate.ImagePath = imageName;
-                    if(await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
-                    {
+                if (await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
+                {
                     try
                     {
                         await _dbcontext.SaveChangesAsync();
                         return Ok(userToUpdate);
                     }
-                    catch (DbUpdateException ex )
+                    catch (DbUpdateException ex)
                     {
                         Debug.WriteLine("{0} Exception caught.", ex);
                         ModelState.AddModelError("", "Unable to save changes. " +
@@ -218,16 +221,17 @@ namespace MedicalAssistant.Controllers
                     }
 
                 }
-                   
+
 
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
                 return BadRequest();
-              
+
             }
             return Ok(userToUpdate);
+
         }
 
 
@@ -279,27 +283,35 @@ namespace MedicalAssistant.Controllers
 
 
 
+
         private string AddImage(string ImagePath)
         {
+           
             string imageName = Guid.NewGuid().ToString() + ".jpg";
+         
+           
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
                 base64 = base64.Split(',')[1];
             }
-
+           
             var bmp = base64.FromBase64StringToImage();
+         
             string fileDestDir = _env.ContentRootPath;
+         
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-
+          
             string fileSave = Path.Combine(fileDestDir, imageName);
+         
             if (bmp != null)
             {
+               
                 int size = 1000;
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
-
+           
             return imageName;
         }
     }

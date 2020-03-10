@@ -14,3 +14,17 @@
    font-weight: 500;
   color: rgb(227, 241, 217);
   }
+  
+  .QrCanvas
+  {
+      display: inline;
+    
+  }
+
+  /* @media (max-width: 300px)
+  {
+    .QrCanvas{
+        display:inline;
+       
+    }
+  } */

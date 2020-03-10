@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
-import { push } from 'connected-react-router';
+import { push} from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
@@ -37,23 +37,25 @@ class PageDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: null,
-      detaileddoctor: null,
-      errors: {},
-      errorsServer: {},
-      token: localStorage.getItem('jwtToken'),
-      ImagePath: "",
-      imagechanged: false,
-      isCropped: false,
-      src: '',
-      serverurl: "http://localhost:54849",
-      startimage: require("../images/Placeholder.jpg"),
-      UpdatedoctorLoading: false,
-      UpdatedoctorFailed: false,
-      UpdatedoctorSuccess: false,
-      patientID: null,
-      IsLoading: false
-
+        user:null,
+        detaileddoctor:null,
+        errors: {},
+        errorsServer: {},
+        token : localStorage.getItem('jwtToken'),
+        ImagePath: "",
+        imagechanged:false,
+        isCropped:false,
+        src:'',
+        serverurl: "http://localhost:54849",
+        startimage:require("../images/Placeholder.jpg"),
+        UpdatedoctorLoading: false,
+        UpdatedoctorFailed: false,
+        UpdatedoctorSuccess: false,
+        patientID:null,
+        IsLoading:false,
+        scanQr:false,
+        scanQRresult:""
+     
 
 
     };
@@ -166,51 +168,49 @@ class PageDoctor extends Component {
   //   this.props.history.push(path);
   // }
 
-  handleScan = data => {
-    if (data) {
-      console.log("handleScan: ", data);
-    }
-
+  scanQRCode = e => {
+    e.preventDefault();
+    this.setState({scanQr:!this.state.scanQr});
   }
 
-  render() {
+  handleScan = data => {
+    if (data) {
+        console.log("handleScan: ",data);
+        this.setState({scanQRresult:"/home"});
+        let path = `/doctor/pagedoctor`;
+        this.props.history.push(path);
+    }
 
-    const { src, isCropped } = this.state;
+   
+
+}
+
+  render() {
+  
+    const {src,isCropped,scanQr}= this.state; 
     const options = {
       year: 'numeric',
       month: 'numeric',
       day: 'numeric',
     };
-    return (
-      <div>
-        {this.state.IsLoading === false ?
-          <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
-            <h3 className="moreHeader"> Особистий профіль</h3>
-            <div className="row">
-              <div className="col-12 col-sm-4">
+      return (
+          <div>
+              {this.state.IsLoading === false &&  this.state.detaileddoctor ?
+                    <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
-                {
-                  this.state.detaileddoctor ?
-                    <img
-                      onClick={this.onselectImage}
-                      className="imgUpload"
-                      src={this.state.detaileddoctor.imagePath === "" || this.state.imagechanged ? (this.state.ImagePath !== "" ? this.state.ImagePath : this.state.startimage) : (this.state.UpdatepatientLoading ? this.state.ImagePath : this.state.serverurl + '/Images/' + this.state.detaileddoctor.imagePath)}
-                      onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                      width="500px">
+                      <div className="row">
+                          <div className="col-12 col-sm-4">
 
-                    </img> :
-                    <img
-                      onClick={this.onselectImage}
-                      className="imgUpload"
-                      src={this.state.startimage}
-                      onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                      width="500px">
-                    </img>
+                  <img
+                    onClick={this.onselectImage}
+                    className="imgUpload"
+                    src={this.state.imagechanged ? this.state.ImagePath : this.state.detaileddoctor.imagePath}
+                    onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                    width="500px">
 
-                }
-
-                {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-                {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                  </img> 
+                              {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                              {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
