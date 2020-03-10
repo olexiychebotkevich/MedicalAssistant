@@ -197,8 +197,8 @@ class PageDoctor extends Component {
           <div>
               {this.state.IsLoading === false &&  this.state.detaileddoctor ?
                     <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
-
-                      <div className="row">
+     <h3 className="moreHeader"> Особистий профіль</h3>
+                      <div className="row" align="center">
                           <div className="col-12 col-sm-4">
 
                   <img
@@ -217,15 +217,15 @@ class PageDoctor extends Component {
 
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
-              <div className="col-12 col-sm-8 p">
-                <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
+              <div className="col-12 col-md-6 p">
+                <p className="ptext">Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
+                <p className="ptext">Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
+                <p className="ptext">Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
+                <p className="ptext">Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
+                <p className="ptext">Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
+                <p className="ptext">Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
+                <p className="ptext">Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
+                <p className="ptext">Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
               </div>
             </div>
             <Row gutter={16}>

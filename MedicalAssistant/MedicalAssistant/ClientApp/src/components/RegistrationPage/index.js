@@ -7,7 +7,7 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import '../../style.css';
 import '../home.css';
-
+import './index.css';
 import moment from 'moment';
 import axios from 'axios';
 import {
@@ -352,7 +352,7 @@ class RegistrationForm extends Component {
 
         return (
             <div className="tmp">
-                <div align="center" style={{width: '70%'}}> 
+                <div align="center" > 
                 <h1 className="header">Medical Assistant</h1>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
       

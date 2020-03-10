@@ -27,7 +27,7 @@ class NormalHomeForm extends React.Component {
 <div className="tmp">
   <div align="center" style={{width:'70%'}}>    
 <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
-<h1 className="homeHeader"> ваш надійний партнер</h1>
+<h1 className="homeHeader"> Ваш надійний партнер</h1>
 <h4 className="homeHeader1" >
 Ви забудько?<br/>
 У Вас підліткова розсіяність?<br/>

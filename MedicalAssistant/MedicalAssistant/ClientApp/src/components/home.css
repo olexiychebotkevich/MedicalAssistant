@@ -25,29 +25,8 @@
 
   justify-content: center;
 }
-.moreHeader{
-  text-align: center;
-  /* font-style: italic;  */
-  font-family: 'Candara';
-  font-size: 50px;
-  color:rgb(152, 197,178);
-  text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 2px #000;
-  -webkit-text-shadow: 0 0 2px #000;
-  text-align: center;
-}
-.header{
-  font-family: 'Candara';
-  font-style: italic; 
-  font-size: 80px;
-  color:rgb(152, 197,178);
-  text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 2px #000;
-  -webkit-text-shadow: 0 0 2px #000;
-  text-align: center;
 
 
-}
 .homeHeader{
   font-family: "Candara"; 
   text-align: "cener" ;
@@ -65,7 +44,7 @@
   font-family: "Candara";
   text-align: "center" ;
    /* font-style: italic;  */
-  font-size: 70px;
+   font-size: 70px;
   font-weight: 500;
   color:#3A7073;
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
@@ -82,6 +61,7 @@
   text-align: center ;
   font-weight: 300;
   color:rgb(27, 27, 27);
+  font-size: 30px;
   text-shadow: 0 0 2px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 2px #3A7073;
   -webkit-text-shadow: 0 0 2px #3A7073;
@@ -106,14 +86,53 @@
     text-shadow: 0 0 3px #3A7073; /* horizontal-offset vertical-offset 'blur' colour */
     -moz-text-shadow: 0 0 3px #3A7073;
     -webkit-text-shadow: 0 0 3px #3A7073;
+
   }
-@media (max-width: 768px) {
-  .header{
-    font-size: 60px;
+  @media (max-width: 1200px) {
+    .homeHeaderG{
+      font-size: 65px;
+    }
+    .homeHeader{
+      font-size: 45px;
+    }
+    .homeHeader1{
+      font-size: 25px;
+    }
+   
+  }
+  @media (max-width: 960px) {
+    .homeHeaderG{
+      font-size: 60px;
+    }
+    .homeHeader{
+      font-size: 40px;
+    }
+    .homeHeader1{
+      font-size: 20px;
+    }
+   
+  }
+  @media (max-width: 768px) {
+    .homeHeaderG{
+      font-size: 50px;
+    }
+    .homeHeader{
+      font-size: 35px;
+    }
+    .homeHeader1{
+      font-size: 20px;
+    }
+   
   }
 @media (max-width: 566px) {
-  .header{
+  .homeHeaderG{
     font-size: 45px;
+  }
+  .homeHeader{
+    font-size: 30px;
+  }
+  .homeHeader1{
+    font-size: 20px;
   }
  
 } 
@@ -123,9 +142,6 @@
   }
 }
  
-} 
- 
-
 .login-form-button {
   font-family: "Candara"; 
   width:100%;
