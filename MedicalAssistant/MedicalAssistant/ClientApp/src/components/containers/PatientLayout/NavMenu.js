@@ -60,7 +60,7 @@ class NavMenu extends Component {
                 </Menu.Item>
 
                 {this.state.isAuthenticated ? 
-                   <Button style={{float: 'right',backgroundColor:'rgb(157,181,176)',margin:'10px',fontFamily:'Candara'}} type="primary"onClick={this.logoutclick}>Logout</Button>
+                   <Button style={{float: 'right',backgroundColor:'rgb(157,181,176)',margin:'10px',fontFamily:'Candara',border:'1px solid rgb(221, 252, 200)'}} type="primary"onClick={this.logoutclick}>Logout</Button>
               : null}
      
             </Menu>

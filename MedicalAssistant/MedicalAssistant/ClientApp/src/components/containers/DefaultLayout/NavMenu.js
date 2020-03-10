@@ -92,14 +92,14 @@ class NavMenu extends Component {
                
           
                 <Menu.Item style={{float: 'left'}} key="app" disabled>
-                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '600', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
+                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '400', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
                 </Menu.Item>
 
                
                 <Menu.Item style={{float: 'right'}}>
                 <Row type="flex"  justify="center" align="middle">
                 <Dropdown overlay={menu} placement="topRight">
-                <Button type="primary" shape="circle"  size="large" style={{backgroundColor: 'rgb(157,181,167)',margin:'10px'}}><Icon style={{ fontSize: '18px'}} className="icon" type="bank" /></Button>
+                <Button type="primary" shape="circle"  size="large" style={{backgroundColor: 'rgb(157,181,167)',margin:'10px',border:'1px solid rgb(221, 252, 200)'}}><Icon style={{ fontSize: '18px'}} className="icon" type="bank" /></Button>
                 </Dropdown>
                 </Row>
                 </Menu.Item>

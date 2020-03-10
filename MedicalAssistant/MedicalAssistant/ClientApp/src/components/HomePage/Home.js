@@ -25,27 +25,45 @@ class NormalHomeForm extends React.Component {
     const { current } = this.state;
     return (
 <div className="tmp">
-  <div align="center" style={{width:'70%'}}>    
-<h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
-<h1 className="homeHeader"> ваш надійний партнер</h1>
-<h4 className="homeHeader1" >
+
+        <div className='container'>
+          <div className='row'>
+
+            <div className="col" align="left">
+              <img className="imgD" src={require("../images/hotpng.com.png")} />
+            </div>
+
+            <div className="col" align="center" >
+              <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
+              <h1 className="homeHeader"> ваш надійний партнер</h1>
+            </div>
+
+          </div>
+        </div>
+
+
+ 
+
+{/* <h4 className="homeHeader1" >
 Ви забудько?<br/>
 У Вас підліткова розсіяність?<br/>
 Чи можливо від сірої буденності часткова втрата пам'яті?
-</h4>
+</h4> */}
 
-<h3 className="homeHeader1" >Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
- <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
+{/* <h3 className="homeHeader1" >Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
+ {/* <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
    <Step  title="Спочатку зареєструйся!✅"  />
    <Step title="Залогінься!✅"/>
    <Step title="Зайди на особисту сторінку!👤"/>
    <Step title="На сторінці ти можеш переглянути свої рецепти!💬" />
    <Step title="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉"  />
 
- </Steps>
+ </Steps> */} 
+
  </div>
 
-</div>
+
+
     );
     
   }

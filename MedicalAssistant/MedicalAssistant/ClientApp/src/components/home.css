@@ -1,6 +1,7 @@
  body{
-  background-image: url('../pngfuel.com_3.png') ; 
-  background-position: bottom;
+
+   background-image: url('../pngfuel.com_3.png') ;   
+   background-position: bottom; 
   
  background-color: rgb(213, 245, 227); 
 /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
@@ -155,5 +156,10 @@
     background-color: rgb(157, 181,167);
    
   }
- 
+.imgD{
+  align-items: left; 
+  width: 620px;
+  height: 639px;
+  float: left;
+}
  
