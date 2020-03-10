@@ -35,14 +35,14 @@ class NormalHomeForm extends React.Component {
 </h4>
 
 <h3 className="homeHeader1" >Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
- <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
+ {/* <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
    <Step  title="Спочатку зареєструйся!✅"  />
    <Step title="Залогінься!✅"/>
    <Step title="Зайди на особисту сторінку!👤"/>
    <Step title="На сторінці ти можеш переглянути свої рецепти!💬" />
    <Step title="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉"  />
 
- </Steps>
+ </Steps> */}
  </div>
 
 </div>

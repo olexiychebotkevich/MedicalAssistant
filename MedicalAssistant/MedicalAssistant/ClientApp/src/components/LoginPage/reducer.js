@@ -168,15 +168,16 @@ export function logout() {
 }
 
 export const loginByJWT = (tokens, dispatch) => {
-    console.log("-------login by jwt");
+    console.log("-------login by jwt", tokens);
     const {token, refToken}=tokens;
     var user = jwt.decode(token);
     if (!Array.isArray(user.roles)) {
         user.roles = Array.of(user.roles);
     }
-    //console.log('Hello app', user);
+    console.log('Hello app', user);
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('refreshToken', refToken);
+    console.log("-------user--------", user);
     setAuthorizationToken(token);
     dispatch(loginActions.setCurrentUser(user));
 }

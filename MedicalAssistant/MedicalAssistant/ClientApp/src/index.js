@@ -19,9 +19,12 @@ if(localStorage.jwtToken && localStorage.refreshToken && localStorage.isDoctor)
 {
   console.log("-----2");
   let data={
-    token:localStorage.jwtToken,
-    refreshToken:localStorage.refreshToken
+    token: localStorage.jwtToken,
+    refToken: localStorage.refreshToken
   }
+console.log("---salo-----",data.token);
+  loginActions.loginByJWT(data, store.dispatch);
+  loginActions.checkPatient(store.dispatch);
 
 }
 
