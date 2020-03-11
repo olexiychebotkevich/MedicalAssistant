@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using MedicalAssistant.DAL;
 
 namespace MedicalAssistant
 {
@@ -168,7 +169,9 @@ namespace MedicalAssistant
                 }
             });
 
-        
+            SeederDB.SeedData(app.ApplicationServices, env, this.Configuration);
+
+
         }
     }
 }
