@@ -30,7 +30,7 @@ class NormalHomeForm extends React.Component {
           <div className='row'>
 
             <div className="col" align="left">
-              <img className="imgD" src={require("../images/hotpng.com.png")} />
+              <img className="imgD" src={require("../images/hotpng.png")} />
             </div>
 
             <div className="col" align="center" >
