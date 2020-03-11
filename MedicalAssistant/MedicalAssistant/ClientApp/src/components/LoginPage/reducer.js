@@ -1,4 +1,4 @@
-import UserService from '../UserService';
+import UserService from '../../services/UserService';
 import update from '../../helpers/update';
 import isEmpty from 'lodash/isEmpty';
 import setAuthorizationToken from '../../utils/setAuthorizationToken';

@@ -1,4 +1,4 @@
-import RecipeService from '../RecipeService';
+import RecipeService from '../../services/RecipeService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 import jwt from 'jsonwebtoken';

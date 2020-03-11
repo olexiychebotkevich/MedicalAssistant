@@ -103,7 +103,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
+                DetailedPatient detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
                 if (detailuser == null)
                 {
                     return NotFound();
@@ -188,7 +188,7 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpPut("UpdateUser")]
-        public async Task<IActionResult> UpdateUser([FromBody]DetailedUser user)
+        public async Task<IActionResult> UpdateUser([FromBody]DetailedPatient user)
         {
             if (user == null)
             {
@@ -205,7 +205,7 @@ namespace MedicalAssistant.Controllers
                 string imageName = await AddImageResultTask;
 
                 userToUpdate.ImagePath = imageName;
-                if (await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
+                if (await TryUpdateModelAsync<DetailedPatient>(userToUpdate, "", s => s.ImagePath))
                 {
                     try
                     {

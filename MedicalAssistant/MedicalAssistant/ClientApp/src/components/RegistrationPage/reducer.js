@@ -1,4 +1,4 @@
-import UserService from '../UserService';
+import UserService from '../../services/UserService';
 import update from '../../helpers/update';
 import {history} from '../../store/configureStore';
 
@@ -61,7 +61,7 @@ export const usersReducer = (state = initialState, action) => {
 export const registrUser = (user) => {
     return (dispatch) => {
         dispatch(registrActions.started());
-        UserService.register(user)
+        UserService.registerpatient(user)   
             .then((response) => {
                 dispatch(registrActions.success(response));
                 history.push('/login');
@@ -78,7 +78,7 @@ export const registrUser = (user) => {
 export const registrDoctor = (user) => {
     return (dispatch) => {
         dispatch(registrActions.started());
-        UserService.register(user)
+        UserService.registerdoctor(user)
             .then((response) => {
                 dispatch(registrActions.success(response));
                 history.push('/login');

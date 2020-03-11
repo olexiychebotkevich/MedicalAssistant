@@ -114,7 +114,6 @@ class RegistrationForm extends Component {
             this.props.form.validateFields((error, values) => {
                 if(this.state.doctorCheck)
                 {
-
                 if (!error) {
                     if (this.props.statuscode === 400) {
                         this.props.form.setFields({
@@ -129,7 +128,6 @@ class RegistrationForm extends Component {
                     console.log('error', error, values);
                 }
                }
-
                else
                {
                 if (!error.Email&&!error.Password&&!error.UserName&&!error.UserSurname&&!error.PhoneNumber&&!error.Locality&&!error.DateOfBirth&&!error.confirm) {
@@ -159,8 +157,6 @@ class RegistrationForm extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
           
-         console.log("-----doctorcheck: ",this.state.doctorCheck);
-
                 if(this.state.doctorCheck)
                 {
                     if(!err)
@@ -195,7 +191,6 @@ class RegistrationForm extends Component {
                             DateOfBirth: values.DateofBirth,
                             ImagePath:""
                         };
-    
                         this.props.registrUser(usermodel);
                     }
                    
@@ -531,7 +526,7 @@ class RegistrationForm extends Component {
                 </Form.Item>
 
                 {this.state.doctorCheck ? doctorfields : null}
-                
+
                 <Form.Item {...tailFormItemLayout}>
                     <Button align="center" type="dashed" htmlType="submit" className="register-form-btn" >
                         Register

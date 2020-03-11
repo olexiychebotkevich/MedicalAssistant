@@ -1,4 +1,4 @@
-import UserService from '../UserService';
+import UserService from '../../services/UserService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 

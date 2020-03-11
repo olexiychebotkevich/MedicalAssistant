@@ -17,7 +17,7 @@ namespace MedicalAssistant.DAL.Entities
         {
 
         }
-        public DbSet<DetailedUser> DetailedUsers { get; set; }
+        public DbSet<DetailedPatient> DetailedUsers { get; set; }
         public DbSet<DetailedDoctor> DetailedDoctors { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
