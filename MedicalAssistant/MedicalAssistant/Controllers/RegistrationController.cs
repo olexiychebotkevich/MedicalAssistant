@@ -24,11 +24,14 @@ namespace MedicalAssistant.Controllers
         private readonly UserManager<DbUser> userManager;
         private readonly SignInManager<DbUser> signInManager;
         private readonly EFDbContext _dbcontext;
+      
+    
         public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager,EFDbContext context)
         {
             this.userManager = userManager;
-            this.signInManager = _signInManager;
-            this._dbcontext = context;
+            signInManager = _signInManager;
+            _dbcontext = context;
+           
         }
 
         [HttpPost("registration")]
@@ -50,6 +53,9 @@ namespace MedicalAssistant.Controllers
             {
                 if (model.DoctorSpecialty != null && model.WorkExpirience != 0)
                 {
+
+
+                    await userManager.AddToRoleAsync(userIdentity, "Doctor");
                     DetailedDoctor doctorDetailed = new DetailedDoctor
                     {
                         UserName = model.UserName,
@@ -67,6 +73,7 @@ namespace MedicalAssistant.Controllers
                 }
                 else
                 {
+                    await userManager.AddToRoleAsync(userIdentity, "Patient");
                     DetailedUser userDetailed = new DetailedUser
                     {
                         UserName = model.UserName,

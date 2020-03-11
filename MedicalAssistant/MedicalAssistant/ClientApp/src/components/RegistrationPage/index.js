@@ -159,7 +159,7 @@ class RegistrationForm extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
           
-   
+         console.log("-----doctorcheck: ",this.state.doctorCheck);
 
                 if(this.state.doctorCheck)
                 {
@@ -480,7 +480,7 @@ class RegistrationForm extends Component {
                 </Form.Item>
 
 
-                <Form.Item label="Locality">
+                {/* <Form.Item label="Locality">
                     {getFieldDecorator('Locality', {
                         rules: [
                             {
@@ -504,7 +504,21 @@ class RegistrationForm extends Component {
                         >
                             {options}
                         </Select>)}
-                </Form.Item>
+                </Form.Item> */}
+
+
+                        <Form.Item label="Locality">
+                            {getFieldDecorator('Locality', {
+                                rules: [
+                                    {
+                                        required: true,
+                                        message: 'Please choose your Locality ',
+                                        whitespace: true,
+                                    },
+                                ],
+                            })(
+                                <Input />)}
+                        </Form.Item>
 
                 
         
@@ -517,6 +531,7 @@ class RegistrationForm extends Component {
                 </Form.Item>
 
                 {this.state.doctorCheck ? doctorfields : null}
+                
                 <Form.Item {...tailFormItemLayout}>
                     <Button align="center" type="dashed" htmlType="submit" className="register-form-btn" >
                         Register
