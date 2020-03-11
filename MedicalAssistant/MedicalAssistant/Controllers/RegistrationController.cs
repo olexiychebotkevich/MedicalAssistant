@@ -100,7 +100,7 @@ namespace MedicalAssistant.Controllers
             if (user.Succeeded)
             {
 
-                await userManager.AddToRoleAsync(userIdentity, "Patient");
+                await userManager.AddToRoleAsync(userIdentity, "Doctor");
                 DetailedDoctor doctorDetailed = new DetailedDoctor
                 {
                     UserName = model.UserName,

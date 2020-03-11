@@ -71,24 +71,26 @@ export const loginReducer = (state = initialState, action) => {
     return newState;
 }
 
-export const loginUser = (user,isDoctor) => {
+export const loginUser = (user) => {
 
     return (dispatch) => {
+
+       
         dispatch(loginActions.started());
         UserService.login(user)
             .then((response) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
-               
-                if(isDoctor===true)
+                const userjwt = jwt.decode(localStorage.getItem('jwtToken'));
+                console.log("-----login user ",userjwt);
+                if(userjwt.roles==="Doctor")
                 {
                     checkDoctor(dispatch);
-                    localStorage.setItem('isDoctor', true);
                 }
-                else
+                if(userjwt.roles==="Patient")
                 {
                     checkPatient(dispatch);
-                    localStorage.setItem('isDoctor', false);
+                   
                 }
             }, err => { throw err; })
             .catch(err=> {

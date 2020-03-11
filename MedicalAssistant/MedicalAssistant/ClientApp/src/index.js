@@ -8,6 +8,7 @@ import configureStore, {history} from './store/configureStore';
 import App from './App';
 import  registerServiceWorker from './registerServiceWorker';
 import * as loginActions from './components/LoginPage/reducer';
+import jwt from 'jsonwebtoken';
 import { push } from 'connected-react-router';
 
 
@@ -17,12 +18,15 @@ const store = configureStore(history, initialState);
 console.log("-----1");
 if(localStorage.jwtToken && localStorage.refreshToken && localStorage.isDoctor)
 {
-  console.log("-----2");
-  let data={
-    token:localStorage.jwtToken,
-    refreshToken:localStorage.refreshToken
+  const userjwt = jwt.decode(localStorage.jwtToken);
+  if(userjwt.roles==="Doctor")
+  {
+    loginActions.checkDoctor(store.dispatch);
   }
-
+  if(userjwt.roles==="Patient")
+  {
+    loginActions.checkPatient(store.dispatch);
+  }
 }
 
 const rootElement = document.getElementById('root');
