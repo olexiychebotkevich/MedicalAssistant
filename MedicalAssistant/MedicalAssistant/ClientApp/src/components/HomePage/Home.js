@@ -29,11 +29,11 @@ class NormalHomeForm extends React.Component {
         <div className='container'>
           <div className='row'>
 
-            <div className="col" align="left">
+            <div className="col-6 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
               <img className="imgD" src={require("../images/hotpng.png")} />
             </div>
 
-            <div className="col" align="center" >
+            <div  className="col-6 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="center" >
               <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
               <h1 className="homeHeader"> ваш надійний партнер</h1>
             </div>

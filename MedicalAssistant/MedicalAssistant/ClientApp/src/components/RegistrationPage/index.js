@@ -352,6 +352,8 @@ class RegistrationForm extends Component {
 
         return (
             <div className="tmp">
+                  <div className='container'>
+          <div className='row'></div>
                 <div align="center" style={{width: '70%'}}> 
                 <h1 className="header">Medical Assistant</h1>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
@@ -525,6 +527,12 @@ class RegistrationForm extends Component {
                
           
             </Form>
+            </div>
+          <div>
+          {/* <div className="col-6 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="right">
+              <img className="imgD" src={require("../images/stickpng.com.png")} />
+            </div> */}
+          </div>
       </div>
       </div>
       
