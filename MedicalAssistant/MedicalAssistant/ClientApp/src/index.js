@@ -16,7 +16,7 @@ import { push } from 'connected-react-router';
 const initialState = window.initialReduxState;
 const store = configureStore(history, initialState);
 console.log("-----1");
-if(localStorage.jwtToken && localStorage.refreshToken && localStorage.isDoctor)
+if(localStorage.jwtToken && localStorage.refreshToken)
 {
   const userjwt = jwt.decode(localStorage.jwtToken);
   if(userjwt.roles==="Doctor")

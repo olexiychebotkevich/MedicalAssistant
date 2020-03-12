@@ -60,19 +60,19 @@ export default class UserService {
 
 
 
-    static changeImage(user, detailedpatient) {
+    static UpdatePatientImage(user, detailedpatient) {
         console.log(" user service--------: ", user);
         console.log("detailed user service--------: ", detailedpatient);
-        return axios.put(`${serverUrl}api/user/UpdateUser`, detailedpatient, {
+        return axios.put(`${serverUrl}api/user/UpdatePatientImage`, detailedpatient, {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
         });
     }
 
 
-    static UpdateDoctor(user, detaileddoctor) {
+    static UpdateDoctorImage(user, detaileddoctor) {
         console.log(" user service--------: ", user);
         console.log("detailed user service--------: ", detaileddoctor);
-        return axios.put(`${serverUrl}api/user/UpdateDoctor`, detaileddoctor, {
+        return axios.put(`${serverUrl}api/user/UpdateDoctorImage`, detaileddoctor, {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
         });
     }
