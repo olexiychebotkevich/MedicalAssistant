@@ -7,7 +7,7 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import '../home.css';
+import '../HomePage/home.css';
 import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';

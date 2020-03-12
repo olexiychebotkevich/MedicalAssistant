@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import  'antd/dist/antd.css';
-import '../home.css';
+import './home.css';
 
 
 import {
@@ -29,11 +29,11 @@ class NormalHomeForm extends React.Component {
         <div className='container'>
           <div className='row'>
 
-            <div className="col-6 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
+            <div className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
               <img className="imgD" src={require("../images/hotpng.png")} />
             </div>
 
-            <div  className="col-6 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="center" >
+            <div  className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="center" >
               <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
               <h1 className="homeHeader"> ваш надійний партнер</h1>
             </div>

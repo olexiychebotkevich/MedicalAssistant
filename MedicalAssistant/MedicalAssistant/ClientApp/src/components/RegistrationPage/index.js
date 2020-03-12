@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import '../../style.css';
-import '../home.css';
+import '../HomePage/home.css';
 
 import moment from 'moment';
 import axios from 'axios';

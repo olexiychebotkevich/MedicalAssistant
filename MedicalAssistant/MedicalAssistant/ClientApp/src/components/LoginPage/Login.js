@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import '../home.css';
+import '../HomePage/home.css';
 import * as usersActions from './reducer';
 import get from 'lodash.get';
 import { push } from 'connected-react-router';

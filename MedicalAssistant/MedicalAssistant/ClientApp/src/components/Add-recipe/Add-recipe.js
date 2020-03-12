@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button,InputNumber} from 'antd';
-import '../home.css';
+import '../HomePage/home.css';
 import * as recipeActions from './reducer';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';

@@ -9,8 +9,7 @@
   }
   .footer {
     flex: 0 0 auto;
-    background-color: rgb(130, 185, 204);
+    background-image: url('../../pngfuel.com_3.png') ;   
     width: 100%; 
-    text-align: center; 
     
   }
