@@ -7,15 +7,13 @@ import { push } from 'connected-react-router';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import './index.css';
+import { Link } from 'react-router-dom';
 
 import {
   Form,
   Input,
   Icon,
   Button,
-  Checkbox,
-  Row,
-  Col
 } from 'antd';
 
 
@@ -69,7 +67,7 @@ class NormalLoginForm extends React.Component {
               this.props.form.setFields({
                 username: {
                   username: values.username,
-                  errors: [new Error(this.props.errors.invalid)],
+                  errors: [new Error("Такий Email не існує")],
                 },
               });
             }
@@ -77,7 +75,7 @@ class NormalLoginForm extends React.Component {
               this.props.form.setFields({
                 password: {
                   value: values.password,
-                  errors: [new Error(this.props.errors.invalid)],
+                  errors: [new Error("Не вірний пароль")],
                 },
               });
             }
@@ -115,7 +113,7 @@ class NormalLoginForm extends React.Component {
     const digitsRegex = /(?=.*?[0-9])/;
     const uppercaseRegex = /(?=.*?[A-Z])/;
     if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
-      return callback('Password should contain uppercase letter etc')
+      return callback('Пароль повинен містити великі літери тощо')
     }
     callback()
   }
@@ -149,11 +147,11 @@ class NormalLoginForm extends React.Component {
                 rules: [
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
+                    message: 'Неправильна електронна пошта!',
                   },
                   {
                     required: true,
-                    message: 'Please input your E-mail!',
+                    message: 'Будь ласка, введіть свою електронну пошту!',
                   },
 
                 ],
@@ -170,11 +168,11 @@ class NormalLoginForm extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Будь ласка, введіть свій пароль!',
                   },
                   {
                     min: 8,
-                    message: "The field Password  must contain 8 symbols!"
+                    message: "Пароль повинен містити 8 символів!"
                   },
                   {
                     validator: this.strongValidator
@@ -198,11 +196,11 @@ class NormalLoginForm extends React.Component {
               <div className="row">
                 <div className="col-6">
                   <Button type="dashed" htmlType="submit" className="login-form-button" >
-                    Уввійти
+                    Увійти
                   </Button>
                 </div>
                 <div className="col-6">
-                  <Button type="dashed" htmlType="submit" className="register-form-button" >
+                  <Button  type="dashed"  className="register-form-button" >
                     Зареєструватися
                   </Button>
                 </div>

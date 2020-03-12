@@ -17,8 +17,6 @@ import {
     Tooltip,
     Icon,
     Select,
-    Row,
-    Col,
     Button,
     DatePicker,
     Menu,
@@ -29,9 +27,6 @@ const dateFormat = 'DD/MM/YYYY';
 const { SubMenu } = Menu;
 let timeout;
 let currentValue;
-
-
-
 
 const propTypes = {
     registrUser: PropTypes.func.isRequired,
@@ -209,7 +204,7 @@ class RegistrationForm extends Component {
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && value !== form.getFieldValue('password')) {
-            callback('Two passwords that you enter is inconsistent!');
+            callback('Два введені паролі несумісні!');
         } else {
             callback();
         }
@@ -235,7 +230,7 @@ class RegistrationForm extends Component {
         const uppercaseRegex = /(?=.*?[A-Z])/;
         if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
 
-            return callback('Password should contain uppercase letter etc')
+            return callback('Пароль повинен містити великі літери та цифри')
         }
         callback()
     }
@@ -319,22 +314,22 @@ class RegistrationForm extends Component {
       
        const doctorfields=(
         <div>
-        <Form.Item label="Post">
+        <Form.Item label="Спеціальність">
                    {getFieldDecorator('post', {
                        rules: [
                            {
                                required: true,
-                               message: 'Please input your Post!',
+                               message: 'Будь ласка, вашу спеціальність!',
                            },
                        ],
                    })(<Input />)}
                </Form.Item>
-               <Form.Item label=" Work experience">
+               <Form.Item label="Досвід">
                    {getFieldDecorator('workExperience', {
                        rules: [
                            {
                                required: true,
-                               message: 'Please input your Work Experience!',
+                               message: 'Будь ласка, введіть ваш досвід!',
                            },
                        ],
                    })( <InputNumber min={1} max={50} initialValue={3}  />)}
@@ -357,27 +352,27 @@ class RegistrationForm extends Component {
                         rules: [
                             {
                                 type: 'email',
-                                message: 'The input is not valid E-mail!',
+                                message: 'Недійсна електронна пошта!',
                             },
                             {
                                 required: true,
-                                message: 'Please input your E-mail!',
+                                message: 'Будь ласка, введіть свою електронну пошту!',
                             },
 
                         ],
                     })(<Input />)}
                 </Form.Item>
-                <Form.Item label="Password" hasFeedback>
+                <Form.Item label="Пароль" hasFeedback>
                     {getFieldDecorator('password', {
                         initialValue: undefined,
                         rules: [
                             {
                                 required: true,
-                                message: 'Please input your password!',
+                                message: 'Введіть свій пароль!',
                             },
                             {
                                 min: 8,
-                                message: "The field Password  must contain 8 symbols!"
+                                message: "Пароль повинен містити 8 символів!"
                             },
                             {
                                 validator: this.validateToNextPassword,
@@ -388,17 +383,17 @@ class RegistrationForm extends Component {
                         ],
                     })(<Input.Password />)}
                 </Form.Item>
-                <Form.Item label="Confirm Password" hasFeedback>
+                <Form.Item label="Пароль ще раз" hasFeedback>
                     {getFieldDecorator('confirm', {
                         initialValue: undefined,
                         rules: [
                             {
                                 required: true,
-                                message: 'Please confirm your password!',
+                                message: 'Підтвердьте свій пароль!',
                             },
                             {
                                 min: 8,
-                                message: "The field Confirm Password must contain 8 symbols!"
+                                message: "Поле Підтвердити пароль повинно містити 8 символів!"
                             },
                             {
                                 validator: this.compareToFirstPassword,
@@ -409,24 +404,24 @@ class RegistrationForm extends Component {
                 <Form.Item
                     label={
                         <span>
-                            Name&nbsp;
-                            <Tooltip title="Your name">
+                            Ім'я&nbsp;
+                            <Tooltip title="Ваше ім'я">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
                         </span>
                     }
                 >
-                    {getFieldDecorator('username', {
+                    {getFieldDecorator("username", {
                         initialValue: undefined,
-                        rules: [{ required: true, message: 'Please input your name!', whitespace: true }],
+                        rules: [{ required: true, message: 'Введіть своє ім’я!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
                 <Form.Item
                     label={
                         <span>
-                            Surname&nbsp;
-                            <Tooltip title="Your surname?">
+                            Прізвище&nbsp;
+                            <Tooltip title="Ваше прізвище">
                                 <Icon type="question-circle-o" />
                             </Tooltip>
                         </span>
@@ -434,14 +429,14 @@ class RegistrationForm extends Component {
                 >
                     {getFieldDecorator('usersurname', {
                         initialValue: undefined,
-                        rules: [{ required: true, message: 'Please input your Surnname!', whitespace: true }],
+                        rules: [{ required: true, message: 'Будь ласка, введіть своє Прізвище!', whitespace: true }],
                     })(<Input />)}
                 </Form.Item>
 
-                <Form.Item label="Phone Number">
+                <Form.Item label="Номер телефону">
                     {getFieldDecorator('phone', {
                         initialValue: undefined,
-                        rules: [{ required: true, message: 'Please input your phone number!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
+                        rules: [{ required: true, message: 'Введіть свій номер телефону!' }, { min: 10, message: "The field Phone number must contain 10 numbers!" }],
                     })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                 </Form.Item>
                 {/*          
@@ -459,18 +454,18 @@ class RegistrationForm extends Component {
                 </Form.Item> */}
 
 
-                <Form.Item label="Date of birth">
+                <Form.Item label="Дата народження">
                     {getFieldDecorator('DateofBirth', {
                         initialValue: moment("2015-12-31"),
                         rules: [
                             {
                                 type: 'object',
                                 required: true,
-                                message: 'Please input Date of birth',
+                                message: 'Будь ласка, введіть дату народження!',
                                 whitespace: true,
                             },
                         ],
-                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1960-01-01")} format={dateFormat} />)}
+                    })(<DatePicker initialValue={moment("2015-12-31")} disabledDate={d => !d || d.isAfter("2015-12-31") || d.isSameOrBefore("1940-01-01")} format={dateFormat} />)}
 
                 </Form.Item>
 
@@ -502,12 +497,12 @@ class RegistrationForm extends Component {
                 </Form.Item> */}
 
 
-                        <Form.Item label="Locality">
+                        <Form.Item label="Місто">
                             {getFieldDecorator('Locality', {
                                 rules: [
                                     {
                                         required: true,
-                                        message: 'Please choose your Locality ',
+                                        message: 'Будь ласка, оберіть своє місто',
                                         whitespace: true,
                                     },
                                 ],
