@@ -219,7 +219,7 @@ class PageDoctor extends Component {
                   onClick={this.onselectImage}
                   className="imgUpload"
                   src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
-                  onError={this.state.detaileddoctor.imagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
 
                 </img>
