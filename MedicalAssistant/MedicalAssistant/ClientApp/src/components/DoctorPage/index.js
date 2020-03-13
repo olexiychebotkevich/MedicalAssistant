@@ -43,7 +43,9 @@ class PageDoctor extends Component {
       errorsServer: {},
       token: localStorage.getItem('jwtToken'),
       ImagePath: "",
+      CroppedImage:"",
       imagechanged: false,
+      imagesaved:false,
       isCropped: false,
       src: '',
       serverurl: "http://localhost:54849",
@@ -56,10 +58,9 @@ class PageDoctor extends Component {
       scanQr: false,
       scanQRresult: ""
 
-
-
     };
-
+     
+    
 
   }
 
@@ -70,6 +71,7 @@ class PageDoctor extends Component {
     }
 
     this.props.GetDetailedDoctor(doctor);
+    
 
   }
 
@@ -83,6 +85,13 @@ class PageDoctor extends Component {
       UpdatedoctorSuccess: props.UpdatedoctorSuccess,
       IsLoading: props.IsLoading
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    // Популярный пример (не забудьте сравнить пропсы):
+    if (this.props.doctor !== prevProps.doctor) {
+     this.setState({ImagePath:this.state.detaileddoctor.imagePath});
+    }
   }
 
   onselectImage = (e) => {
@@ -99,7 +108,7 @@ class PageDoctor extends Component {
   }
 
   croppImage = (value) => {
-    this.setState({ ImagePath: value, imagechanged: true, isCropped: false });
+    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -116,6 +125,7 @@ class PageDoctor extends Component {
 
   onChangeSelectFile = (e) => {
     e.preventDefault();
+
     let files;
     if (e.dataTransfer) {
       files = e.dataTransfer.files;
@@ -150,10 +160,10 @@ class PageDoctor extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false });
+    this.setState({ imagechanged: false,imagesaved:true});
     const updateimagemodel = {
       id: this.state.detaileddoctor.id,
-      ImagePath: this.state.ImagePath
+      ImagePath: this.state.CroppedImage
     }
     
     this.props.changeImage(user, updateimagemodel);
@@ -163,7 +173,7 @@ class PageDoctor extends Component {
 
   cancelchangeImage = e => {
     e.preventDefault();
-    this.setState({ imagechanged: false });
+    this.setState({ imagechanged: false,src:''});
   }
 
   // routeChange=()=> {
@@ -190,6 +200,7 @@ class PageDoctor extends Component {
 
   render() {
 
+
     const { src, isCropped, scanQr } = this.state;
     const options = {
       year: 'numeric',
@@ -207,8 +218,8 @@ class PageDoctor extends Component {
               <img
                   onClick={this.onselectImage}
                   className="imgUpload"
-                  src={this.state.imagechanged ? this.state.ImagePath : this.state.detaileddoctor.imagePath}
-                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
+                  onError={this.state.detaileddoctor.imagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
 
                 </img>

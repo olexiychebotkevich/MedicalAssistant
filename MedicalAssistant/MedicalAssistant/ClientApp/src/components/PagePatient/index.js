@@ -45,7 +45,9 @@ class PagePatient extends Component {
       errorsServer: {},
       token: localStorage.getItem('jwtToken'),
       ImagePath: "",
+      CroppedImage:"",
       imagechanged: false,
+      imagesaved:false,
       isCropped: false,
       src: '',
       serverurl: "http://localhost:54849",
@@ -87,6 +89,14 @@ class PagePatient extends Component {
     };
   }
 
+
+  componentDidUpdate(prevProps) {
+    // Популярный пример (не забудьте сравнить пропсы):
+    if (this.props.patient !== prevProps.patient) {
+     this.setState({ImagePath:this.state.detailedpatient.imagePath});
+    }
+  }
+
   onselectImage = (e) => {
     this.inputFileElement.click();
   }
@@ -97,7 +107,7 @@ class PagePatient extends Component {
 
 
   croppImage = (value) => {
-    this.setState({ ImagePath: value, imagechanged: true, isCropped: false });
+    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -142,13 +152,12 @@ class PagePatient extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false });
+    this.setState({ imagechanged: false,imagesaved:true});
   
       const changeImageModel = {
       Id:this.state.detailedpatient.id,
-      ImagePath:this.state.ImagePath
+      ImagePath:this.state.CroppedImage
     }
-    console.log("-----changeImageModel ",changeImageModel);
     this.props.changeImage(user, changeImageModel);
 
   }
@@ -194,8 +203,8 @@ class PagePatient extends Component {
                 <img
                   onClick={this.onselectImage}
                   className="imgUpload"
-                  src={this.state.imagechanged ? this.state.ImagePath : this.state.detailedpatient.imagePath}
-                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
+                  onError={this.state.detailedpatient.imagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
 
                 </img>
