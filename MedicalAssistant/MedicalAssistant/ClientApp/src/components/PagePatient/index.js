@@ -143,9 +143,13 @@ class PagePatient extends Component {
       token: this.state.token
     }
     this.setState({ imagechanged: false });
-    const { detailedpatient, ImagePath } = this.state;
-    detailedpatient.imagePath = ImagePath;
-    this.props.changeImage(user, detailedpatient);
+  
+      const changeImageModel = {
+      Id:this.state.detailedpatient.id,
+      ImagePath:this.state.ImagePath
+    }
+    console.log("-----changeImageModel ",changeImageModel);
+    this.props.changeImage(user, changeImageModel);
 
   }
 

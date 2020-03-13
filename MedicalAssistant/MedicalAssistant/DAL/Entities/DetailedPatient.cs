@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.DAL.Entities
 {
-    [Table("tblDetailedUsers")]
-    public class DetailedUser
+    [Table("tblDetailedPatients")]
+    public class DetailedPatient
     {
         [Key, ForeignKey("User")]
         public int Id { get; set; }

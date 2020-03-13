@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using MedicalAssistant.DAL;
 
 namespace MedicalAssistant
 {
@@ -146,7 +147,7 @@ namespace MedicalAssistant
             });
 
          
-            Console.WriteLine("-----------------------"+Path.Combine(Directory.GetCurrentDirectory(), "uploadedimages"));
+            
             app.UseStaticFiles(new StaticFileOptions()
             {
                 //FileProvider = new PhysicalFileProvider(contentRoot),
@@ -168,7 +169,9 @@ namespace MedicalAssistant
                 }
             });
 
-        
+            SeederDB.SeedData(app.ApplicationServices, env, this.Configuration);
+
+
         }
     }
 }

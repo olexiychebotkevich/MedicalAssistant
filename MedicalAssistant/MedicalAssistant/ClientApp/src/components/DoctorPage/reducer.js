@@ -1,4 +1,4 @@
-import UserService from '../UserService';
+import UserService from '../../services/UserService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -140,7 +140,7 @@ export const GetDetailedDoctor = (doctor) => {
 export const changeImage = (user,doctor) => {
     return (dispatch) => {
         dispatch(doctorActions.updatestarted());
-        UserService.UpdateDoctor(user,doctor)
+        UserService.UpdateDoctorImage(user,doctor)
             .then((response) => {
                 dispatch(doctorActions.updatesuccess(response));
             }, err => { throw err; })

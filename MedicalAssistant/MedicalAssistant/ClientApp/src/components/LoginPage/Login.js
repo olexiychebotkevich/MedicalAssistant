@@ -7,15 +7,13 @@ import { push } from 'connected-react-router';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import './index.css';
+import { Link } from 'react-router-dom';
 
 import {
   Form,
   Input,
   Icon,
   Button,
-  Checkbox,
-  Row,
-  Col
 } from 'antd';
 
 
@@ -40,8 +38,7 @@ class NormalLoginForm extends React.Component {
     super(props);
     this.state = {
       loading: false,
-      login: {},
-      isDoctor:false
+      login: {}
     }
   }
 
@@ -58,43 +55,41 @@ class NormalLoginForm extends React.Component {
   componentDidUpdate(prevProps) {
 
     if (this.props.errors !== prevProps.errors) {
-      
 
-        this.props.form.validateFields((error, values) => {
-   
 
-            if (!error) {
-               
-                if (this.props.statuscode === 400) {
-                   if(this.props.errors.invalid==="Email does not exist")
-                   {
-                    this.props.form.setFields({
-                      username: {
-                            username:values.username,
-                            errors: [new Error(this.props.errors.invalid)],
-                        },
-                    });
-                   }
-                   if(this.props.errors.invalid==="No correct password")
-                   {
-                    this.props.form.setFields({
-                      password: {
-                            value:values.password,
-                            errors: [new Error(this.props.errors.invalid)],
-                        },
-                    });
-                  }
-                }
+      this.props.form.validateFields((error, values) => {
 
-            } else {
-                console.log('error', error, values);
+
+        if (!error) {
+
+          if (this.props.statuscode === 400) {
+            if (this.props.errors.invalid === "Email does not exist") {
+              this.props.form.setFields({
+                username: {
+                  username: values.username,
+                  errors: [new Error("Такий Email не існує")],
+                },
+              });
             }
-           
+            if (this.props.errors.invalid === "No correct password") {
+              this.props.form.setFields({
+                password: {
+                  value: values.password,
+                  errors: [new Error("Не вірний пароль")],
+                },
+              });
+            }
+          }
 
-        });
+        } else {
+          console.log('error', error, values);
+        }
+
+
+      });
 
     }
-}
+  }
 
 
 
@@ -108,7 +103,7 @@ class NormalLoginForm extends React.Component {
           Password: values.password,
           Email: values.username,
         };
-        this.props.loginUser(usermodel,this.state.isDoctor);
+        this.props.loginUser(usermodel);
       }
     });
   };
@@ -118,17 +113,17 @@ class NormalLoginForm extends React.Component {
     const digitsRegex = /(?=.*?[0-9])/;
     const uppercaseRegex = /(?=.*?[A-Z])/;
     if (!value.match(digitsRegex) || !value.match(uppercaseRegex)) {
-        return callback('Password should contain uppercase letter etc')
+      return callback('Пароль повинен містити великі літери тощо')
     }
     callback()
-}
+  }
 
 
- checkDoctor=(e)=>{
-  e.preventDefault();
-  this.state.isDoctor ? this.setState({isDoctor:false}) : this.setState({isDoctor:true})
-  
- }
+  checkDoctor = (e) => {
+    e.preventDefault();
+    this.state.isDoctor ? this.setState({ isDoctor: false }) : this.setState({ isDoctor: true })
+
+  }
 
 
   render() {
@@ -143,24 +138,24 @@ class NormalLoginForm extends React.Component {
 
         <h1 className="header">Medical Assistant</h1>
 
-          {/* <img src="hotpng.com.png" alt=""/> */}
+        {/* <img src="hotpng.com.png" alt=""/> */}
         <div className="col-12 col-sm-10 col-md-6 col-lg-4 ">
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Form.Item>
               {getFieldDecorator('username', {
-                        initialValue: undefined,
-                        rules: [
-                            {
-                                type: 'email',
-                                message: 'The input is not valid E-mail!',
-                            },
-                            {
-                                required: true,
-                                message: 'Please input your E-mail!',
-                            },
+                initialValue: undefined,
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'Неправильна електронна пошта!',
+                  },
+                  {
+                    required: true,
+                    message: 'Будь ласка, введіть свою електронну пошту!',
+                  },
 
-                        ],
-                    })(
+                ],
+              })(
                 <Input
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder="Ім'я користувача"
@@ -169,21 +164,21 @@ class NormalLoginForm extends React.Component {
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                        initialValue: undefined,
-                        rules: [
-                            {
-                                required: true,
-                                message: 'Please input your password!',
-                            },
-                            {
-                                min: 8,
-                                message: "The field Password  must contain 8 symbols!"
-                            },
-                            {
-                                validator: this.strongValidator
-                            }
-                        ],
-                    })(
+                initialValue: undefined,
+                rules: [
+                  {
+                    required: true,
+                    message: 'Будь ласка, введіть свій пароль!',
+                  },
+                  {
+                    min: 8,
+                    message: "Пароль повинен містити 8 символів!"
+                  },
+                  {
+                    validator: this.strongValidator
+                  }
+                ],
+              })(
                 <Input
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   type="password"
@@ -201,35 +196,19 @@ class NormalLoginForm extends React.Component {
               <div className="row">
                 <div className="col-6">
                   <Button type="dashed" htmlType="submit" className="login-form-button" >
-                    Уввійти
+                    Увійти
                   </Button>
                 </div>
                 <div className="col-6">
-                  <Button  type="dashed" htmlType="submit" className="register-form-button" >
+                  <Button  type="dashed"  className="register-form-button" >
                     Зареєструватися
                   </Button>
                 </div>
               </div>
-            
-            </Form.Item>
 
-            <Form.Item >
-              {getFieldDecorator('checkbox', {
-                initialValue: ['true', 'false'],
-              })(
-                <Checkbox.Group style={{ width: '100%' }} onChange={console.log("doctor Check: ",this.state.isDoctor)}>
-                <Row>
-                  <Col span={8}>
-                    <Checkbox  onChange={this.checkDoctor} checked={this.state.isDoctor ? true : false} value="doctor" >Лікар</Checkbox>
-                  </Col>
-                </Row>
-              </Checkbox.Group>
-              )}
             </Form.Item>
 
           </Form>
-         
-          
 
 
         </div>
@@ -253,7 +232,7 @@ const mapState = (state) => {
       IsLoading: get(state, 'loginReducer.login.loading'),
       IsFailed: get(state, 'loginReducer.login.failed'),
       IsSuccess: get(state, 'loginReducer.login.success'),
-      
+
     },
     statuscode: get(state, 'loginReducer.login.statuscode'),
     errors: get(state, 'loginReducer.login.errors'),
@@ -263,10 +242,10 @@ const mapState = (state) => {
 
 const mapDispatch = {
 
-  loginUser: (user,isDoctor) => {
-    return usersActions.loginUser(user,isDoctor);
+  loginUser: (user) => {
+    return usersActions.loginUser(user);
   },
-  
+
   push: (url) => {
     return (dispatch) => {
       dispatch(push(url));
