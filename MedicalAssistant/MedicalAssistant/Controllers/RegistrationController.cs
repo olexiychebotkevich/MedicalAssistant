@@ -61,10 +61,19 @@ namespace MedicalAssistant.Controllers
                     DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
                     Locality = model.Locality,
                     User = userManager.FindByEmailAsync(model.Email).Result,
-                    ImagePath = ""
+                    ImagePath = "ImagePath"
                 };
-                _dbcontext.Add(userDetailed);
-                _dbcontext.SaveChanges();
+                try
+                {
+                    await _dbcontext.AddAsync(userDetailed);
+                    await _dbcontext.SaveChangesAsync();
+
+                }
+                catch(Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+
 
             }
             else

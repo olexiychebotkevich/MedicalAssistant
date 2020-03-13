@@ -12,6 +12,7 @@ namespace MedicalAssistant.DAL
 {
     public static class SeederDB
     {
+      
 
 
         public static void SeedData(IServiceProvider services, IHostingEnvironment env, IConfiguration config)
@@ -21,14 +22,14 @@ namespace MedicalAssistant.DAL
                 var manager = scope.ServiceProvider.GetRequiredService<UserManager<DbUser>>();
                 var managerRole = scope.ServiceProvider.GetRequiredService<RoleManager<DbRole>>();
                 var context = scope.ServiceProvider.GetRequiredService<EFDbContext>();
-                SeederDB.SeedUsers(manager, managerRole);
+                SeederDB.SeedUsers(manager, managerRole,context);
                
             }
         }
 
 
         public static void SeedUsers(UserManager<DbUser> userManager,
-            RoleManager<DbRole> roleManager)
+            RoleManager<DbRole> roleManager,EFDbContext dbContext)
         {
             var count = roleManager.Roles.Count();
             var roleName = "Admin";
@@ -55,6 +56,13 @@ namespace MedicalAssistant.DAL
                 };
                 var result = userManager.CreateAsync(user, "8Ki9x9444+s").Result;
                 result = userManager.AddToRoleAsync(user, roleName).Result;
+                DetailedPatient pat = new DetailedPatient
+                {
+                    User = user,
+                    UserName = "test"
+                };
+                dbContext.DetailedUsers.Add(pat);
+
             }
 
 
