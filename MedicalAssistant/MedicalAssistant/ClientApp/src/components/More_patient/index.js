@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import '../home.css';
+import './index.css';
+import { Link } from "react-router-dom";
 
 
 import {
@@ -11,7 +13,7 @@ import {
 
 
 
-class NormalMoreForm extends React.Component {
+class NormalMorePatientForm extends React.Component {
   state = {
     current: 0,
   };
@@ -24,15 +26,15 @@ class NormalMoreForm extends React.Component {
     const { current } = this.state;
     return (
       <div className="container divv" >
-        <h3 className="moreHeader"> Діагноз</h3>
+       <h3 className="moreHeader"> Name Surname</h3>
         <Row gutter={16}>
 
           <Col xs={25} sm={25} md={12} lg={8} xl={8}>
-            <Card className="cards" title="Name Pill" headStyle={{ color: 'rgb(221, 252, 200)', fontFamily: 'Candara', fontStyle: 'Normal' }} >
-              <p className="pstyle" >Кількість днів</p>
-              <p className="pstyle">Особливості прийому</p>
-              <p className="pstyle">Кількість разів в день</p>
-
+         
+            <Card className="cards" title="Діагноз" headStyle={{ color: 'rgb(221, 252, 200)', fontFamily: 'Candara', fontStyle: 'Normal'  }}>
+            <p className="pstyle"> Name</p>
+            <p className="pstyle"> Date</p>
+            <Link  style={{ color: 'white' }} to="/patient/morerecipe">Детальніше</Link>
             </Card>
 
           </Col>
@@ -59,4 +61,4 @@ class NormalMoreForm extends React.Component {
 
 
 
-export default NormalMoreForm;
+export default NormalMorePatientForm;
