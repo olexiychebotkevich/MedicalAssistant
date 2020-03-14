@@ -43,6 +43,18 @@ export default function register() {
   }
 
 
+  window.addEventListener('push', function (event) {
+    event.waitUntil(window.registration.showNotification("pushNotificationTitle", {
+      body: event.data.text(),
+      icon: ' public/favicon.ico'
+    }));
+  });
+
+  window.addEventListener('notificationclick', function (event) {
+    event.notification.close();
+  });
+ 
+
 
 }
 

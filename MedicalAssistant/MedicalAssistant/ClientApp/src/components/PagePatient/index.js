@@ -12,6 +12,7 @@ import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
 import SpinnerWidget from '../spinner';
+import PushNotificationsService from '../../services/PushNotificationsService';
 
 
 
@@ -220,7 +221,7 @@ class PagePatient extends Component {
 
                           <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
-                <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
+                <CropperWidget loading={isCropped} src={src} onClose={PushNotificationsService.subscribeForPushNotifications()} croppImage={this.croppImage} />
               </div>
               <div className="col-12 col-sm-6 p">
                 <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
@@ -230,6 +231,10 @@ class PagePatient extends Component {
                 <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
                 <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
               </div>
+            </div>
+
+            <div>
+               <Button type="danger" onClick={this.cancelchangeImage}>Get notifications</Button>
             </div>
 
                       <Row gutter={16}>
