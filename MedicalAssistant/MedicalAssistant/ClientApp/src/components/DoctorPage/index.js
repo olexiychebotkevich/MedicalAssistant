@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
+import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
 import { push } from 'connected-react-router';
@@ -248,9 +249,9 @@ class PageDoctor extends Component {
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
-                    <Card title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
-                      <p style={{ color: 'rgb(217, 241, 227)', fontStyle: 'Italic' }}>Діагноз: {recipe.diagnos}</p>
-                      <Button type="dashed" style={{ color: 'black', backgroundColor: 'rgb(221, 252, 200)' }} onClick={this.routeChange}>Детальніше</Button>
+                    <Card title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
+                    
+                     <Link  style={{ color: 'white'  }} to="/doctor/morepatient">Детальніше</Link>
                     </Card>
                   </Col>
                 ) :
@@ -269,14 +270,14 @@ class PageDoctor extends Component {
                 </div>
               </Col>
 
-              <Col span={8} offset={4}>
+              <Col span={8} offset={4} xs={12} >
                 <Row>
-                  <Col span={8} style={{ marginRight: "2%" }}>
+                  <Col span={8} style={{ marginRight: "2%"}}>
                     <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
-                  <Col span={4}>
-                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddRecipe}>
+                  <Col  span={4}>
+                    <Button type="primary" style={{backgroundColor:'rgb(157, 181,167)'}} onClick={this.AddRecipe}>
                       Add Recipe
               </Button>
                   </Col>
