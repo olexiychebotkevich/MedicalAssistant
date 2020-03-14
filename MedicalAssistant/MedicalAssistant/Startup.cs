@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
+using MedicalAssistant.DAL;
 
 namespace MedicalAssistant
 {
@@ -37,7 +38,7 @@ namespace MedicalAssistant
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EFDbContext>(options =>
-               options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<DbUser, DbRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<EFDbContext>()
@@ -132,7 +133,7 @@ namespace MedicalAssistant
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -146,7 +147,7 @@ namespace MedicalAssistant
             });
 
          
-            Console.WriteLine("-----------------------"+Path.Combine(Directory.GetCurrentDirectory(), "uploadedimages"));
+            
             app.UseStaticFiles(new StaticFileOptions()
             {
                 //FileProvider = new PhysicalFileProvider(contentRoot),
@@ -168,7 +169,9 @@ namespace MedicalAssistant
                 }
             });
 
-        
+            SeederDB.SeedData(app.ApplicationServices, env, this.Configuration);
+
+
         }
     }
 }

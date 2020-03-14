@@ -7,7 +7,7 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import '../home.css';
+import '../HomePage/home.css';
 import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
@@ -45,7 +45,9 @@ class PagePatient extends Component {
       errorsServer: {},
       token: localStorage.getItem('jwtToken'),
       ImagePath: "",
+      CroppedImage:"",
       imagechanged: false,
+      imagesaved:false,
       isCropped: false,
       src: '',
       serverurl: "http://localhost:54849",
@@ -87,6 +89,14 @@ class PagePatient extends Component {
     };
   }
 
+
+  componentDidUpdate(prevProps) {
+    // Популярный пример (не забудьте сравнить пропсы):
+    if (this.props.patient !== prevProps.patient) {
+     this.setState({ImagePath:this.state.detailedpatient.imagePath});
+    }
+  }
+
   onselectImage = (e) => {
     this.inputFileElement.click();
   }
@@ -97,7 +107,7 @@ class PagePatient extends Component {
 
 
   croppImage = (value) => {
-    this.setState({ ImagePath: value, imagechanged: true, isCropped: false });
+    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -142,10 +152,13 @@ class PagePatient extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false });
-    const { detailedpatient, ImagePath } = this.state;
-    detailedpatient.imagePath = ImagePath;
-    this.props.changeImage(user, detailedpatient);
+    this.setState({ imagechanged: false,imagesaved:true});
+  
+      const changeImageModel = {
+      Id:this.state.detailedpatient.id,
+      ImagePath:this.state.CroppedImage
+    }
+    this.props.changeImage(user, changeImageModel);
 
   }
 
@@ -189,17 +202,16 @@ class PagePatient extends Component {
             <h3 className="moreHeader"> Особистий профіль</h3>
 
 
-                  <div className="row">
-                      <div className="col-12 col-sm-4">
+                  <div className="row" align="center">
+                      <div className="col-12 col-sm-4" >
 
 
                 <img
                   onClick={this.onselectImage}
                   className="imgUpload"
-                  src={this.state.imagechanged ? this.state.ImagePath : this.state.detailedpatient.imagePath}
-                  onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
+                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
-
                 </img>
 
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
@@ -210,13 +222,13 @@ class PagePatient extends Component {
 
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
-              <div className="col-12 col-sm-6 p">
-                <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+              <div className="col-12 col-md-6 p ">
+                <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
+                <p className="ptext"> Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p className="ptext">Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p className="ptext">Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
               </div>
             </div>
 
@@ -236,7 +248,7 @@ class PagePatient extends Component {
 
 
 
-            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center">
+            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center" >
 
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div style={{ width: "100%" }} >

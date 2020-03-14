@@ -1,4 +1,4 @@
-import UserService from '../UserService';
+import UserService from '../../services/UserService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -26,8 +26,7 @@ const initialState = {
         loading: false,
         success: false,
         errors: {},
-        statuscode: null,
-        patient: null
+        statuscode: null
     }
 }
 
@@ -64,7 +63,6 @@ export const patientsReducer = (state = initialState, action) => {
         case UPDATEPATIENT_SUCCESS: {
             newState = update.set(state, 'updatepatient.loading', false);
             newState = update.set(newState, 'updatepatient.success', true);
-            newState = update.set(newState, 'updatepatient.patient', action.payload.data);
             break;
         }
 
@@ -72,7 +70,6 @@ export const patientsReducer = (state = initialState, action) => {
             newState = update.set(state, 'updatepatient.loading', false);
             newState = update.set(newState, 'updatepatient.failed', true);
             newState = update.set(newState, 'updatepatient.success', false);
-           
             break;
         }
       
@@ -111,7 +108,7 @@ export const GetDetailedPatient = (patient) => {
 export const changeImage = (user,patient) => {
     return (dispatch) => {
         dispatch(patientActions.updatestarted());
-        UserService.changeImage(user,patient)
+        UserService.UpdatePatientImage(user,patient)
             .then((response) => {
                 dispatch(patientActions.updatesuccess(response));
             }, err => { throw err; })
@@ -152,7 +149,7 @@ export const patientActions = {
     },
     updatesuccess: (data) => {
         return {
-            type: UPDATEPATIENT_SUCCESS,
+            type: UPDATEPATIENT_SUCCESS
         }
     },
     updatefailed: (response) => {

@@ -103,7 +103,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                DetailedUser detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
+                DetailedPatient detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
                 if (detailuser == null)
                 {
                     return NotFound();
@@ -187,25 +187,25 @@ namespace MedicalAssistant.Controllers
 
 
         [Authorize]
-        [HttpPut("UpdateUser")]
-        public async Task<IActionResult> UpdateUser([FromBody]DetailedUser user)
+        [HttpPut("UpdatePatientImage")]
+        public async Task<IActionResult> UpdatePatientImage([FromBody]UpdatePatientImageViewModel patient)
         {
-            if (user == null)
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            var userToUpdate = await _dbcontext.DetailedUsers.Include("User").SingleOrDefaultAsync(u => u.User.Id == user.Id);
+            var userToUpdate = await _dbcontext.DetailedUsers.Include("User").SingleOrDefaultAsync(u => u.User.Id == patient.Id);
 
             try
             {
               
-                var AddImageResultTask = Task.Run(() => AddImage(user.ImagePath));
+                var AddImageResultTask = Task.Run(() => AddImage(patient.ImagePath));
                 //string imageName = AddImage(user.ImagePath);
                 string imageName = await AddImageResultTask;
 
                 userToUpdate.ImagePath = imageName;
-                if (await TryUpdateModelAsync<DetailedUser>(userToUpdate, "", s => s.ImagePath))
+                if (await TryUpdateModelAsync<DetailedPatient>(userToUpdate, "", s => s.ImagePath))
                 {
                     try
                     {
@@ -237,8 +237,8 @@ namespace MedicalAssistant.Controllers
 
 
         [Authorize]
-        [HttpPut("UpdateDoctor")]
-        public async Task<IActionResult> UpdateDoctor([FromBody]DetailedDoctor doctor)
+        [HttpPut("UpdateDoctorImage")]
+        public async Task<IActionResult> UpdateDoctorImage([FromBody]UpdateDoctorImageViewModel doctor)
         {
             if (doctor == null)
             {

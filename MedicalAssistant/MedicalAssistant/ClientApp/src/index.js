@@ -8,6 +8,7 @@ import configureStore, {history} from './store/configureStore';
 import App from './App';
 import  registerServiceWorker from './registerServiceWorker';
 import * as loginActions from './components/LoginPage/reducer';
+import jwt from 'jsonwebtoken';
 import { push } from 'connected-react-router';
 
 
@@ -15,17 +16,17 @@ import { push } from 'connected-react-router';
 const initialState = window.initialReduxState;
 const store = configureStore(history, initialState);
 console.log("-----1");
-if(localStorage.jwtToken && localStorage.refreshToken && localStorage.isDoctor)
+if(localStorage.jwtToken && localStorage.refreshToken)
 {
-  console.log("-----2");
-  let data={
-    token: localStorage.jwtToken,
-    refToken: localStorage.refreshToken
+  const userjwt = jwt.decode(localStorage.jwtToken);
+  if(userjwt.roles==="Doctor")
+  {
+    loginActions.checkDoctor(store.dispatch);
   }
-console.log("---salo-----",data.token);
-  loginActions.loginByJWT(data, store.dispatch);
-  loginActions.checkPatient(store.dispatch);
-
+  if(userjwt.roles==="Patient")
+  {
+    loginActions.checkPatient(store.dispatch);
+  }
 }
 
 

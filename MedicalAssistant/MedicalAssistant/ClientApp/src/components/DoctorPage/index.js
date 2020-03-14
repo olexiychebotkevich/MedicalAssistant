@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
+import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
-import { push} from 'connected-react-router';
+import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import '../home.css';
+import '../HomePage/home.css';
 import './index.css';
 import CropperWidget from '../CropperWidgetContainer';
 import SpinnerWidget from '../spinner';
@@ -37,29 +38,30 @@ class PageDoctor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        user:null,
-        detaileddoctor:null,
-        errors: {},
-        errorsServer: {},
-        token : localStorage.getItem('jwtToken'),
-        ImagePath: "",
-        imagechanged:false,
-        isCropped:false,
-        src:'',
-        serverurl: "http://localhost:54849",
-        startimage:require("../images/Placeholder.jpg"),
-        UpdatedoctorLoading: false,
-        UpdatedoctorFailed: false,
-        UpdatedoctorSuccess: false,
-        patientID:null,
-        IsLoading:false,
-        scanQr:false,
-        scanQRresult:""
-     
-
+      user: null,
+      detaileddoctor: null,
+      errors: {},
+      errorsServer: {},
+      token: localStorage.getItem('jwtToken'),
+      ImagePath: "",
+      CroppedImage:"",
+      imagechanged: false,
+      imagesaved:false,
+      isCropped: false,
+      src: '',
+      serverurl: "http://localhost:54849",
+      startimage: require("../images/Placeholder.jpg"),
+      UpdatedoctorLoading: false,
+      UpdatedoctorFailed: false,
+      UpdatedoctorSuccess: false,
+      patientID: null,
+      IsLoading: false,
+      scanQr: false,
+      scanQRresult: ""
 
     };
-
+     
+    
 
   }
 
@@ -70,6 +72,7 @@ class PageDoctor extends Component {
     }
 
     this.props.GetDetailedDoctor(doctor);
+    
 
   }
 
@@ -83,6 +86,13 @@ class PageDoctor extends Component {
       UpdatedoctorSuccess: props.UpdatedoctorSuccess,
       IsLoading: props.IsLoading
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    // Популярный пример (не забудьте сравнить пропсы):
+    if (this.props.doctor !== prevProps.doctor) {
+     this.setState({ImagePath:this.state.detaileddoctor.imagePath});
+    }
   }
 
   onselectImage = (e) => {
@@ -99,7 +109,7 @@ class PageDoctor extends Component {
   }
 
   croppImage = (value) => {
-    this.setState({ ImagePath: value, imagechanged: true, isCropped: false });
+    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -116,6 +126,7 @@ class PageDoctor extends Component {
 
   onChangeSelectFile = (e) => {
     e.preventDefault();
+
     let files;
     if (e.dataTransfer) {
       files = e.dataTransfer.files;
@@ -150,17 +161,20 @@ class PageDoctor extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false });
-    const { detaileddoctor, ImagePath } = this.state;
-    detaileddoctor.imagePath = ImagePath;
-    this.props.changeImage(user, detaileddoctor);
+    this.setState({ imagechanged: false,imagesaved:true});
+    const updateimagemodel = {
+      id: this.state.detaileddoctor.id,
+      ImagePath: this.state.CroppedImage
+    }
+    
+    this.props.changeImage(user, updateimagemodel);
 
   }
 
 
   cancelchangeImage = e => {
     e.preventDefault();
-    this.setState({ imagechanged: false });
+    this.setState({ imagechanged: false,src:''});
   }
 
   // routeChange=()=> {
@@ -170,24 +184,25 @@ class PageDoctor extends Component {
 
   scanQRCode = e => {
     e.preventDefault();
-    this.setState({scanQr:!this.state.scanQr});
+    this.setState({ scanQr: !this.state.scanQr });
   }
 
   handleScan = data => {
     if (data) {
-        console.log("handleScan: ",data);
-        this.setState({scanQRresult:"/home"});
-        let path = `/doctor/pagedoctor`;
-        this.props.history.push(path);
+      console.log("handleScan: ", data);
+      this.setState({ scanQRresult: "/home" });
+      let path = `/doctor/pagedoctor`;
+      this.props.history.push(path);
     }
 
-   
 
-}
+
+  }
 
   render() {
-  
-    const {src,isCropped,scanQr}= this.state; 
+
+
+    const { src, isCropped, scanQr } = this.state;
     const options = {
       year: 'numeric',
       month: 'numeric',
@@ -197,35 +212,35 @@ class PageDoctor extends Component {
           <div>
               {this.state.IsLoading === false &&  this.state.detaileddoctor ?
                     <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
-
-                      <div className="row">
+     <h3 className="moreHeader"> Особистий профіль</h3>
+                      <div className="row" align="center">
                           <div className="col-12 col-sm-4">
 
-                  <img
-                    onClick={this.onselectImage}
-                    className="imgUpload"
-                    src={this.state.imagechanged ? this.state.ImagePath : this.state.detaileddoctor.imagePath}
-                    onError={this.state.ImagePath !== "" ? (e) => { e.target.onerror = null; e.target.src = this.state.ImagePath } : (e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                    width="500px">
+              <img
+                  onClick={this.onselectImage}
+                  className="imgUpload"
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
+                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  width="500px">
 
-                  </img> 
-                              {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-                              {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                </img>
+                {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
 
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
-              <div className="col-12 col-sm-8 p">
-                <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
+              <div className="col-12 col-md-6 p">
+                <p className="ptext">Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
+                <p className="ptext">Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
+                <p className="ptext">Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
+                <p className="ptext">Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
+                <p className="ptext">Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
+                <p className="ptext">Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
+                <p className="ptext">Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
+                <p className="ptext">Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
               </div>
             </div>
             <Row gutter={16}>
@@ -235,8 +250,8 @@ class PageDoctor extends Component {
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
                     <Card title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
-                      <p style={{color:'rgb(217, 241, 227)',fontStyle:'Italic'}}>Діагноз: {recipe.diagnos}</p>
-                      <Button type="dashed" style={{ color: 'black' ,backgroundColor:'rgb(221, 252, 200)'}} onClick={this.routeChange}>Детальніше</Button>
+                    
+                     <Link  style={{ color: 'white'  }} to="/doctor/morepatient">Детальніше</Link>
                     </Card>
                   </Col>
                 ) :
@@ -249,19 +264,19 @@ class PageDoctor extends Component {
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
                 <div>
-                  <Button type="primary"  style={{backgroundColor:'rgb(157, 181,167)'}}>
+                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }}>
                     Scan QR!
              </Button>
                 </div>
               </Col>
 
-              <Col span={8} offset={4}>
+              <Col span={8} offset={4} xs={12} >
                 <Row>
-                  <Col span={8} style={{ marginRight: "2%" }}>
+                  <Col span={8} style={{ marginRight: "2%"}}>
                     <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
-                  <Col span={4}>
+                  <Col  span={4}>
                     <Button type="primary" style={{backgroundColor:'rgb(157, 181,167)'}} onClick={this.AddRecipe}>
                       Add Recipe
               </Button>

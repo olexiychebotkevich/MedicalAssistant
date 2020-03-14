@@ -19,20 +19,24 @@ namespace MedicalAssistant.Controllers
     [ApiController]
     public class RegistrationController : ControllerBase
     {
-      
-
         private readonly UserManager<DbUser> userManager;
         private readonly SignInManager<DbUser> signInManager;
         private readonly EFDbContext _dbcontext;
-        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager,EFDbContext context)
+
+
+        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager, EFDbContext context)
         {
             this.userManager = userManager;
-            this.signInManager = _signInManager;
-            this._dbcontext = context;
+            signInManager = _signInManager;
+            _dbcontext = context;
+
         }
 
-        [HttpPost("registration")]
-        public async Task<IActionResult> Reg([FromBody]RegistrationViewModel model)
+
+
+        #region Patient Registration
+        [HttpPost("patientregistration")]
+        public async Task<IActionResult> PatientRegistr([FromBody]PatientRegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -42,48 +46,38 @@ namespace MedicalAssistant.Controllers
 
             //var userIdentity = _mapper.Map<DbUser>(model);
 
-            var userIdentity = new DbUser { Email = model.Email,UserName = model.Email, PhoneNumber=model.PhoneNumber};
+            var userIdentity = new DbUser { Email = model.Email, UserName = model.Email, PhoneNumber = model.PhoneNumber };
             var user = await userManager.CreateAsync(userIdentity, model.Password);
 
 
             if (user.Succeeded)
             {
-                if (model.DoctorSpecialty != null && model.WorkExpirience != 0)
-                {
-                    DetailedDoctor doctorDetailed = new DetailedDoctor
-                    {
-                        UserName = model.UserName,
-                        UserSurname = model.UserSurname,
-                        DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
-                        Locality = model.Locality,
-                        WorkExpirience = model.WorkExpirience,
-                        DoctorSpecialty = model.DoctorSpecialty,
-                        User = userManager.FindByEmailAsync(model.Email).Result
 
-                    };
-
-                    _dbcontext.Add(doctorDetailed);
-                    _dbcontext.SaveChanges();
-                }
-                else
+                await userManager.AddToRoleAsync(userIdentity, "Patient");
+                DetailedPatient userDetailed = new DetailedPatient
                 {
-                    DetailedUser userDetailed = new DetailedUser
-                    {
-                        UserName = model.UserName,
-                        UserSurname = model.UserSurname,
-                        DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
-                        Locality = model.Locality,
-                        User = userManager.FindByEmailAsync(model.Email).Result,
-                        ImagePath=model.ImagePath
-                    };
-                    _dbcontext.Add(userDetailed);
-                    _dbcontext.SaveChanges();
+                    UserName = model.UserName,
+                    UserSurname = model.UserSurname,
+                    DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
+                    Locality = model.Locality,
+                    User = userManager.FindByEmailAsync(model.Email).Result,
+                    ImagePath = "Images/DefaultImage"
+                };
+                try
+                {
+                    await _dbcontext.AddAsync(userDetailed);
+                    await _dbcontext.SaveChangesAsync();
+
                 }
+                catch(Exception ex)
+                {
+                    return BadRequest(ex);
+                }
+
+
             }
             else
             {
-            
-
                 foreach (var el in user.Errors)
                 {
                     return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
@@ -93,11 +87,62 @@ namespace MedicalAssistant.Controllers
 
             return Ok("Account Created");
         }
+        #endregion 
+
+
+        #region Doctor Registration
+        [HttpPost("doctorregistration")]
+        public async Task<IActionResult> DoctorRegistr([FromBody]DoctorRegistrationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = CustomValidator.GetErrorsByModel(ModelState);
+                return BadRequest(errors);
+            }
+
+            //var userIdentity = _mapper.Map<DbUser>(model);
+
+            var userIdentity = new DbUser { Email = model.Email, UserName = model.Email, PhoneNumber = model.PhoneNumber };
+            var user = await userManager.CreateAsync(userIdentity, model.Password);
+
+
+            if (user.Succeeded)
+            {
+
+                await userManager.AddToRoleAsync(userIdentity, "Doctor");
+                DetailedDoctor doctorDetailed = new DetailedDoctor
+                {
+                    UserName = model.UserName,
+                    UserSurname = model.UserSurname,
+                    DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
+                    Locality = model.Locality,
+                    User = userManager.FindByEmailAsync(model.Email).Result,
+                    ImagePath = "Images/DefaultImage",
+                    DoctorSpecialty = model.DoctorSpecialty,
+                    WorkExpirience = model.WorkExpirience
+                };
+                _dbcontext.Add(doctorDetailed);
+                _dbcontext.SaveChanges();
+
+            }
+            else
+            {
+                foreach (var el in user.Errors)
+                {
+                    return new BadRequestObjectResult(Errors.AddErrorToModelState("Error", el.Description, ModelState));
+                }
+            }
+
+
+            return Ok("Account Created");
+        }
+        #endregion
+
 
         [HttpGet("getall")]
-        public ICollection<DetailedUser> GetAll()
+        public ICollection<DetailedPatient> GetAll()
         {
-               return _dbcontext.DetailedUsers.Include("User").ToList();
+            return _dbcontext.DetailedUsers.Include("User").ToList();
         }
     }
 }

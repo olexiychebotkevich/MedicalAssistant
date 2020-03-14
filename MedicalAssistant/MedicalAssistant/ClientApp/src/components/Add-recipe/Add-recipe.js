@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Input, Icon, Button,InputNumber} from 'antd';
-import '../home.css';
+import '../HomePage/home.css';
 import * as recipeActions from './reducer';
 import { push } from 'connected-react-router';
 import get from 'lodash.get';
@@ -24,6 +24,9 @@ const propTypes = {
 const defaultProps = {};
 
 class DynamicFieldSet extends React.Component {
+    state = {
+        value: null,
+      };
     remove = k => {
         const { form } = this.props;
         // can use data-binding to get
@@ -50,7 +53,7 @@ class DynamicFieldSet extends React.Component {
             keys: nextKeys,
         });
     };
-
+  
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -96,11 +99,12 @@ class DynamicFieldSet extends React.Component {
                 sm: { span: 20, offset: 4 },
             },
         };
-
+      
+          
         getFieldDecorator('keys', { initialValue: [] });
 
         const keys = getFieldValue('keys');
-
+      
         const formItems = keys.map((title, k, index) => (
             <div className="container " style={{top:'6px'}}>
            
@@ -170,12 +174,14 @@ class DynamicFieldSet extends React.Component {
                             {
                                 required: true,
                                 message: 'Кількість разів в день',
+                                
                             },
                         ],
-                    })(<InputNumber placeholder="К-ть р/д" min={1} max={10} initialValue={1} />)}
+                    })(<InputNumber  placeholder="К-ть р/д"  min={1} max={10} initialValue={1} />
+                   )}
 
 </Form.Item>
-
+                
 
                     {keys.length > 1 ? (
                         <Icon
