@@ -51,6 +51,8 @@ namespace MedicalAssistant
                 
             });
 
+            services.AddHostedService<TimedHostedService>();
+
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("SecretPhrase")));
 
             services.Configure<IdentityOptions>(options =>
