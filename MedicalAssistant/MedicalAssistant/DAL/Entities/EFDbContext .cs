@@ -1,22 +1,51 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebPush = Lib.Net.Http.WebPush;
 
 namespace MedicalAssistant.DAL.Entities
 {
-    public class EFDbContext : IdentityDbContext<DbUser, DbRole, int, IdentityUserClaim<int>,
+    public  class EFDbContext : IdentityDbContext<DbUser, DbRole, int, IdentityUserClaim<int>,
                      DbUserRole, IdentityUserLogin<int>,
                      IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
+        public class PushSubscription : WebPush.PushSubscription
+        {
+            public string P256DH
+            {
+                get { return GetKey(WebPush.PushEncryptionKeyName.P256DH); }
+
+                set { SetKey(WebPush.PushEncryptionKeyName.P256DH, value); }
+            }
+
+            public string Auth
+            {
+                get { return GetKey(WebPush.PushEncryptionKeyName.Auth); }
+
+                set { SetKey(WebPush.PushEncryptionKeyName.Auth, value); }
+            }
+
+            public PushSubscription()
+            { }
+
+            public PushSubscription(WebPush.PushSubscription subscription)
+            {
+                Endpoint = subscription.Endpoint;
+                Keys = subscription.Keys;
+            }
+        }
+
         public EFDbContext(DbContextOptions<EFDbContext> options)
             : base(options)
         {
 
         }
+        public DbSet<PushSubscription> Subscriptions { get; set; }
         public DbSet<DetailedPatient> DetailedUsers { get; set; }
         public DbSet<DetailedDoctor> DetailedDoctors { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -42,6 +71,9 @@ namespace MedicalAssistant.DAL.Entities
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+            EntityTypeBuilder<PushSubscription> pushSubscriptionEntityTypeBuilder = builder.Entity<PushSubscription>();
+            pushSubscriptionEntityTypeBuilder.HasKey(e => e.Endpoint);
+            pushSubscriptionEntityTypeBuilder.Ignore(p => p.Keys);
         }
     }
 }

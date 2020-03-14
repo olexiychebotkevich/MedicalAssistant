@@ -21,6 +21,9 @@ using System.IO;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.AspNetCore.Http;
 using MedicalAssistant.DAL;
+using MedicalAssistant.Formatters;
+using Newtonsoft.Json.Converters;
+
 
 namespace MedicalAssistant
 {
@@ -37,8 +40,20 @@ namespace MedicalAssistant
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EFDbContext>(options =>
-              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<EFDbContext>(options =>
+            //  options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddPushSubscriptionStore(Configuration)
+                .AddPushNotificationService(Configuration)
+                .AddPushNotificationsQueue()
+                .AddMvc(options =>
+                {
+                    options.InputFormatters.Add(new TextPlainInputFormatter());
+                })
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new StringEnumConverter());
+                });
 
             services.AddIdentity<DbUser, DbRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<EFDbContext>()
@@ -108,6 +123,7 @@ namespace MedicalAssistant
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, EFDbContext dbContext)
         {
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
@@ -134,6 +150,16 @@ namespace MedicalAssistant
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
             });
+
+            DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
+            defaultFilesOptions.DefaultFileNames.Clear();
+
+            app.UseDefaultFiles(defaultFilesOptions)
+                .UsePushSubscriptionStore()
+                .Run(async (context) =>
+                {
+                    await context.Response.WriteAsync("-- Demo.AspNetCore.PushNotifications --");
+                });
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();

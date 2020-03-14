@@ -102,19 +102,7 @@ function checkValidServiceWorker(swUrl) {
     });
 }
 
-let pushServiceWorkerRegistration;
 
-function registerPushServiceWorker() {
-  navigator.serviceWorker.register('/scripts/service-workers/push-service-worker.js',
-      { scope: '/scripts/service-workers/push-service-worker/' })
-      .then(function (serviceWorkerRegistration) {
-          pushServiceWorkerRegistration = serviceWorkerRegistration;
-          
-          console.log('Push Service Worker has been registered successfully');
-      }).catch(function (error) {
-          console.log('Push Service Worker registration has failed: ' + error);
-      });
-};
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
