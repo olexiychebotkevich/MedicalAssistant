@@ -12,13 +12,13 @@ namespace MedicalAssistant.BLL.Services
 {
     public static class SqliteServiceCollectionExtensions
     {
-        private const string SQLITE_CONNECTION_STRING_NAME = "MedicalAssistantDB.sqlite";
+
+        private const string SQLITE_CONNECTION_STRING_NAME = "User ID=postgres;Password=jony3o8oKle@3e2Sda-9&s;Server=91.238.103.49;Port=5432;Database=MedicalAssistant;";
 
         public static IServiceCollection AddSqlitePushSubscriptionStore(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<EFDbContext>(options =>
-                options.UseSqlite(configuration.GetConnectionString(SQLITE_CONNECTION_STRING_NAME))
-            );
+               options.UseNpgsql(SQLITE_CONNECTION_STRING_NAME));
 
             services.AddTransient<IPushSubscriptionStore, SqlitePushSubscriptionStore>();
 

@@ -155,11 +155,7 @@ namespace MedicalAssistant
             defaultFilesOptions.DefaultFileNames.Clear();
 
             app.UseDefaultFiles(defaultFilesOptions)
-                .UsePushSubscriptionStore()
-                .Run(async (context) =>
-                {
-                    await context.Response.WriteAsync("-- Demo.AspNetCore.PushNotifications --");
-                });
+                .UsePushSubscriptionStore();
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
