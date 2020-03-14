@@ -12,7 +12,7 @@ import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
 import SpinnerWidget from '../spinner';
-import PushNotificationsService from '../../services/PushNotificationsService';
+import PushNotificationsService from '../pushnotifications/PushNotifications';
 
 
 
@@ -233,9 +233,7 @@ class PagePatient extends Component {
               </div>
             </div>
 
-            <div>
-               <Button type="danger" onClick={this.cancelchangeImage}>Get notifications</Button>
-            </div>
+           <PushNotificationsService/>
 
                       <Row gutter={16}>
                           {this.state.detailedpatient ?
