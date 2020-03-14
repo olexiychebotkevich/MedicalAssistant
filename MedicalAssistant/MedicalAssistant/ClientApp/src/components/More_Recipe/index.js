@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css';
-import '../home.css';
-
+import  'antd/dist/antd.css';
+import '../HomePage/home.css';
 
 import {
   Row, Card, Col
