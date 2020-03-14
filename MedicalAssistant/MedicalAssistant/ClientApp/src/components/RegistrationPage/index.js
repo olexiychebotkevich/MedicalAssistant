@@ -342,9 +342,7 @@ class RegistrationForm extends Component {
 
         return (
             <div className="tmp">
-                  <div className='container'>
-          <div className='row'></div>
-                <div align="center" style={{width: '70%'}}> 
+                <div align="center" > 
                 <h1 className="header">Medical Assistant</h1>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="register-form">
       

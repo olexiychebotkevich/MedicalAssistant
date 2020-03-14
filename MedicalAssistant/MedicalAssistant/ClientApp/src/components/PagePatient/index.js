@@ -202,8 +202,8 @@ class PagePatient extends Component {
             <h3 className="moreHeader"> Особистий профіль</h3>
 
 
-                  <div className="row">
-                      <div className="col-12 col-sm-4">
+                  <div className="row" align="center">
+                      <div className="col-12 col-sm-4" >
 
 
                 <img
@@ -222,13 +222,13 @@ class PagePatient extends Component {
 
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
-              <div className="col-12 col-sm-6 p">
-                <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
-                <p style={{ marginTop: '10px', fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}>Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+              <div className="col-12 col-md-6 p ">
+                <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
+                <p className="ptext"> Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p className="ptext">Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
+                <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p className="ptext">Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
               </div>
             </div>
 
@@ -248,7 +248,7 @@ class PagePatient extends Component {
 
 
 
-            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center">
+            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center" >
 
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div style={{ width: "100%" }} >
