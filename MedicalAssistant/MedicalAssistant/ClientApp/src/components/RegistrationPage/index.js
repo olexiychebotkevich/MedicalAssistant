@@ -537,7 +537,7 @@ class RegistrationForm extends Component {
             </div> */}
           </div>
       </div>
-      </div>
+     
       
         );
     }
