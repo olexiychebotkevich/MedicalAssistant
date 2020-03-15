@@ -256,7 +256,7 @@ class PageDoctor extends Component {
               </div>
             </div>
             <Row gutter={16}>
-              {this.state.detaileddoctor ?
+              {this.state.detaileddoctor.patients ?
                 this.state.detaileddoctor.patients.map((patient,index) =>
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
