@@ -225,7 +225,7 @@ class PageDoctor extends Component {
                     <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
      <h3 className="moreHeader"> Особистий профіль</h3>
                       <div className="row" align="center">
-                          <div className="col-12 col-sm-4">
+                          <div className="col-12 col-sm-6">
 
               <img
                   onClick={this.onselectImage}
@@ -235,9 +235,10 @@ class PageDoctor extends Component {
                   width="500px">
 
                 </img>
+                <div align="center" style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
-
+</div>
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
@@ -283,7 +284,7 @@ class PageDoctor extends Component {
 
               <Col span={8} offset={4} xs={12} >
                 <Row>
-                  <Col span={8} style={{ marginRight: "2%"}}>
+                  <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%"}}>
                     <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 

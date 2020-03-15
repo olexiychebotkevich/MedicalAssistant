@@ -204,7 +204,7 @@ class PagePatient extends Component {
 
 
                   <div className="row" align="center">
-                      <div className="col-12 col-sm-4" >
+                      <div className="col-12 col-sm-6" >
 
 
                 <img
@@ -214,10 +214,10 @@ class PagePatient extends Component {
                   onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
                 </img>
-
+<div align="center" style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
-
+                </div>
 
                           <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
