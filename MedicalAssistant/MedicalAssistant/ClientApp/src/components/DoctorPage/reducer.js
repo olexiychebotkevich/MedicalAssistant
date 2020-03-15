@@ -17,6 +17,10 @@ export const UPDATEDOCTOR_REQUEST = "doctor/DOCTOR_UPDATE_REQUEST";
 export const UPDATEDOCTOR_SUCCESS = "doctor/DOCTOR_UPDATE_SUCCESS";
 export const UPDATEDOCTOR_FAILURE = "doctor/DOCTOR_UPDATE_FAILURE";
 
+export const SEARCHPATIENT_REQUEST = "patient/PATIENT_SEARCH_REQUEST";
+export const SEARCHPATIENT_SUCCESS = "patient/PATIENT_SEARCH_SUCCESS";
+export const SEARCHPATIENT_FAILURE = "patient/PATIENT_SEARCH_FAILURE";
+
 const initialState = {
     detaileddoctor: {
     failed: false,
@@ -89,6 +93,25 @@ export const doctorsReducer = (state = initialState, action) => {
             break;
         }
 
+        case SEARCHPATIENT_REQUEST: {
+            newState = update.set(state, 'detailedpatient.loading', true);
+            break;
+        }
+
+        case SEARCHPATIENT_SUCCESS: {
+            newState = update.set(state, 'detailedpatient.loading', false);
+            newState = update.set(newState, 'detailedpatient.success', true);
+            newState = update.set(newState, 'detailedpatient.patient', action.payload.data);
+            break;
+        }
+
+        case SEARCHPATIENT_FAILURE: {
+            newState = update.set(state, 'detailedpatient.loading', false);
+            newState = update.set(newState, 'detailedpatient.failed', true);
+            newState = update.set(newState, 'detailedpatient.success', false);
+            break;
+        }
+
 
         case GETPATIENT_REQUEST: {
             newState = update.set(state, 'getpatient.loading', true);
@@ -135,6 +158,22 @@ export const GetDetailedDoctor = (doctor) => {
             });
     }
 }
+
+
+export const SearchPatientBySurname = (doctorId,UserSurname) => {
+    return (dispatch) => {
+        dispatch(doctorActions.searchstarted());
+        UserService.SearchPatientBySurname(doctorId,UserSurname)
+            .then((response) => {
+                dispatch(doctorActions.searchsuccess(response));
+            }, err => { throw err; })
+            .catch(err => {
+                if(err.response!=null)
+                dispatch(doctorActions.searchfailed(err.response));
+            });
+    }
+}
+
 
 
 
@@ -244,6 +283,22 @@ export const doctorActions = {
             errors: response.data,
             statuscode:response.status
         }
-    }
+    },
+    searchstarted: () => {
+        return {
+            type: SEARCHPATIENT_REQUEST
+        }
+    },
+    searchsuccess: (data) => {
+        return {
+            type: SEARCHPATIENT_SUCCESS,
+            payload: data
+        }
+    },
+    searchfailed: (response) => {
+        return {
+            type: SEARCHPATIENT_FAILURE,
+        }
+    },
 
 }

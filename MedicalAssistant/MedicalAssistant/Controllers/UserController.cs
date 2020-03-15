@@ -333,9 +333,9 @@ namespace MedicalAssistant.Controllers
         }
 
 
-       
+        
         [HttpPost("SearchPatiantBySurname")]
-        public  IActionResult SearchPatiantBySurname([FromForm]string searchString,int doctorId)
+        public  IActionResult SearchPatiantBySurname([FromBody]string searchString,int doctorId)
         {
             
             if (!String.IsNullOrEmpty(searchString))

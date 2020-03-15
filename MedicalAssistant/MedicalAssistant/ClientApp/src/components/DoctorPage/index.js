@@ -16,6 +16,7 @@ import QrReader from 'react-qr-reader';
 
 const propTypes = {
   GetDetailedDoctor: PropTypes.func.isRequired,
+  SearchPatientBySurname: PropTypes.func.isRequired,
   AddRecipe: PropTypes.func.isRequired,
   GetDetailedPatient: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
@@ -45,9 +46,9 @@ class PageDoctor extends Component {
       errorsServer: {},
       token: localStorage.getItem('jwtToken'),
       ImagePath: "",
-      CroppedImage:"",
+      CroppedImage: "",
       imagechanged: false,
-      imagesaved:false,
+      imagesaved: false,
       isCropped: false,
       src: '',
       serverurl: "http://localhost:54849",
@@ -61,8 +62,8 @@ class PageDoctor extends Component {
       scanQRresult: ""
 
     };
-     
-    
+
+
 
   }
 
@@ -73,7 +74,7 @@ class PageDoctor extends Component {
     }
 
     this.props.GetDetailedDoctor(doctor);
-    
+
 
   }
 
@@ -92,7 +93,7 @@ class PageDoctor extends Component {
   componentDidUpdate(prevProps) {
     // Популярный пример (не забудьте сравнить пропсы):
     if (this.props.doctor !== prevProps.doctor) {
-     this.setState({ImagePath:this.state.detaileddoctor.imagePath});
+      this.setState({ ImagePath: this.state.detaileddoctor.imagePath });
     }
   }
 
@@ -110,7 +111,7 @@ class PageDoctor extends Component {
   }
 
   croppImage = (value) => {
-    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
+    this.setState({ CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -162,18 +163,18 @@ class PageDoctor extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false,imagesaved:true});
+    this.setState({ imagechanged: false, imagesaved: true });
     const updateimagemodel = {
       id: this.state.detaileddoctor.id,
       ImagePath: this.state.CroppedImage
     }
-    
+
     this.props.changeImage(user, updateimagemodel);
 
   }
 
 
-  getDetailedPatiant=(id,e)=>{
+  getDetailedPatiant = (id, e) => {
     e.preventDefault();
     const doctor = {
       id: this.state.user.id,
@@ -183,9 +184,19 @@ class PageDoctor extends Component {
   }
 
 
+  // SearchPatient=(patientsurname,e)=>{
+  //   e.preventDefault();
+  //   const doctor = {
+  //     id: this.state.user.id,
+  //     token: this.state.token
+  //   }
+  //   this.props.SearchPatientBySurname(this.state.user.id,patientsurname);
+  // }
+
+
   cancelchangeImage = e => {
     e.preventDefault();
-    this.setState({ imagechanged: false,src:''});
+    this.setState({ imagechanged: false, src: '' });
   }
 
   // routeChange=()=> {
@@ -219,15 +230,15 @@ class PageDoctor extends Component {
       month: 'numeric',
       day: 'numeric',
     };
-      return (
-          <div>
-              {this.state.IsLoading === false &&  this.state.detaileddoctor ?
-                    <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
-     <h3 className="moreHeader"> Особистий профіль</h3>
-                      <div className="row" align="center">
-                          <div className="col-12 col-sm-6">
+    return (
+      <div>
+        {this.state.IsLoading === false && this.state.detaileddoctor ?
+          <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
+            <h3 className="moreHeader"> Особистий профіль</h3>
+            <div className="row" align="center">
+              <div className="col-12 col-sm-6">
 
-              <img
+                <img
                   onClick={this.onselectImage}
                   className="imgUpload"
                   src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
@@ -235,10 +246,10 @@ class PageDoctor extends Component {
                   width="500px">
 
                 </img>
-                <div align="center" style={{marginTop: '5px'}}>
-                {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-                {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
-</div>
+                <div align="center" style={{ marginTop: '5px' }}>
+                  {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                  {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                </div>
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
@@ -255,15 +266,17 @@ class PageDoctor extends Component {
                 <p className="ptext">Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
               </div>
             </div>
+
+
             <Row gutter={16}>
               {this.state.detaileddoctor.patients ?
-                this.state.detaileddoctor.patients.map((patient,index) =>
+                this.state.detaileddoctor.patients.map((patient, index) =>
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
-                    <Card key={index} title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
-                    
-                     <Button type="link" style={{ color: 'white'  }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
+                    <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
+
+                      <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
                     </Card>
                   </Col>
                 ) :
@@ -284,12 +297,12 @@ class PageDoctor extends Component {
 
               <Col span={8} offset={4} xs={12} >
                 <Row>
-                  <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%"}}>
+                  <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%" }}>
                     <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
-                  <Col  span={4}>
-                    <Button type="primary" style={{backgroundColor:'rgb(157, 181,167)'}} onClick={this.AddRecipe}>
+                  <Col span={4}>
+                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddRecipe}>
                       Add Recipe
               </Button>
                   </Col>
@@ -328,6 +341,9 @@ const mapDispatch = {
 
   GetDetailedDoctor: (user) => {
     return doctorActions.GetDetailedDoctor(user);
+  },
+  SearchPatientBySurname: (doctorId, userSurname) => {
+    return doctorActions.SearchPatientBySurname(doctorId, userSurname);
   },
   GetDetailedPatient: (user, patientID) => {
     return doctorActions.GetDetailedPatient(user, patientID);
