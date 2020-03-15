@@ -12,6 +12,8 @@ export const UPDATEPATIENT_REQUEST = "patient/PATIENT_UPDATE_REQUEST";
 export const UPDATEPATIENT_SUCCESS = "patient/PATIENT_UPDATE_SUCCESS";
 export const UPDATEPATIENT_FAILURE = "patient/PATIENT_UPDATE_FAILURE";
 
+export const SHOWRECIPE = "patient/PATIENT_SHOWRECIPE";
+
 const initialState = {
     detailedpatient: {
         failed: false,
@@ -19,7 +21,8 @@ const initialState = {
         success: false,
         patient: null,
         errors: {},
-        statuscode: null
+        statuscode: null,
+        detailedrecipe:null
     },
     updatepatient: {
         failed: false,
@@ -72,6 +75,11 @@ export const patientsReducer = (state = initialState, action) => {
             newState = update.set(newState, 'updatepatient.success', false);
             break;
         }
+
+        case SHOWRECIPE:{
+            newState = update.set(newState, 'detailedpatient.detailedrecipe', action.payload);
+            break;
+        }
       
         default: {
             return newState;
@@ -121,6 +129,17 @@ export const changeImage = (user,patient) => {
 }
 
 
+export const showDetailedRecipe = (detailedrecipe) => {
+    console.log("recipe: ",detailedrecipe)
+    if (detailedrecipe) {
+        return (dispatch) => {
+            dispatch(patientActions.showrecipe(detailedrecipe));
+            if (detailedrecipe)
+                dispatch(push('/patient/morerecipe'));
+        }
+    }
+}
+
 
 
 export const patientActions = {
@@ -155,6 +174,12 @@ export const patientActions = {
     updatefailed: (response) => {
         return {
             type: UPDATEPATIENT_FAILURE,
+        }
+    },
+    showrecipe: (data) => {
+        return {
+            type: SHOWRECIPE,
+            payload: data
         }
     }
 

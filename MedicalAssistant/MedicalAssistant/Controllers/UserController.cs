@@ -119,7 +119,7 @@ namespace MedicalAssistant.Controllers
                     User=detailuser.User,
                     Locality = detailuser.Locality,
                     ImagePath = $"Images/{detailuser.ImagePath}",
-                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
+                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Include(r=>r.Tablets).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
                 };
                 return Ok(detailedUserViewModel);
@@ -151,6 +151,18 @@ namespace MedicalAssistant.Controllers
                 {
                     return NotFound();
                 }
+                ICollection<DoctorPatiantViewModel> patients = new List<DoctorPatiantViewModel>();
+                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList())
+                {
+                    patients.Add(new DoctorPatiantViewModel
+                    {
+                        PatientID = p.Patient.Id,
+                        PatientName = p.Patient.UserName,
+                        PatientSurname = p.Patient.UserSurname
+                    });
+                }
+
+
 
                 DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
                 {
@@ -163,7 +175,8 @@ namespace MedicalAssistant.Controllers
                     User = detaildoctor.User,
                     WorkExpirience = detaildoctor.WorkExpirience,
                     ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
+                    Patients=patients
+                    
 
                 };
                 return Ok(detailedDoctorViewModel);

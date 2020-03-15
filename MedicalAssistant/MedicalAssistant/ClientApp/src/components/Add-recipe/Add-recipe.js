@@ -69,10 +69,8 @@ class DynamicFieldSet extends React.Component {
                     PatientID:this.props.PatientID,
                     DoctorID:this.props.DoctorID,
                     Diagnos: values.diagnos,
-                    Medicines: medicines,
-                    Date:today.toISOString().substring(0, 10)
-                  
-                   
+                    Tablets: medicines,
+                    Date:today.toISOString().substring(0, 10) 
                 };
                 console.log("recipemodel: ",recipemodel);
                 this.props.AddRecipe(recipemodel);

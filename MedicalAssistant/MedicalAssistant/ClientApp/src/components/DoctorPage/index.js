@@ -17,6 +17,7 @@ import QrReader from 'react-qr-reader';
 const propTypes = {
   GetDetailedDoctor: PropTypes.func.isRequired,
   AddRecipe: PropTypes.func.isRequired,
+  GetDetailedPatient: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
@@ -172,6 +173,16 @@ class PageDoctor extends Component {
   }
 
 
+  getDetailedPatiant=(id,e)=>{
+    e.preventDefault();
+    const doctor = {
+      id: this.state.user.id,
+      token: this.state.token
+    }
+    this.props.GetDetailedPatient(doctor, id);
+  }
+
+
   cancelchangeImage = e => {
     e.preventDefault();
     this.setState({ imagechanged: false,src:''});
@@ -245,13 +256,13 @@ class PageDoctor extends Component {
             </div>
             <Row gutter={16}>
               {this.state.detaileddoctor ?
-                this.state.detaileddoctor.recipes.map((recipe) =>
+                this.state.detaileddoctor.patients.map((patient,index) =>
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
-                    <Card title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
+                    <Card key={index} title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
                     
-                     <Link  style={{ color: 'white'  }} to="/doctor/morepatient">Детальніше</Link>
+                     <Button type="link" style={{ color: 'white'  }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
                     </Card>
                   </Col>
                 ) :
@@ -316,6 +327,9 @@ const mapDispatch = {
 
   GetDetailedDoctor: (user) => {
     return doctorActions.GetDetailedDoctor(user);
+  },
+  GetDetailedPatient: (user, patientID) => {
+    return doctorActions.GetDetailedPatient(user, patientID);
   },
 
   changeImage: (user, detaileduser) => {
