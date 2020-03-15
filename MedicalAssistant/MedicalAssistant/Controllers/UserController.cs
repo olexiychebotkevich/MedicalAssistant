@@ -152,8 +152,7 @@ namespace MedicalAssistant.Controllers
                     return NotFound();
                 }
                 ICollection<DoctorPatiantViewModel> patients = new List<DoctorPatiantViewModel>();
-                ICollection<Recipe> detailedPatients = _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).Distinct().ToList();
-                foreach(var p in detailedPatients)
+                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList())
                 {
 
                     DoctorPatiantViewModel model = new DoctorPatiantViewModel
@@ -165,7 +164,11 @@ namespace MedicalAssistant.Controllers
                     patients.Add(model);
 
                 }
-      
+
+                ICollection<DoctorPatiantViewModel> distinctStudents = patients.Distinct(new DoctorPatiantComparer()).ToList();
+
+
+
 
 
                 DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
