@@ -18,6 +18,7 @@ import SpinnerWidget from '../spinner';
 
 const propTypes = {
   GetDetailedPatient: PropTypes.func.isRequired,
+  showDetailedRecipe: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
@@ -58,8 +59,7 @@ class PagePatient extends Component {
       GetID: false,
       IsLoading: false,
       IsSuccess: false,
-      SelectedRecipeId:0
-
+      detailedrecipe:null
     };
 
 
@@ -169,8 +169,9 @@ class PagePatient extends Component {
   SelectRecipe(id, e){
     console.log("-------RecipeId: ",id);
     e.preventDefault();
-    this.setState({SelectedRecipeId: id });
-    console.log("-------RecipeId: ",this.state.SelectedRecipeId);
+    const detairecipe=this.state.detailedpatient.recipes[id];
+    console.log("detailed recipe : ",detairecipe);
+    this.props.showDetailedRecipe(detairecipe);
   }
 
 
@@ -203,7 +204,7 @@ class PagePatient extends Component {
 
 
                   <div className="row" align="center">
-                      <div className="col-12 col-sm-4" >
+                      <div className="col-12 col-sm-6" >
 
 
                 <img
@@ -213,10 +214,10 @@ class PagePatient extends Component {
                   onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
                 </img>
-
+<div align="center" style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
-
+                </div>
 
                           <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
@@ -233,10 +234,10 @@ class PagePatient extends Component {
             </div>
 
                       <Row gutter={16}>
-                          {this.state.detailedpatient ?
-                              this.state.detailedpatient.recipes.map((recipe) =>
+                          {this.state.detailedpatient.recipes ?
+                              this.state.detailedpatient.recipes.map((recipe,index) =>
                                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                                      <Card title="Рецепт" extra={<Link onClick={(e) => this.SelectRecipe(recipe.id, e)} style={{ color: 'white' }} to="/patient/morerecipe">More</Link>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                                      <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
                                           <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
                                           <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
                                           <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
@@ -297,6 +298,9 @@ const mapDispatch = {
 
   GetDetailedPatient: (user) => {
     return patientActions.GetDetailedPatient(user);
+  },
+  showDetailedRecipe: (detairecipe) => {
+    return patientActions.showDetailedRecipe(detairecipe);
   },
 
   changeImage: (user, detaileduser) => {

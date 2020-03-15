@@ -40,7 +40,8 @@ const initialState = {
         success: false,  
         errors:{},
         statuscode:null,
-        PatientID:0
+        PatientID:0,
+        patient:null
     }
 }
 
@@ -97,6 +98,7 @@ export const doctorsReducer = (state = initialState, action) => {
             newState = update.set(state, 'getpatient.loading', false);
             newState = update.set(newState, 'getpatient.success', true);
             newState = update.set(newState, 'getpatient.PatientID', action.payload.data.id);
+            newState = update.set(newState, 'getpatient.patient', action.payload.data);
             break;
         }
 
@@ -160,6 +162,26 @@ export const AddRecipe=(user,PatientID) =>{
                 dispatch(doctorActions.getpatientsuccess(response));
                 dispatch(push('/doctor/addrecipe'));
                 
+            }, err => { throw err; })
+            .catch(err => {
+                if(err.response!=null)
+                dispatch(doctorActions.getpatientfailed(err.response));
+            });
+    }
+}
+
+
+export const GetDetailedPatient=(user,PatientID) =>{
+    return (dispatch) => {
+        dispatch(doctorActions.getpatientstarted());
+        const patient={token:user.token,id:PatientID}
+        UserService.IsPatientExist(patient)
+            .then((response) => {
+                UserService.getdetailedpatient(patient)
+                .then((response)=>{
+                    dispatch(doctorActions.getpatientsuccess(response));
+                    dispatch(push('/doctor/morepatient'));
+                }, err => { throw err; })
             }, err => { throw err; })
             .catch(err => {
                 if(err.response!=null)

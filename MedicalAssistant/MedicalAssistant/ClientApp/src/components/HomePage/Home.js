@@ -33,7 +33,7 @@ class NormalHomeForm extends React.Component {
               <img className="imgD" src={require("../images/hotpng.png")} />
             </div>
 
-            <div  className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="center" >
+            <div  className="col-12 col-md-12 col-lg-6 col-xl-6 col-sm-12" align="center" >
               <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
               <h1 className="homeHeader"> ваш надійний партнер</h1>
             </div>

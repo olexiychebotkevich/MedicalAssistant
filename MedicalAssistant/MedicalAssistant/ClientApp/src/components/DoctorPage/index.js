@@ -17,6 +17,7 @@ import QrReader from 'react-qr-reader';
 const propTypes = {
   GetDetailedDoctor: PropTypes.func.isRequired,
   AddRecipe: PropTypes.func.isRequired,
+  GetDetailedPatient: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
@@ -172,6 +173,16 @@ class PageDoctor extends Component {
   }
 
 
+  getDetailedPatiant=(id,e)=>{
+    e.preventDefault();
+    const doctor = {
+      id: this.state.user.id,
+      token: this.state.token
+    }
+    this.props.GetDetailedPatient(doctor, id);
+  }
+
+
   cancelchangeImage = e => {
     e.preventDefault();
     this.setState({ imagechanged: false,src:''});
@@ -214,7 +225,7 @@ class PageDoctor extends Component {
                     <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
      <h3 className="moreHeader"> Особистий профіль</h3>
                       <div className="row" align="center">
-                          <div className="col-12 col-sm-4">
+                          <div className="col-12 col-sm-6">
 
               <img
                   onClick={this.onselectImage}
@@ -224,9 +235,10 @@ class PageDoctor extends Component {
                   width="500px">
 
                 </img>
+                <div align="center" style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
-
+</div>
 
                 <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
@@ -244,14 +256,14 @@ class PageDoctor extends Component {
               </div>
             </div>
             <Row gutter={16}>
-              {this.state.detaileddoctor ?
-                this.state.detaileddoctor.recipes.map((recipe) =>
+              {this.state.detaileddoctor.patients ?
+                this.state.detaileddoctor.patients.map((patient,index) =>
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
-                    <Card title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {recipe.patient.userName} {recipe.patient.userSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
+                    <Card key={index} title={<p style={{color:'rgb(221, 252, 200)',fontStyle:'Italic'}}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px" ,fontFamily:'Candara'}}>
                     
-                     <Link  style={{ color: 'white'  }} to="/doctor/morepatient">Детальніше</Link>
+                     <Button type="link" style={{ color: 'white'  }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
                     </Card>
                   </Col>
                 ) :
@@ -272,7 +284,7 @@ class PageDoctor extends Component {
 
               <Col span={8} offset={4} xs={12} >
                 <Row>
-                  <Col span={8} style={{ marginRight: "2%"}}>
+                  <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%"}}>
                     <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
@@ -316,6 +328,9 @@ const mapDispatch = {
 
   GetDetailedDoctor: (user) => {
     return doctorActions.GetDetailedDoctor(user);
+  },
+  GetDetailedPatient: (user, patientID) => {
+    return doctorActions.GetDetailedPatient(user, patientID);
   },
 
   changeImage: (user, detaileduser) => {

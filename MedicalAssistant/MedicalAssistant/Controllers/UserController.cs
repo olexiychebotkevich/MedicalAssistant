@@ -119,7 +119,7 @@ namespace MedicalAssistant.Controllers
                     User=detailuser.User,
                     Locality = detailuser.Locality,
                     ImagePath = $"Images/{detailuser.ImagePath}",
-                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Where(r => r.Patient.Id == detailuser.Id).ToList()
+                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Include(r=>r.Tablets).Where(r => r.Patient.Id == detailuser.Id).ToList()
 
                 };
                 return Ok(detailedUserViewModel);
@@ -151,6 +151,22 @@ namespace MedicalAssistant.Controllers
                 {
                     return NotFound();
                 }
+                ICollection<DoctorPatiantViewModel> patients = new List<DoctorPatiantViewModel>();
+                ICollection<Recipe> detailedPatients = _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).Distinct().ToList();
+                foreach(var p in detailedPatients)
+                {
+
+                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
+                    {
+                        PatientID = p.Patient.Id,
+                        PatientName = p.Patient.UserName,
+                        PatientSurname = p.Patient.UserSurname
+                    };
+                    patients.Add(model);
+
+                }
+      
+
 
                 DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
                 {
@@ -163,7 +179,8 @@ namespace MedicalAssistant.Controllers
                     User = detaildoctor.User,
                     WorkExpirience = detaildoctor.WorkExpirience,
                     ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    recipes = _dbcontext.Recipes.Include(r=>r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList()
+                    Patients=patients
+                    
 
                 };
                 return Ok(detailedDoctorViewModel);
@@ -313,6 +330,37 @@ namespace MedicalAssistant.Controllers
             }
            
             return imageName;
+        }
+
+
+       
+        [HttpPost("SearchPatiantBySurname")]
+        public  IActionResult SearchPatiantBySurname([FromForm]string searchString,int doctorId)
+        {
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                
+
+                ICollection<DoctorPatiantViewModel> doctorpatients = new List<DoctorPatiantViewModel>();
+
+                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == doctorId && r.Patient.UserName.Contains(searchString)).ToList())
+                {
+
+                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
+                    {
+                        PatientID = p.Patient.Id,
+                        PatientName = p.Patient.UserName,
+                        PatientSurname = p.Patient.UserSurname
+                    };
+                    
+                }
+
+                return Ok(doctorpatients);
+            }
+            else
+                return BadRequest();
+           
         }
     }
 }
