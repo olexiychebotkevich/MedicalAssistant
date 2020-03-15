@@ -12,6 +12,9 @@ export const UPDATEPATIENT_REQUEST = "patient/PATIENT_UPDATE_REQUEST";
 export const UPDATEPATIENT_SUCCESS = "patient/PATIENT_UPDATE_SUCCESS";
 export const UPDATEPATIENT_FAILURE = "patient/PATIENT_UPDATE_FAILURE";
 
+
+
+
 export const SHOWRECIPE = "patient/PATIENT_SHOWRECIPE";
 
 const initialState = {
@@ -76,6 +79,8 @@ export const patientsReducer = (state = initialState, action) => {
             break;
         }
 
+
+
         case SHOWRECIPE:{
             newState = update.set(newState, 'detailedpatient.detailedrecipe', action.payload);
             break;
@@ -109,6 +114,9 @@ export const GetDetailedPatient = (patient) => {
             });
     }
 }
+
+
+
 
 
 

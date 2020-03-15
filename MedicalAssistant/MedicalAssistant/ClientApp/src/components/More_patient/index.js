@@ -17,6 +17,7 @@ const propTypes = {
   patient: PropTypes.object,
 };
 
+
 const defaultProps = {};
 
 
@@ -24,6 +25,9 @@ class NormalMorePatientForm extends React.Component {
   state = {
    patient:null
   };
+
+
+  
 
   static getDerivedStateFromProps = (props, state) => {
     return {
@@ -52,10 +56,10 @@ class NormalMorePatientForm extends React.Component {
               {patient?
                 patient.recipes.map((recipe, index) =>
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                    <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                    <Card  key={index} title="Рецепт" extra={<Button type="link"   style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
                       <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
-                      <p className="textr">Лікар: {recipe.doctor.doctorSpecialty+": "+ recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
-                      <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
+                      <p className="textr"> {recipe.doctor.doctorSpecialty+": "+ recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
+                      <p className="textr">Дата: {new Date(recipe.date).toLocaleString("ua", options)}</p>
                     </Card>
                   </Col>
                 ) :

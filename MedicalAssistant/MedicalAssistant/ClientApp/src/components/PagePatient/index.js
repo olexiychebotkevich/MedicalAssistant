@@ -175,6 +175,9 @@ class PagePatient extends Component {
   }
 
 
+
+
+
   generateQR = e => {
     e.preventDefault();
     let str = ("patientID:" + this.state.detailedpatient.id);
