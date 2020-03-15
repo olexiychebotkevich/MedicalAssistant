@@ -20,6 +20,7 @@ import {
 
 const propTypes = {
   loginUser: PropTypes.func.isRequired,
+  push: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
   IsSuccess: PropTypes.bool.isRequired,
@@ -125,6 +126,12 @@ class NormalLoginForm extends React.Component {
 
   }
 
+  routeChange=(e)=> {
+    e.preventDefault();
+    let path = `/registr`;
+    this.props.push(path);
+  }
+
 
   render() {
 
@@ -200,7 +207,7 @@ class NormalLoginForm extends React.Component {
                   </Button>
                 </div>
                 <div className="col-6">
-                  <Button  type="dashed"  className="register-form-button" >
+                  <Button  type="dashed" onClick={(e) => this.routeChange(e)} className="register-form-button" >
                     Зареєструватися
                   </Button>
                 </div>
