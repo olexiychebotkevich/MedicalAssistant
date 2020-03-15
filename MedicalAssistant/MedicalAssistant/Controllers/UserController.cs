@@ -182,8 +182,8 @@ namespace MedicalAssistant.Controllers
                     User = detaildoctor.User,
                     WorkExpirience = detaildoctor.WorkExpirience,
                     ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    Patients=patients
-                    
+                    Patients = distinctStudents
+
 
                 };
                 return Ok(detailedDoctorViewModel);

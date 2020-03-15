@@ -40,6 +40,9 @@ namespace MedicalAssistant
             services.AddDbContext<EFDbContext>(options =>
               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
+            //services.AddDbContext<EFDbContext>(options =>
+            //   options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<DbUser, DbRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<EFDbContext>()
                 .AddDefaultTokenProviders();
