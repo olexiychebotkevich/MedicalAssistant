@@ -152,16 +152,20 @@ namespace MedicalAssistant.Controllers
                     return NotFound();
                 }
                 ICollection<DoctorPatiantViewModel> patients = new List<DoctorPatiantViewModel>();
-                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList())
+                ICollection<Recipe> detailedPatients = _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).Distinct().ToList();
+                foreach(var p in detailedPatients)
                 {
-                    patients.Add(new DoctorPatiantViewModel
+
+                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
                     {
                         PatientID = p.Patient.Id,
                         PatientName = p.Patient.UserName,
                         PatientSurname = p.Patient.UserSurname
-                    });
-                }
+                    };
+                    patients.Add(model);
 
+                }
+      
 
 
                 DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
@@ -326,6 +330,37 @@ namespace MedicalAssistant.Controllers
             }
            
             return imageName;
+        }
+
+
+       
+        [HttpPost("SearchPatiantBySurname")]
+        public  IActionResult SearchPatiantBySurname([FromForm]string searchString,int doctorId)
+        {
+            
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                
+
+                ICollection<DoctorPatiantViewModel> doctorpatients = new List<DoctorPatiantViewModel>();
+
+                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == doctorId && r.Patient.UserName.Contains(searchString)).ToList())
+                {
+
+                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
+                    {
+                        PatientID = p.Patient.Id,
+                        PatientName = p.Patient.UserName,
+                        PatientSurname = p.Patient.UserSurname
+                    };
+                    
+                }
+
+                return Ok(doctorpatients);
+            }
+            else
+                return BadRequest();
+           
         }
     }
 }
