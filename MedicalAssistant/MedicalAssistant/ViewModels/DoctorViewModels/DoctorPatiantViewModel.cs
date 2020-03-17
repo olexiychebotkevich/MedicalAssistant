@@ -10,6 +10,8 @@ namespace MedicalAssistant.ViewModels
         public int PatientID { get; set; }
         public string PatientName { get; set; }
         public string PatientSurname { get; set; }
+        public string PatientEmail { get; set; }
+        public ICollection<PatientMedicalSessionViewModel> MedicalSessions { get; set; }
     }
 
 

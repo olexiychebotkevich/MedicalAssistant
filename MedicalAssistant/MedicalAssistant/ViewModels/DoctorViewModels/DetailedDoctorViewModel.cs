@@ -15,8 +15,9 @@ namespace MedicalAssistant.ViewModels
         public string Locality { get; set; }
         public int WorkExpirience { get; set; }
         public string DoctorSpecialty { get; set; }
-        public DbUser User { get; set; }
-        public ICollection<DoctorPatiantViewModel> Patients {get;set;}
+        public string Email { get; set; }
+        public string PhoneNumber { get; set;}
+        public ICollection<DoctorMedicalSessionViewModel> Sessions {get;set;}
         public string ImagePath { get; set; }
     }
 }

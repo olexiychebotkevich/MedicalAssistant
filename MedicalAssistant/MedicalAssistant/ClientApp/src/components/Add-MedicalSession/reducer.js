@@ -1,4 +1,4 @@
-import RecipeService from '../../services/RecipeService';
+import MedicalSessionService from '../../services/MedicalSessionService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 import jwt from 'jsonwebtoken';
@@ -21,7 +21,7 @@ const initialState = {
 
 
 
-export const recipiesReducer = (state = initialState, action) => {
+export const MedicalSessionReducer = (state = initialState, action) => {
     let newState = state;
     switch (action.type) {
         case ADDRECIPE_REQUEST: {
@@ -58,7 +58,7 @@ export const AddRecipe=(recipe) =>{
     const token = localStorage.getItem('jwtToken')
     return (dispatch) => {
         dispatch(recipeActions.addrecipestarted());
-        RecipeService.AddRecipe({...user,token},recipe)
+        MedicalSessionService.AddRecipe({...user,token},recipe)
             .then((response) => {
                 dispatch(recipeActions.addrecipestarted(response));
                 dispatch(push('/doctor/pagedoctor'));

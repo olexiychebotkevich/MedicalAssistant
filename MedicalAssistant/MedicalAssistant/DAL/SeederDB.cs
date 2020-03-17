@@ -48,21 +48,33 @@ namespace MedicalAssistant.DAL
             if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)
             {
                 string email = "admin@gmail.com";
-                var user = new DbUser
+                var patient = new DbUser
                 {
                     Email = email,
                     UserName = email,
                     PhoneNumber = "+11(111)111-11-11"
                 };
-                var result = userManager.CreateAsync(user, "8Ki9x9444+s").Result;
-                result = userManager.AddToRoleAsync(user, roleName).Result;
+
+               
+                var result = userManager.CreateAsync(patient, "8Ki9x9444+s").Result;
+                result = userManager.AddToRoleAsync(patient, roleName).Result;
+               
+
                 DetailedPatient pat = new DetailedPatient
                 {
-                    User = user,
-                    UserName = "test"
+                    User = patient,
+                    UserName = "test",
+                    UserSurname="test",
+                    DateOfBirth=DateTime.Now.Date,
+                    ImagePath="DefaultImage",
+                    Locality="Rivne",
                 };
-                dbContext.DetailedUsers.Add(pat);
 
+
+             
+                dbContext.DetailedUsers.Add(pat);
+               
+                
             }
 
 

@@ -17,8 +17,8 @@ import QrReader from 'react-qr-reader';
 const propTypes = {
   GetDetailedDoctor: PropTypes.func.isRequired,
   SearchPatientBySurname: PropTypes.func.isRequired,
-  AddRecipe: PropTypes.func.isRequired,
-  GetDetailedPatient: PropTypes.func.isRequired,
+  AddMedicalSession: PropTypes.func.isRequired,
+  getDetailedSession: PropTypes.func.isRequired,
   changeImage: PropTypes.func.isRequired,
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
@@ -101,13 +101,13 @@ class PageDoctor extends Component {
     this.inputFileElement.click();
   }
 
-  AddRecipe = (e) => {
+  AddMedicalSession = (e) => {
     e.preventDefault();
     const doctor = {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.props.AddRecipe(doctor, this.state.patientID);
+    this.props.AddMedicalSession(doctor, this.state.patientID);
   }
 
   croppImage = (value) => {
@@ -174,24 +174,24 @@ class PageDoctor extends Component {
   }
 
 
-  getDetailedPatiant = (id, e) => {
+  getDetailedSession = (sessionid, e) => {
     e.preventDefault();
     const doctor = {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.props.GetDetailedPatient(doctor, id);
+    this.props.getDetailedSession(doctor, sessionid);
   }
 
 
-  // SearchPatient=(patientsurname,e)=>{
-  //   e.preventDefault();
-  //   const doctor = {
-  //     id: this.state.user.id,
-  //     token: this.state.token
-  //   }
-  //   this.props.SearchPatientBySurname(this.state.user.id,patientsurname);
-  // }
+  SearchPatient=(patientsurname,e)=>{
+    e.preventDefault();
+    const doctor = {
+      id: this.state.detaileddoctor.id,
+      token: this.state.token
+    }
+    this.props.SearchPatientBySurname(doctor,patientsurname);
+  }
 
 
   cancelchangeImage = e => {
@@ -259,32 +259,19 @@ class PageDoctor extends Component {
                 <p className="ptext">Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
                 <p className="ptext">Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
                 <p className="ptext">Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
-                <p className="ptext">Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.user.userName : null}</p>
-                <p className="ptext">Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.user.phoneNumber : null} </p>
+                <p className="ptext">Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.email : null}</p>
+                <p className="ptext">Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.phoneNumber : null} </p>
                 <p className="ptext">Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
                 <p className="ptext">Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
                 <p className="ptext">Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
               </div>
             </div>
 
-
-            <Row gutter={16}>
-              {this.state.detaileddoctor.patients ?
-                this.state.detaileddoctor.patients.map((patient, index) =>
-
-                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-
-                    <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
-
-                      <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
-                    </Card>
-                  </Col>
-                ) :
-                null
-              }
-            </Row>
-
-
+            {/* <div className="container">
+              <div className="row">
+              </div>
+              <Button onClick={(e) => this.SearchPatient("Vasyanich", e)}>Serch</Button>
+            </div> */}
 
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
@@ -302,7 +289,7 @@ class PageDoctor extends Component {
                   </Col>
 
                   <Col span={4}>
-                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddRecipe}>
+                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddMedicalSession}>
                       Add Recipe
               </Button>
                   </Col>
@@ -311,6 +298,24 @@ class PageDoctor extends Component {
 
             </Row>
 
+
+
+
+            <Row gutter={16} style={{marginTop:"2rem"}}>
+            <h3 className="moreHeader">Медичні сеанси</h3>
+              {this.state.detaileddoctor.sessions ?
+                this.state.detaileddoctor.sessions.map((session, index) =>
+                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                    <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {session.patientName} {session.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
+                      <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Дата: {new Date(session.date).toLocaleString("ua", options)}</p>
+                      <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Діагноз: {session.diagnos}</p>
+                      <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedSession(session.sessionId, e)}>Детальніше</Button>
+                    </Card>
+                  </Col>
+                ) :
+                null
+              }
+            </Row>
 
           </div>
           : <SpinnerWidget loading="true" />}
@@ -342,18 +347,18 @@ const mapDispatch = {
   GetDetailedDoctor: (user) => {
     return doctorActions.GetDetailedDoctor(user);
   },
-  SearchPatientBySurname: (doctorId, userSurname) => {
-    return doctorActions.SearchPatientBySurname(doctorId, userSurname);
+  SearchPatientBySurname: (doctor, userSurname) => {
+    return doctorActions.SearchPatientBySurname(doctor, userSurname);
   },
-  GetDetailedPatient: (user, patientID) => {
-    return doctorActions.GetDetailedPatient(user, patientID);
+  getDetailedSession: (user, patientID) => {
+    return doctorActions.getDetailedSession(user, patientID);
   },
 
   changeImage: (user, detaileduser) => {
     return doctorActions.changeImage(user, detaileduser);
   },
-  AddRecipe: (user, patientID) => {
-    return doctorActions.AddRecipe(user, patientID);
+  AddMedicalSession: (user, patientID) => {
+    return doctorActions.AddMedicalSession(user, patientID);
   },
   push: (url) => {
     return (dispatch) => {

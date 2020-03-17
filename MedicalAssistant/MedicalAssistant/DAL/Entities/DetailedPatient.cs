@@ -21,7 +21,8 @@ namespace MedicalAssistant.DAL.Entities
         public string Locality { get; set; }
         public DbUser User { get; set; }
         public string ImagePath { get; set; }
-        
+        public  ICollection<MedicalSession> Sessions { get; set; }
+
 
     }
 }

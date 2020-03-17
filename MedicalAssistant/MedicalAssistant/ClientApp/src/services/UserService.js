@@ -57,17 +57,18 @@ export default class UserService {
         return axios.get(`${serverUrl}api/user/GetPatient`, { params: { id: PatientID }, headers: { 'Authorization': `Bearer ${user.token}` } })
     }
 
-    // static SearchPatientBySurname(doctorId,UserSurname) {
-    //     console.log("doctorId: ",doctorId,"UserSurname: ",UserSurname);
-    //     const Model=
-    //     {
-    //         DoctorId:doctorId,
-    //         UserSurname:UserSurname
-    //     }
-    //     return axios.post(`${serverUrl}api/recipe/SearchPatiantBySurname`, Model, {
-    //         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
-    //     });
-    // }
+    static SearchPatientBySurname(doctor,UserSurname) {
+        console.log("doctorId: ",doctor,"UserSurname: ",UserSurname);
+        const Model=
+        {
+            DoctorId:doctor.id,
+            searchPatientSurname:UserSurname,
+            
+        }
+        return axios.post(`${serverUrl}api/user/SearchPatiantBySurname`, Model, {
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${doctor.token}` }
+        });
+    }
 
 
 

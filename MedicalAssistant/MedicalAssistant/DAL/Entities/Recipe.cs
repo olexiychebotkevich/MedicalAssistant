@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.DAL.Entities
 {
-    [Table("tblRecipies")]
     public class Recipe
     {
         [Key]
@@ -15,8 +14,6 @@ namespace MedicalAssistant.DAL.Entities
         [StringLength(300, MinimumLength = 3)]
         public string Diagnos { get; set; }
         public IEnumerable<Medicine> Tablets {get;set;}
-        public DetailedPatient Patient { get; set; }
-        public DetailedDoctor Doctor { get; set; }
         public DateTime Date { get; set; }
 
     }

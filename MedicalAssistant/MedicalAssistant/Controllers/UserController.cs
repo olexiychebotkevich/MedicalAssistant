@@ -28,7 +28,7 @@ namespace MedicalAssistant.Controllers
         private readonly EFDbContext _dbcontext;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
-        public UserController(UserManager<DbUser> userManager,EFDbContext context, IConfiguration configuration, IHostingEnvironment env)
+        public UserController(UserManager<DbUser> userManager, EFDbContext context, IConfiguration configuration, IHostingEnvironment env)
         {
             this.userManager = userManager;
             _dbcontext = context;
@@ -41,7 +41,7 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("IsPatientExist")]
-        public async Task<IActionResult> IsPatientExist([FromQuery]int ? id)
+        public async Task<IActionResult> IsPatientExist([FromQuery]int? id)
         {
             if (id == null)
             {
@@ -70,7 +70,7 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("IsDoctorExist")]
-        public async Task<IActionResult> IsDoctorExist([FromQuery]int ? id)
+        public async Task<IActionResult> IsDoctorExist([FromQuery]int? id)
         {
             if (id == null)
             {
@@ -103,23 +103,38 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                DetailedPatient detailuser = _dbcontext.DetailedUsers.Include("User").SingleOrDefault(u => u.User.Id == id);
+                DetailedPatient detailuser = _dbcontext.DetailedUsers.Include("User").Include("Sessions").SingleOrDefault(u => u.User.Id == id);
                 if (detailuser == null)
                 {
                     return NotFound();
                 }
-               
+
+                ICollection<PatientMedicalSessionViewModel> patientMedicalSessionViewModels = new List<PatientMedicalSessionViewModel>();
+                if (detailuser.Sessions!=null && detailuser.Sessions.Count != 0)
+                    foreach (var i in detailuser.Sessions)
+                    {
+                        patientMedicalSessionViewModels.Add(new PatientMedicalSessionViewModel
+                        {
+                            SessionId = i.ID,
+                            Date = i.Date,
+                            DoctorName = i.DetailedDoctor.UserName,
+                            DoctorSpecialty = i.DetailedDoctor.DoctorSpecialty,
+                            DoctorSurname = i.DetailedDoctor.UserSurname
+                        });
+                    }
+
 
                 DetailedUserViewModel detailedUserViewModel = new DetailedUserViewModel
                 {
                     Id = detailuser.Id,
-                    UserName =  detailuser.UserName,
+                    UserName = detailuser.UserName,
                     UserSurname = detailuser.UserSurname,
                     DateOfBirth = detailuser.DateOfBirth,
-                    User=detailuser.User,
                     Locality = detailuser.Locality,
+                    PhoneNumber = detailuser.User.PhoneNumber,
+                    Email = detailuser.User.Email,
                     ImagePath = $"Images/{detailuser.ImagePath}",
-                    recipes = _dbcontext.Recipes.Include(r => r.Patient).Include(r=>r.Doctor).Include(r=>r.Tablets).Where(r => r.Patient.Id == detailuser.Id).ToList()
+                    Sessions = patientMedicalSessionViewModels
 
                 };
                 return Ok(detailedUserViewModel);
@@ -140,36 +155,35 @@ namespace MedicalAssistant.Controllers
 
         [Authorize]
         [HttpGet("GetDoctor")]
-        public IActionResult GetDoctor([FromQuery] int ? id)
+        public IActionResult GetDoctor([FromQuery] int? id)
         {
 
             try
             {
-                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors.Include("User").SingleOrDefault(u => u.User.Id == id);
+                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors
+                    .Include("User")
+                    .Include("Sessions.Recipe")
+                    .Include("Sessions.DetailedPatient")
+                    .SingleOrDefault(u => u.User.Id == id);
 
                 if (detaildoctor == null)
                 {
                     return NotFound();
                 }
-                ICollection<DoctorPatiantViewModel> patients = new List<DoctorPatiantViewModel>();
-                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == detaildoctor.Id).ToList())
-                {
 
-                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
+                ICollection<DoctorMedicalSessionViewModel> MedicalSessionViewModels = new List<DoctorMedicalSessionViewModel>();
+                if (detaildoctor.Sessions != null && detaildoctor.Sessions.Count != 0)
+                    foreach (var i in detaildoctor.Sessions)
                     {
-                        PatientID = p.Patient.Id,
-                        PatientName = p.Patient.UserName,
-                        PatientSurname = p.Patient.UserSurname
-                    };
-                    patients.Add(model);
-
-                }
-
-                ICollection<DoctorPatiantViewModel> distinctStudents = patients.Distinct(new DoctorPatiantComparer()).ToList();
-
-
-
-
+                        MedicalSessionViewModels.Add(new DoctorMedicalSessionViewModel
+                        {
+                            SessionId = i.ID,
+                            Date = i.Date,
+                            PatientName = i.DetailedPatient.UserName,
+                            PatientSurname = i.DetailedPatient.UserSurname,
+                            Diagnos=i.Recipe.Diagnos
+                        });
+                    }
 
                 DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
                 {
@@ -179,11 +193,11 @@ namespace MedicalAssistant.Controllers
                     DateOfBirth = detaildoctor.DateOfBirth,
                     DoctorSpecialty = detaildoctor.DoctorSpecialty,
                     Locality = detaildoctor.Locality,
-                    User = detaildoctor.User,
+                    Email = detaildoctor.User.Email,
+                    PhoneNumber = detaildoctor.User.PhoneNumber,
                     WorkExpirience = detaildoctor.WorkExpirience,
                     ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    Patients = distinctStudents
-
+                    Sessions = MedicalSessionViewModels
 
                 };
                 return Ok(detailedDoctorViewModel);
@@ -219,7 +233,7 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-              
+
                 var AddImageResultTask = Task.Run(() => AddImage(patient.ImagePath));
                 //string imageName = AddImage(user.ImagePath);
                 string imageName = await AddImageResultTask;
@@ -269,32 +283,32 @@ namespace MedicalAssistant.Controllers
             try
             {
 
-                    var AddImageResultTask = Task.Run(() => AddImage(doctor.ImagePath));
-                    string imageName = await AddImageResultTask;
+                var AddImageResultTask = Task.Run(() => AddImage(doctor.ImagePath));
+                string imageName = await AddImageResultTask;
 
-                    doctorToUpdate.ImagePath = imageName;
-                    if (await TryUpdateModelAsync<DetailedDoctor>(doctorToUpdate, "", s => s.ImagePath))
+                doctorToUpdate.ImagePath = imageName;
+                if (await TryUpdateModelAsync<DetailedDoctor>(doctorToUpdate, "", s => s.ImagePath))
+                {
+
+                    try
                     {
-
-                        try
-                        {
                         await _dbcontext.SaveChangesAsync();
                         return Ok(doctorToUpdate);
-                        }
-                        catch (DbUpdateException  ex)
-                        {
+                    }
+                    catch (DbUpdateException ex)
+                    {
                         Debug.WriteLine("{0} Exception caught.", ex);
                         ModelState.AddModelError("", "Unable to save changes. " +
                             "Try again, and if the problem persists, " +
                             "see your system administrator.");
-                        }
-
                     }
+
+                }
             }
             catch (Exception e)
             {
                 Debug.WriteLine("{0} Exception caught.", e);
-               
+
             }
 
             return Ok(doctorToUpdate);
@@ -306,64 +320,65 @@ namespace MedicalAssistant.Controllers
 
         private string AddImage(string ImagePath)
         {
-           
+
             string imageName = Guid.NewGuid().ToString() + ".jpg";
-         
-           
+
+
             string base64 = ImagePath;
             if (base64.Contains(","))
             {
                 base64 = base64.Split(',')[1];
             }
-           
+
             var bmp = base64.FromBase64StringToImage();
-         
+
             string fileDestDir = _env.ContentRootPath;
-         
+
             fileDestDir = Path.Combine(fileDestDir, _configuration.GetValue<string>("ImagesPath"));
-          
+
             string fileSave = Path.Combine(fileDestDir, imageName);
-         
+
             if (bmp != null)
             {
-               
+
                 int size = 1000;
                 var image = ImageHelper.CompressImage(bmp, size, size);
                 image.Save(fileSave, ImageFormat.Jpeg);
             }
-           
+
             return imageName;
         }
 
 
-        
-        [HttpPost("SearchPatiantBySurname")]
-        public  IActionResult SearchPatiantBySurname([FromBody]string searchString,int doctorId)
-        {
-            
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                
+        //[Authorize]
+        //[HttpPost("SearchPatiantBySurname")]
+        //public async Task<IActionResult> SearchPatiantBySurname([FromBody]SearchFilterViewModel searchmodel)
+        //{
 
-                ICollection<DoctorPatiantViewModel> doctorpatients = new List<DoctorPatiantViewModel>();
+        //    if (searchmodel != null)
+        //    {
+        //        Recipe recipe;
+        //        try
+        //        {
+        //            recipe = await _dbcontext.Recipes.Include("Patient").Include("Doctor").FirstAsync(r => r.Doctor.Id == searchmodel.DoctorId && r.Patient.UserSurname.Contains(searchmodel.searchPatientSurname));
+        //        }
 
-                foreach (var p in _dbcontext.Recipes.Include(r => r.Patient).Where(r => r.Doctor.Id == doctorId && r.Patient.UserName.Contains(searchString)).ToList())
-                {
+        //        catch(Exception ex)
+        //        {
+        //            return BadRequest(ex.Message);
+        //        }
 
-                    DoctorPatiantViewModel model = new DoctorPatiantViewModel
-                    {
-                        PatientID = p.Patient.Id,
-                        PatientName = p.Patient.UserName,
-                        PatientSurname = p.Patient.UserSurname
-                    };
-                    
-                }
+        //        DoctorPatiantViewModel searchedpatient = new DoctorPatiantViewModel
+        //        {
+        //            PatientID = recipe.Patient.Id,
+        //            PatientName = recipe.Patient.UserName,
+        //            PatientSurname = recipe.Patient.UserSurname
+        //        };
+        //        return Ok(searchedpatient);
+        //    }
+        //    else
+        //        return BadRequest();
 
-                return Ok(doctorpatients);
-            }
-            else
-                return BadRequest();
-           
-        }
+        //}
     }
 }

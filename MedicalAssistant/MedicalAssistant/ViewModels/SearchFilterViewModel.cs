@@ -5,7 +5,11 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.ViewModels
 {
-    public class SearchDoctorPatientViewModel
+    public class SearchFilterViewModel
     {
+        public int DoctorId { get; set; }
+
+        public string searchPatientSurname { get; set; }
+
     }
 }

@@ -7,7 +7,7 @@ import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
 import {patientsReducer} from '../components/PagePatient/reducer';
 import {doctorsReducer} from '../components/DoctorPage/reducer';
-import {recipiesReducer} from '../components/Add-recipe/reducer';
+import {MedicalSessionReducer} from '../components/Add-MedicalSession/reducer';
 
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
@@ -22,7 +22,7 @@ export default function configureStore(history, initialState) {
     loginReducer,
     patientsReducer,
     doctorsReducer,
-    recipiesReducer,
+    MedicalSessionReducer,
     refreshToken: refreshReducer,
 
   };

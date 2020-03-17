@@ -196,6 +196,7 @@ class PagePatient extends Component {
       month: 'numeric',
       day: 'numeric',
     };
+    
       const diagnoslength = 30;
       return(
       <div>
@@ -227,11 +228,11 @@ class PagePatient extends Component {
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
               <div className="col-12 col-md-6 p ">
-                <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
+                <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>     
                 <p className="ptext"> Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
                 <p className="ptext">Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-                <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.user.userName : null}</p>
-                <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.user.phoneNumber : null} </p>
+                <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.email : null}</p>
+                <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.phoneNumber : null} </p>
                 <p className="ptext">Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
               </div>
             </div>

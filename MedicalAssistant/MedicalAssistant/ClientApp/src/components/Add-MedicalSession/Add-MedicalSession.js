@@ -6,7 +6,7 @@ import { push } from 'connected-react-router';
 import get from 'lodash.get';
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import './Add-recipe.css';
+import './Add-MedicalSession.css';
 let id = 0;
 
 

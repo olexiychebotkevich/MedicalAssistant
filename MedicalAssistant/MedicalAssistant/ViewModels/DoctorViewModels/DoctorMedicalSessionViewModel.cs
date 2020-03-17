@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.ViewModels
 {
-    public class RecipeViewModel
+    public class DoctorMedicalSessionViewModel
     {
-        public int PatientID { get; set; }
-        public int DoctorID { get; set; }
-        public string Diagnos { get; set; }
-        public List<Medicine> Tablets { get; set; }
+        public int SessionId { get; set; }
         public DateTime Date { get; set; }
+        public string PatientName { get; set; }
+        public string PatientSurname { get; set; }
+        public string  Diagnos { get; set; }
     }
 }

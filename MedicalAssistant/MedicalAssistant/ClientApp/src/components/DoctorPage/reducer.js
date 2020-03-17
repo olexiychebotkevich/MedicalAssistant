@@ -1,4 +1,5 @@
 import UserService from '../../services/UserService';
+import MedicalSessionService from '../../services/MedicalSessionService'
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -8,9 +9,9 @@ export const GETDOCTOR_SUCCESS = "doctor/DOCTOR_GET_SUCCESS";
 export const GETDOCTOR_FAILURE = "doctor/DOCTOR_GET_FAILURE";
 
 
-export const GETPATIENT_REQUEST = "patient/PATIENT_GET_REQUEST";
-export const GETPATIENT_SUCCESS = "patient/PATIENT_GET_SUCCESS";
-export const GETPATIENT_FAILURE = "patient/PATIENT_GET_FAILURE";
+export const GETSESSION_REQUEST = "doctor/SESSION_GET_REQUEST";
+export const GETSESSION_SUCCESS = "doctor/SESSION_GET_SUCCESS";
+export const GETSESSION_FAILURE = "doctor/SESSION_GET_FAILURE";
 
 
 export const UPDATEDOCTOR_REQUEST = "doctor/DOCTOR_UPDATE_REQUEST";
@@ -38,14 +39,13 @@ const initialState = {
         statuscode:null,
         doctor: null
     },
-    getpatient:{
+    getsession:{
         failed: false,
         loading: false,
         success: false,  
         errors:{},
         statuscode:null,
-        PatientID:0,
-        patient:null
+        session:null
     }
 }
 
@@ -113,23 +113,22 @@ export const doctorsReducer = (state = initialState, action) => {
         }
 
 
-        case GETPATIENT_REQUEST: {
-            newState = update.set(state, 'getpatient.loading', true);
+        case GETSESSION_REQUEST: {
+            newState = update.set(state, 'getsession.loading', true);
             break;
         }
-        case GETPATIENT_SUCCESS: {
-            newState = update.set(state, 'getpatient.loading', false);
-            newState = update.set(newState, 'getpatient.success', true);
-            newState = update.set(newState, 'getpatient.PatientID', action.payload.data.id);
-            newState = update.set(newState, 'getpatient.patient', action.payload.data);
+        case GETSESSION_SUCCESS: {
+            newState = update.set(state, 'getsession.loading', false);
+            newState = update.set(newState, 'getsession.success', true);
+            newState = update.set(newState, 'getsession.session', action.payload.data);
             break;
         }
 
-        case GETPATIENT_FAILURE: {
-            newState = update.set(state, 'getpatient.loading', false);
-            newState = update.set(newState, 'getpatient.failed', true);
-            newState = update.set(newState, 'getpatient.errors', action.errors);
-            newState = update.set(newState, 'getpatient.statuscode', action.statuscode);
+        case GETSESSION_FAILURE: {
+            newState = update.set(state, 'getsession.loading', false);
+            newState = update.set(newState, 'getsession.failed', true);
+            newState = update.set(newState, 'getsession.errors', action.errors);
+            newState = update.set(newState, 'getsession.statuscode', action.statuscode);
             break;
         }
       
@@ -160,10 +159,10 @@ export const GetDetailedDoctor = (doctor) => {
 }
 
 
-export const SearchPatientBySurname = (doctorId,UserSurname) => {
+export const SearchPatientBySurname = (doctor,UserSurname) => {
     return (dispatch) => {
         dispatch(doctorActions.searchstarted());
-        UserService.SearchPatientBySurname(doctorId,UserSurname)
+        UserService.SearchPatientBySurname(doctor,UserSurname)
             .then((response) => {
                 dispatch(doctorActions.searchsuccess(response));
             }, err => { throw err; })
@@ -192,14 +191,14 @@ export const changeImage = (user,doctor) => {
 }
 
 
-export const AddRecipe=(user,PatientID) =>{
+export const AddMedicalSession=(user,PatientID) =>{
     return (dispatch) => {
         dispatch(doctorActions.getpatientstarted());
         const patient={token:user.token,id:PatientID}
         UserService.IsPatientExist(patient)
             .then((response) => {
                 dispatch(doctorActions.getpatientsuccess(response));
-                dispatch(push('/doctor/addrecipe'));
+                dispatch(push('/doctor/addmedicalsession'));
                 
             }, err => { throw err; })
             .catch(err => {
@@ -210,21 +209,18 @@ export const AddRecipe=(user,PatientID) =>{
 }
 
 
-export const GetDetailedPatient=(user,PatientID) =>{
+export const getDetailedSession = (user, sesionId) => {
     return (dispatch) => {
-        dispatch(doctorActions.getpatientstarted());
-        const patient={token:user.token,id:PatientID}
-        UserService.IsPatientExist(patient)
+        dispatch(doctorActions.getsessionstarted());
+     
+        MedicalSessionService.getDetailedSession(user,sesionId)
             .then((response) => {
-                UserService.getdetailedpatient(patient)
-                .then((response)=>{
-                    dispatch(doctorActions.getpatientsuccess(response));
-                    dispatch(push('/doctor/morepatient'));
-                }, err => { throw err; })
+                dispatch(doctorActions.getsessionsuccess(response));
+                dispatch(push('/doctor/moresession'));
             }, err => { throw err; })
             .catch(err => {
-                if(err.response!=null)
-                dispatch(doctorActions.getpatientfailed(err.response));
+                if (err.response != null)
+                    dispatch(doctorActions.getsessionfailed(err.response));
             });
     }
 }
@@ -266,20 +262,20 @@ export const doctorActions = {
             type: UPDATEDOCTOR_FAILURE,
         }
     },
-    getpatientstarted: () => {
+    getsessionstarted: () => {
         return {
-            type: GETPATIENT_REQUEST
+            type: GETSESSION_REQUEST
         }
     },
-    getpatientsuccess: (data) => {
+    getsessionsuccess: (data) => {
         return {
-            type: GETPATIENT_SUCCESS,
+            type: GETSESSION_SUCCESS,
             payload: data
         }
     },
-    getpatientfailed: (response) => {
+    getsessionfailed: (response) => {
         return {
-            type: GETPATIENT_FAILURE,
+            type: GETSESSION_FAILURE,
             errors: response.data,
             statuscode:response.status
         }

@@ -13,8 +13,9 @@ namespace MedicalAssistant.ViewModels
         public string UserSurname { get; set; }
         public DateTime DateOfBirth { get; set; }
         public string Locality { get; set; }
-        public DbUser User { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public string ImagePath { get; set; }
-        public ICollection<Recipe> recipes { get; set; }
+        public ICollection<PatientMedicalSessionViewModel> Sessions { get; set; }
     } 
 }
