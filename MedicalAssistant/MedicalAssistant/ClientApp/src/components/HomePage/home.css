@@ -1,9 +1,9 @@
  body{
 
-   /* background-image: url('../../pngfuel.com_3.png') ;     */
+    background-image: url('../../hotpng.com.png') ;     
    background-position: bottom; 
   
- background-color: rgb(213, 245, 227); 
+ background-color: rgb(174,214,187); 
 /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
  
     background-position: inherit ;
@@ -34,7 +34,7 @@
    font-style: italic; 
    font-size: 50px;
    font-weight: 300;
-  color:#3A7073;
+  color:rgb(49, 112, 83);
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
   -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
@@ -45,12 +45,13 @@
   font-family: "Candara";
   text-align: "center" ;
    /* font-style: italic;  */
-   font-size: 70px;
+   font-size: 55px;
+   margin-top: 40%;
   font-weight: 500;
-  color:#3A7073;
-  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
-  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
+  color:rgb(49, 112, 83);
+  text-shadow: 0 0 1px rgb(36,56,48); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 1px rgb(36,56,48);
+  -webkit-text-shadow: 0 0 1px rgb(36,56,48);
   
   
 }
@@ -126,11 +127,11 @@
 @media screen and (max-width: 1200px) {
   .imgD{
     align-items: left; 
-    width:500px;
-    height: 519px;  
+    width:200px;
+    height: 150px;  
     float: left;
   }
-  
+ 
 } 
 
 
@@ -138,21 +139,26 @@
 
 @media screen and (max-width: 576px) {
   .homeHeaderG{
-    font-size: 45px;
+    font-size: 30px;
+    margin-top: 2%;
     width: "90%";
     text-align: center;
   }
+  .SC{
+    width:360px;
+    height:191px;  
+  }
 
   .homeHeader{
-    font-size: 40px;
+    font-size: 20px;
     width: "90%";
     text-align: center;
    
   }
 
-  .imgD{
-    width:264px;
-    height:255px;  
+  .imgC{
+    width:100px;
+    height:191px;  
     align-items: center;
   }
  
@@ -188,6 +194,24 @@
   .register-form-btn{
     background-color: rgb(157, 181,167);
    
+  }
+  .caro{
+    background-image: url('../images/hotpng.com.png');
+    /* width: 260px;
+    height: 265px; */
+  }
+  .fd{
+   margin-bottom: 1%;
+  }
+  .cd{
+    background-image: url('../images/GreenStick.png');
+    background-size: 50% ;
+  }
+  .imgC{
+    width: 420px;
+    height: 458px; 
+    margin-top: 20px;
+    align-items: center;
   }
 
  

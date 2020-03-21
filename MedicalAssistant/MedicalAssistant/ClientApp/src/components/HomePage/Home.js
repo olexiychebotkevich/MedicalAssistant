@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import  'antd/dist/antd.css';
+import 'antd/dist/antd.css';
 import './home.css';
 
 
 import {
-  Steps, Divider, Row, Icon
+  Steps, Divider, Row, Icon, Carousel
 } from 'antd';
 
 
@@ -21,54 +21,60 @@ class NormalHomeForm extends React.Component {
     this.setState({ current });
   };
   render() {
-  
+
     const { current } = this.state;
     return (
-<div className="tmp">
+      <div>
+        <div className="tmp">
 
-        <div className='container'>
-          <div className='row'>
+          <div className='container'>
+            <div className='row'>
 
-            <div className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
-              <img className="imgD" src={require("../images/hotpng.png")} />
+
+
+              <div className="col-12 col-md-12 col-lg-6 col-xl-6 col-sm-12" align="center" >
+                <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
+                <h1 className="homeHeader"> ваш надійний партнер</h1>
+                {/* <img src={require("../images/heart.png")} /> */}
+              </div>
+              <div className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
+                <Carousel autoplay align="center" className="SC" >
+                  <div align="center" marginTop="60%">
+                  <img className="imgC" src={require("../images/GreenStick.png")} />
+                    {/* <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '35px', marginTop: '50%' }}> Ви забудько ?</h3> */}
+                  </div>
+                  <div align="center">
+                     <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> Ви забудько ?</h3> 
+                  </div>
+                  <div align="center">
+                    <h3 style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> У вас підліткова розсієність ?</h3>
+                    
+                  </div>
+                  <div align="center">
+                    <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> Чи можливо від сірої буденності часткова втрата пам'яті ?</h3>
+
+                  </div>
+                  <div aligh="center">
+                  <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '30%' }}>Довіртеся нам ми здатні нагадати про важливе !!!</h3>
+                  <img width="372" height="340" src={require("../images/bealive.png")} />
+                  </div>
+                </Carousel>
+              </div>
             </div>
-
-            <div  className="col-12 col-md-12 col-lg-6 col-xl-6 col-sm-12" align="center" >
-              <h1 className="homeHeaderG"> MEDICAL ASSISTANT </h1>
-              <h1 className="homeHeader"> ваш надійний партнер</h1>
-            </div>
-
           </div>
+
+
         </div>
 
-
- 
-
-{/* <h4 className="homeHeader1" >
-Ви забудько?<br/>
-У Вас підліткова розсіяність?<br/>
-Чи можливо від сірої буденності часткова втрата пам'яті?
-</h4> */}
-
-{/* <h3 className="homeHeader1" >Довіртеся нам, ми здатні нагадати про важливе!!!</h3>
- {/* <Steps className="steps" current={current} onChange={this.onChange} direction="vertical">
-   <Step  title="Спочатку зареєструйся!✅"  />
-   <Step title="Залогінься!✅"/>
-   <Step title="Зайди на особисту сторінку!👤"/>
-   <Step title="На сторінці ти можеш переглянути свої рецепти!💬" />
-   <Step title="Ти зробив правильний вибір, тепер ти дійсно не забудеш про ліки🙉"  />
-
- </Steps> */} 
-
- </div>
-
-
-
+         <div align="center" className="fd" marginTop="90%">
+          <img src={require("../images/hearth.png")} />
+        </div> 
+      </div>
     );
-    
+
   }
 
-  
+
 }
 
 // const mapState = (state) => {

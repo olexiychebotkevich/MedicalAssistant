@@ -186,7 +186,7 @@ class PagePatient extends Component {
       if (error) console.error(error)
     })
   }
-
+  
 
   render() {
     let GetID = false;
