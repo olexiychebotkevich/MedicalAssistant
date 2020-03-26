@@ -54,17 +54,17 @@ class NavMenu extends Component {
 
     render() {
         return (
-            <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(152,197,178)' }}>
-                <Menu.Item style={{ float: 'left' }} key="app" disabled>
-                    <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text>
-                </Menu.Item>
+            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(174,214,187)'}}>
+            <Menu.Item style={{float: 'left'}} key="app" disabled>
+            <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '400', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
+            </Menu.Item>
 
-                {this.state.isAuthenticated ?
-                    <Menu.Item style={{ float: 'right'}}>
-                        <Button style={{ backgroundColor: 'rgb(157,181,176)', margin: '10px', fontFamily: 'Candara' }} type="primary" onClick={this.logoutclick}>Logout</Button>
-                    </Menu.Item> : null}
-
-            </Menu>
+            {this.state.isAuthenticated ? 
+      
+      <Button style={{float: 'right',backgroundColor:'rgb(157,181,176)',margin:'10px',fontFamily:'Candara',border:'1px solid rgb(49, 112, 83)',color:'rgb(49,112,83)'}} type="primary"onClick={this.logoutclick}>Logout</Button>
+          : null}
+ 
+        </Menu>
         );
     }
 }

@@ -8,16 +8,16 @@ body{
   /* font-style: italic;  */
   font-family: 'Candara';
   font-size: 50px;
-  color:rgb(152, 197,178);
-  text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 2px #000;
-  -webkit-text-shadow: 0 0 2px #000;
+  color:rgb(49, 112, 83);
+  text-shadow: 0 0 2px white; /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 2px white;
+  -webkit-text-shadow: 0 0 2px white;
   text-align: center;
 }
 .ptext{
   margin-top: '10px';
   font-family: "Bradley Hand", cursive;
-  color:rgb(152,197,178);
+  color:rgb(49, 112, 83);
   font-size: 17px ;
 }
 

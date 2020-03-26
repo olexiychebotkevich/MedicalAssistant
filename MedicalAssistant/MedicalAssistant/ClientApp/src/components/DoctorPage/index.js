@@ -274,7 +274,7 @@ class PageDoctor extends Component {
 
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
 
-                    <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
+                    <Card key={index} title={<p style={{ color: 'rgb(49, 112, 83)', fontStyle: 'Italic' }}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
 
                       <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
                     </Card>
@@ -289,7 +289,7 @@ class PageDoctor extends Component {
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
                 <div>
-                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }}>
+                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)'}}>
                     Scan QR!
              </Button>
                 </div>
@@ -298,11 +298,11 @@ class PageDoctor extends Component {
               <Col span={8} offset={4} xs={12} >
                 <Row>
                   <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%" }}>
-                    <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
+                    <Input style={{border:'1px solid rgb(49, 112, 83)'}} value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
                   <Col span={4}>
-                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddRecipe}>
+                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)' }} onClick={this.AddRecipe}>
                       Add Recipe
               </Button>
                   </Col>

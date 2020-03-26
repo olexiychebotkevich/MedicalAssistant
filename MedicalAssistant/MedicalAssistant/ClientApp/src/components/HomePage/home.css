@@ -170,29 +170,27 @@
   font-family: "Candara"; 
   width:100%;
   background-color: rgb(157, 181,167);
+  color:rgb(49, 112, 83);
 }
 .register-form-button {
   font-family: "Candara"; 
     width:100%;
     background-color: rgb(157, 181,167);
+    color:rgb(49, 112, 83);
   }
 
 
-  .steps{
-    font-size: 30px;
-    /* font-family: 'Candara'; */
-    font-family: "Footlight MT"; 
-  /* font-style: italic; */
-  }
   
   /* .register-form{
     font-family: "Candara"; 
   text-align: "cener" ;
    font-style: italic; 
+   color:rgb(49, 112, 83);
   
-  } */
+  }  */
   .register-form-btn{
     background-color: rgb(157, 181,167);
+    color:rgb(49, 112, 83);
    
   }
   .caro{

@@ -240,7 +240,7 @@ class PagePatient extends Component {
                           {this.state.detailedpatient.recipes ?
                               this.state.detailedpatient.recipes.map((recipe,index) =>
                                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                                      <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                                      <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{color:'rgb(49, 112, 83)', fontFamily: 'Candara',fontStyle:'italic' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
                                           <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
                                           <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
                                           <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
@@ -256,7 +256,7 @@ class PagePatient extends Component {
 
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div style={{ width: "100%" }} >
-                  <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.generateQR}>
+                  <Button style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)'  }} onClick={this.generateQR}>
                     Згенерувати QR-код!
                    </Button>
                 </div>
@@ -264,7 +264,7 @@ class PagePatient extends Component {
               </Col>
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div>
-                <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.GetMyID}>
+                <Button style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }} onClick={this.GetMyID}>
                     Згенерувати простий код
                    </Button>
                   {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
