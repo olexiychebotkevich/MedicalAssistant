@@ -236,7 +236,7 @@ class DynamicFieldSet extends Component {
                                 <p className="ptext">Дата народження: {new Date(patient.patientDateOfBirth).toLocaleString("ua", options)}</p>
                                 <p className="ptext">Email: {patient.patientEmail}</p>
                                 <p className="ptext">Номер телефону: {patient.patientPhoneNumber}</p>
-                                <Link to="/doctor/medicalhistory">Історія хвороб пацієнта</Link>
+                                <Link className="link" to="/doctor/medicalhistory" >Історія хвороб пацієнта</Link>
                             </div>
 
                             <h3 className="moreHeader">Рецепт</h3>
@@ -255,7 +255,7 @@ class DynamicFieldSet extends Component {
                                 <div className="row tmps">
                                     <div >
                                         <Form.Item>
-                                            <Button type="dashed" onClick={this.add} >
+                                            <Button style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)'  }} type="dashed" onClick={this.add} >
                                                 <Icon type="plus" /> Add field
                         </Button>
                                         </Form.Item>
@@ -264,7 +264,7 @@ class DynamicFieldSet extends Component {
                                 <div className="row tmps">
                                     <div>
                                         <Form.Item >
-                                            <Button type="primary" htmlType="submit">
+                                            <Button  type="primary" htmlType="submit" style={{backgroundColor:'rgb(49, 112, 83)' ,border:'1px solid rgb(49, 112, 83)'}}>
                                                 Save
                         </Button>
 

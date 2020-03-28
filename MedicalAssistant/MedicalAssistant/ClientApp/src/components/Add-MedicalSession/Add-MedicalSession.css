@@ -41,16 +41,20 @@
     /* font-style: italic;  */
     font-family: 'Candara';
     font-size: 50px;
-    color:rgb(152, 197,178);
+    color:rgb(49, 112, 83);
     text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
     -moz-text-shadow: 0 0 2px #000;
     -webkit-text-shadow: 0 0 2px #000;
     text-align: center;
   }
+  .link{
+    color:rgb(49, 112, 83);
+  }
+  
   .ptext{
     margin-top: '10px';
     font-family: "Bradley Hand", cursive;
-    color:rgb(152,197,178);
+    color:rgb(49, 112, 83);
     font-size: 17px ;
   }
   

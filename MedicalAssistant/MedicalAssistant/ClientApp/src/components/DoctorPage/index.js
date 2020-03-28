@@ -274,7 +274,7 @@ class PageDoctor extends Component {
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
                 <div>
-                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }}>
+                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }}>
                     Сканувати QR!
              </Button>
                 </div>
@@ -287,7 +287,7 @@ class PageDoctor extends Component {
                   </Col>
 
                   <Col span={4}>
-                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddMedicalSession}>
+                    <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }} onClick={this.AddMedicalSession}>
                       Додати рецепт
                    </Button>
                   </Col>
@@ -314,7 +314,7 @@ class PageDoctor extends Component {
                     <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {session.patientName} {session.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
                       <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Дата: {new Date(session.date).toLocaleString("ua", options)}</p>
                       <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Діагноз: {session.diagnos}</p>
-                      <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedSession(session.sessionId, e)}>Детальніше</Button>
+                      <Button type="link" style={{ color: 'rgb(221, 252, 200)' }} onClick={(e) => this.getDetailedSession(session.sessionId, e)}>Детальніше</Button>
                     </Card>
                   </Col>
                 ) :
