@@ -69,10 +69,10 @@ class MedicalHistory extends Component {
                 {sessions ?
                     sessions.map((session, index) =>
                         <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                            <Card key={index} title={session.doctorSpeciality} extra={<Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedSession(session.id, e)}>Детальніше</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
-                                <p className="textr">Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
-                                <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>
-                                <p className="textr">Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
+                            <Card key={index} title={session.doctorSpeciality} extra={<Button type="link" style={{ color: 'rgb(221, 252, 200)' }} onClick={(e) => this.getDetailedSession(session.id, e)}>Детальніше</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                                <p className="textr" style={{color:'rgb(221, 252, 200)'}}>Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
+                                <p className="textr" style={{color:'rgb(221, 252, 200)'}}>Лікар: {session.doctorSurname + " " + session.doctorName}</p>
+                                <p className="textr" style={{color:'rgb(221, 252, 200)'}}>Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
                             </Card>
                         </Col>
                     ) : <SpinnerWidget loading="true" />
