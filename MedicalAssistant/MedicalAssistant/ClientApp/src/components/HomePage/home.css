@@ -1,16 +1,16 @@
  body{
 
-   /* background-image: url('../../pngfuel.com_3.png') ;     */
+    background-image: url('../../hotpng1.com.png') ;     
    background-position: bottom; 
   
- background-color: rgb(213, 245, 227); 
+ background-color: rgb(174,214,187); 
 /* background-image: "C:\Users\Owner\Source\Repos\olexiychebotkevich\MedicalAssistant\MedicalAssistant\MedicalAssistant\ClientApp\src\components\pnkkgfuel.com.png"; */
  
     background-position: inherit ;
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
-    height: 55vh;
+    /* height: 55vh; */
     position: absolute;
     background-repeat: no-repeat; 
     font-family: 'Footlight MT';
@@ -34,7 +34,7 @@
    font-style: italic; 
    font-size: 50px;
    font-weight: 300;
-  color:#3A7073;
+  color:rgb(49, 112, 83);
   text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
   -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
   -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
@@ -45,12 +45,13 @@
   font-family: "Candara";
   text-align: "center" ;
    /* font-style: italic;  */
-   font-size: 70px;
+   font-size: 55px;
+   margin-top: 100px;
   font-weight: 500;
-  color:#3A7073;
-  text-shadow: 0 0 1px rgb(27, 27, 27); /* horizontal-offset vertical-offset 'blur' colour */
-  -moz-text-shadow: 0 0 1px rgb(27, 27, 27);
-  -webkit-text-shadow: 0 0 1px rgb(27, 27, 27);
+  color:rgb(49, 112, 83);
+  text-shadow: 0 0 1px rgb(36,56,48); /* horizontal-offset vertical-offset 'blur' colour */
+  -moz-text-shadow: 0 0 1px rgb(36,56,48);
+  -webkit-text-shadow: 0 0 1px rgb(36,56,48);
   
   
 }
@@ -69,12 +70,36 @@
 
  
 }
+.register-form-btn{
+  background-color: rgb(157, 181,167);
+  color:rgb(49, 112, 83);
+ 
+}
+.caro{
+  background-image: url('../images/hotpng.com.png');
+  /* width: 260px;
+  height: 265px; */
+}
+.fd{
+ margin-bottom: 1%;
+}
+.cd{
+  background-image: url('../images/GreenStick.png');
+  background-size: 50% ;
+}
+
 
 .imgD{
   align-items: left; 
   width:500px;
   height: 519px;  
   float: left;
+}
+.imgC{
+  width: 420px;
+  height: 458px; 
+  margin-top: 20px;
+  align-items: center;
 }
 
 .login-form-forgot {
@@ -126,11 +151,11 @@
 @media screen and (max-width: 1200px) {
   .imgD{
     align-items: left; 
-    width:500px;
-    height: 519px;  
+    width:200px;
+    height: 150px;  
     float: left;
   }
-  
+ 
 } 
 
 
@@ -138,21 +163,26 @@
 
 @media screen and (max-width: 576px) {
   .homeHeaderG{
-    font-size: 45px;
+    font-size: 30px;
+    margin-top: 2%;
     width: "90%";
     text-align: center;
   }
+  .SC{
+    width:360px;
+    height:300px;  
+  }
 
   .homeHeader{
-    font-size: 40px;
+    font-size: 20px;
     width: "90%";
     text-align: center;
    
   }
 
-  .imgD{
-    width:264px;
-    height:255px;  
+  .imgC{
+    width:250px;
+    height:250px;  
     align-items: center;
   }
  
@@ -164,30 +194,22 @@
   font-family: "Candara"; 
   width:100%;
   background-color: rgb(157, 181,167);
+  color:rgb(49, 112, 83);
 }
 .register-form-button {
   font-family: "Candara"; 
     width:100%;
     background-color: rgb(157, 181,167);
+    color:rgb(49, 112, 83);
   }
 
 
-  .steps{
-    font-size: 30px;
-    /* font-family: 'Candara'; */
-    font-family: "Footlight MT"; 
-  /* font-style: italic; */
-  }
   
   /* .register-form{
     font-family: "Candara"; 
   text-align: "cener" ;
    font-style: italic; 
+   color:rgb(49, 112, 83);
   
-  } */
-  .register-form-btn{
-    background-color: rgb(157, 181,167);
-   
-  }
+  }  */
 
- 

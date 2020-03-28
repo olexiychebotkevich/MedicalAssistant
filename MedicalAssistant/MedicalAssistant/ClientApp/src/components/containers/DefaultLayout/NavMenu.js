@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { Menu, Icon,Typography ,Button,Dropdown, Row, Col} from 'antd';
+import { Menu, Icon, Typography, Button, Dropdown, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import * as usersActions from '../../LoginPage/reducer';
 import './NavMenu.css';
 
 
 
-const { Text  } = Typography;
+const { Text } = Typography;
 
 const menu = (
     <Menu onClick={handleMenuClick} style={{ backgroundColor: 'rgb(152,197,178)' }}>
@@ -17,19 +17,19 @@ const menu = (
             {/* <a href="login">Log in</a> */}
             <Link to="/login">Login</Link>
         </Menu.Item>
-      
-        <Menu.Item  key="register" title="Register">
+
+        <Menu.Item key="register" title="Register">
             <Link to="/registr">Registration</Link>
             {/* <Link to="/registr" /> */}
         </Menu.Item>
     </Menu>
-  );
+);
 
 
-  function handleMenuClick(e) {
+function handleMenuClick(e) {
     console.log('click', e);
-  }
-  
+}
+
 
 // const RegistrationLink = (
 
@@ -64,8 +64,8 @@ class NavMenu extends Component {
         super(props);
         this.state = {
             current: 'mail',
-            isAuthenticated:false,
-            user:null
+            isAuthenticated: false,
+            user: null
 
         }
     }
@@ -87,30 +87,32 @@ class NavMenu extends Component {
     };
     render() {
         return (
-            <Menu  onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{backgroundColor: 'rgb(152,197,178)'}}>
-               
-          
-                <Menu.Item style={{float: 'left'}} key="app" disabled>
-                <Text  style={{fontFamily: 'Footlight MT' ,fontWeight: '400', fontSize: '24px',fontStyle:'Italic'}}>Medical Assistant</Text>
-                </Menu.Item>
+            <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(174,214,187)' } }>
 
-               
-                <Menu.Item style={{float: 'right'}}>
-                <Row type="flex"  justify="center" align="middle">
-                <Dropdown overlay={menu} placement="topRight">
-                <Button type="primary" shape="circle"  size="large" style={{backgroundColor: 'rgb(157,181,167)',margin:'10px',border:'1px solid rgb(221, 252, 200)'}}><Icon style={{ fontSize: '18px'}} className="icon" type="bank" /></Button>
-                </Dropdown>
-                </Row>
+                  
+                <Menu.Item style={{ float: 'left' }} key="app" >
+                {/* <img className="imgL" src={require("../images/logo.png")} /> */}
+                    <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text> 
+                </Menu.Item> 
+
+
+                <Menu.Item style={{ float: 'right' }}>
+                    <Row type="flex" justify="center" align="middle">
+                        <Dropdown overlay={menu} placement="topRight" style={{backgroundColor:'rgb(255,213,195)'}}>
+                            <Button type="primary" shape="circle" size="large" style={{ backgroundColor: 'rgb(157,181,176)', margin: '10px', border: '1px solid rgb(49, 112, 83)' }}><Icon style={{ fontSize: '18px', color:'rgb(49, 112, 83)'}} className="icon" type="bank" /></Button>
+                        </Dropdown>
+                    </Row>
                 </Menu.Item>
 
             </Menu>
+            
         );
     }
 }
 
 function mapStateToProps(state) {
     const isAuthenticated = state.loginReducer.login.isAuthenticated;
-    const {user} = state.loginReducer;
+    const { user } = state.loginReducer;
     return {
         isAuthenticated,
         user

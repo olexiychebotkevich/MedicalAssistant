@@ -181,7 +181,7 @@ class PagePatient extends Component {
       if (error) console.error(error)
     })
   }
-
+  
 
   render() {
     let GetID = false;
@@ -202,7 +202,7 @@ class PagePatient extends Component {
             <h3 className="moreHeader"> Особистий профіль</h3>
 
 
-                  <div className="row" align="center">
+                  <div className="row " >
                       <div className="col-12 col-sm-6" >
 
 
@@ -213,7 +213,7 @@ class PagePatient extends Component {
                   onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
                 </img>
-<div align="center" style={{marginTop: '5px'}}>
+<div  style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
                 </div>
@@ -241,10 +241,10 @@ class PagePatient extends Component {
                                           <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>
                                           <p className="textr">Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
                                       </Card>
-                                  </Col>
+                                  </div>
                               ) :
                               null}
-                      </Row>
+                      </div>
 
 
 
@@ -252,7 +252,7 @@ class PagePatient extends Component {
 
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div style={{ width: "100%" }} >
-                  <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.generateQR}>
+                  <Button style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)'  }} onClick={this.generateQR}>
                     Згенерувати QR-код!
                    </Button>
                 </div>
@@ -260,7 +260,7 @@ class PagePatient extends Component {
               </Col>
               <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
                 <div>
-                <Button style={{backgroundColor:'rgb(152,197,178)',fontFamily:'Candara'}} onClick={this.GetMyID}>
+                <Button style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }} onClick={this.GetMyID}>
                     Згенерувати простий код
                    </Button>
                   {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}

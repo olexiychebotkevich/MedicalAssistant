@@ -57,6 +57,7 @@ class PageDoctor extends Component {
       UpdatedoctorFailed: false,
       UpdatedoctorSuccess: false,
       patientID: null,
+      patientSurname: null,
       IsLoading: false,
       scanQr: false,
       scanQRresult: "",
@@ -126,7 +127,7 @@ class PageDoctor extends Component {
       patientID: val.target.value
     });
   }
-
+  
   onChangeSelectFile = (e) => {
     e.preventDefault();
 
@@ -236,8 +237,8 @@ class PageDoctor extends Component {
         {this.state.IsLoading === false && this.state.detaileddoctor ?
           <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
             <h3 className="moreHeader"> Особистий профіль</h3>
-            <div className="row" align="center">
-              <div className="col-12 col-sm-6">
+            <div className="row" >
+              <div className="col-12 col-sm-6" >
 
                 <img
                   onClick={this.onselectImage}
@@ -282,7 +283,7 @@ class PageDoctor extends Component {
               <Col span={8} offset={4} xs={12} >
                 <Row>
                   <Col span={6} xs={12} sm={10} md={8} lg={6} xl={6} style={{ marginRight: "2%" }}>
-                    <Input value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
+                    <Input style={{border:'1px solid rgb(49, 112, 83)'}} value={this.state.patientID} onChange={this.updatePatientIDValue} placeholder="User ID" />
                   </Col>
 
                   <Col span={4}>
