@@ -57,6 +57,7 @@ class PageDoctor extends Component {
       UpdatedoctorFailed: false,
       UpdatedoctorSuccess: false,
       patientID: null,
+      patientSurname: null,
       IsLoading: false,
       scanQr: false,
       scanQRresult: ""
@@ -125,7 +126,7 @@ class PageDoctor extends Component {
       patientID: val.target.value
     });
   }
-
+  
   onChangeSelectFile = (e) => {
     e.preventDefault();
 
@@ -235,8 +236,8 @@ class PageDoctor extends Component {
         {this.state.IsLoading === false && this.state.detaileddoctor ?
           <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
             <h3 className="moreHeader"> Особистий профіль</h3>
-            <div className="row" align="center">
-              <div className="col-12 col-sm-6">
+            <div className="row" >
+              <div className="col-12 col-sm-6" >
 
                 <img
                   onClick={this.onselectImage}
@@ -267,22 +268,22 @@ class PageDoctor extends Component {
               </div>
             </div>
 
-
-            <Row gutter={16}>
+           
+            <div className="row" >
               {this.state.detaileddoctor.patients ?
                 this.state.detaileddoctor.patients.map((patient, index) =>
 
-                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                 <div class="col-lg-4 col-xl-4 col-md-6 col-sm-12">
 
                     <Card key={index} title={<p style={{ color: 'rgb(49, 112, 83)', fontStyle: 'Italic' }}>Пацієнт: {patient.patientName} {patient.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
 
                       <Button type="link" style={{ color: 'white' }} onClick={(e) => this.getDetailedPatiant(patient.patientID, e)}>Детальніше</Button>
                     </Card>
-                  </Col>
+                    </div>
                 ) :
                 null
               }
-            </Row>
+         </div>
 
 
 

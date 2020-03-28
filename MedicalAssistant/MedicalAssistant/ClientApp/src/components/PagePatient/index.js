@@ -206,7 +206,7 @@ class PagePatient extends Component {
             <h3 className="moreHeader"> Особистий профіль</h3>
 
 
-                  <div className="row" align="center">
+                  <div className="row " >
                       <div className="col-12 col-sm-6" >
 
 
@@ -217,7 +217,7 @@ class PagePatient extends Component {
                   onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
                 </img>
-<div align="center" style={{marginTop: '5px'}}>
+<div  style={{marginTop: '5px'}}>
                 {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                 {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
                 </div>
@@ -236,19 +236,20 @@ class PagePatient extends Component {
               </div>
             </div>
 
-                      <Row gutter={16}>
+            <div className="row" >
                           {this.state.detailedpatient.recipes ?
                               this.state.detailedpatient.recipes.map((recipe,index) =>
-                                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                                
+                 <div class="col-lg-4 col-xl-4 col-md-6 col-sm-12">
                                       <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{color:'rgb(49, 112, 83)', fontFamily: 'Candara',fontStyle:'italic' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
                                           <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
                                           <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
                                           <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
                                       </Card>
-                                  </Col>
+                                  </div>
                               ) :
                               null}
-                      </Row>
+                      </div>
 
 
 

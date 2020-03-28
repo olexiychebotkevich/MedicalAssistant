@@ -19,6 +19,7 @@
     font-family: "Bradley Hand", cursive;
     color:rgb(49, 112, 83);
     font-size: 17px ;
+    text-shadow: white 0 0 2px;
   }
   .moreHeader{
     text-align: center;
@@ -49,6 +50,7 @@
       }
       .ptext{
         font-size: 15px ;
+        text-shadow: white 0 0 2px;
       }
    
   }

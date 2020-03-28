@@ -66,9 +66,7 @@ class NormalHomeForm extends React.Component {
 
         </div>
 
-         <div align="center" className="fd" marginTop="90%">
-          <img src={require("../images/hearth.png")} />
-        </div> 
+      
       </div>
     );
 

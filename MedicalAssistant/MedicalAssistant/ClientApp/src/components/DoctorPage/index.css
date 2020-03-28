@@ -19,6 +19,7 @@ body{
   font-family: "Bradley Hand", cursive;
   color:rgb(49, 112, 83);
   font-size: 17px ;
+  text-shadow: white 0 0 2px;
 }
 
 @media (max-width: 960px) {
@@ -26,11 +27,15 @@ body{
     font-size: 35px;
   }
 }
-@media (max-width: 600px) {
-    .p{
+
+  @media(max-width: 768px){
+    p{
       text-align: center;
       margin-top: 10px;
     }
+  
+    
+
   }
   @media (max-width: 576px) {
     .moreHeader{
@@ -38,6 +43,9 @@ body{
     }
       .ptext{
         font-size: 15px ;
+      }
+      .p{
+        text-align: center;
       }
    
   }
