@@ -81,8 +81,9 @@ class DynamicFieldSet extends Component {
                 let medicines = [];
                 const { keys, names, kd, op, krd } = values;
                 var today = new Date();
-
-
+                  
+                 console.log("values: ",values);
+ 
                 keys.map(key => medicines.push({ name: names[key], countdays: kd[key], receptionfeatures: op[key], counttimesaday: krd[key] }));
                 console.log('medicines: ', medicines);
                 const recipemodel = {
