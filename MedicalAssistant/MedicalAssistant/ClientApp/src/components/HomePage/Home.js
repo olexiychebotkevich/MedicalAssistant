@@ -37,26 +37,26 @@ class NormalHomeForm extends React.Component {
                 <h1 className="homeHeader"> ваш надійний партнер</h1>
                 {/* <img src={require("../images/heart.png")} /> */}
               </div>
-              <div className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="left">
+              <div className="col-12 col-md-6 col-lg-6 col-xl-6 col-sm-12" align="center">
                 <Carousel autoplay align="center" className="SC" >
-                  <div align="center" marginTop="60%">
+                  <div align="center">
                   <img className="imgC" src={require("../images/GreenStick.png")} />
                     {/* <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '35px', marginTop: '50%' }}> Ви забудько ?</h3> */}
                   </div>
                   <div align="center">
-                     <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> Ви забудько ?</h3> 
+                     <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '30%' }}> Ви забудько ?</h3> 
                   </div>
                   <div align="center">
-                    <h3 style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> У вас підліткова розсієність ?</h3>
+                    <h3 style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '30%' }}> У вас підліткова розсієність ?</h3>
                     
                   </div>
                   <div align="center">
-                    <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '50%' }}> Чи можливо від сірої буденності часткова втрата пам'яті ?</h3>
+                    <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '30%' }}> Чи можливо від сірої буденності часткова втрата пам'яті ?</h3>
 
                   </div>
                   <div aligh="center">
                   <h3  style={{ fontFamily: 'Candara', fontStyle: 'italic', fontWeight: '50px', color: 'rgb(35,97,88)', textShadowColor: 'rgb(49,112,83)', fontSize: '30px', marginTop: '30%' }}>Довіртеся нам ми здатні нагадати про важливе !!!</h3>
-                  <img width="372" height="340" src={require("../images/bealive.png")} />
+                {/* <img width="372" height="340" src={require("../images/bealive.png")} /> */}
                   </div>
                 </Carousel>
               </div>

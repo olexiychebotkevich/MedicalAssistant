@@ -37,9 +37,10 @@ namespace MedicalAssistant
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddDbContext<EFDbContext>(options =>
+            //  options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<EFDbContext>(options =>
-              options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
+               options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<DbUser, DbRole>(options => options.Stores.MaxLengthForKeys = 128)
                 .AddEntityFrameworkStores<EFDbContext>()
                 .AddDefaultTokenProviders();
