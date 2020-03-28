@@ -12,5 +12,6 @@ namespace MedicalAssistant.ViewModels
         public string DoctorName { get; set; }
         public string DoctorSurname { get; set; }
         public string DoctorSpecialty { get; set; }
+        public string Diagnos { get; set; }
     }
 }

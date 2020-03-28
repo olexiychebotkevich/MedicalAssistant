@@ -113,7 +113,7 @@ namespace MedicalAssistant.Controllers
                     PhoneNumber = detaildoctor.User.PhoneNumber,
                     WorkExpirience = detaildoctor.WorkExpirience,
                     ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    Sessions = MedicalSessionViewModels
+                    Sessions = MedicalSessionViewModels.OrderBy(s => s.Date).OrderByDescending(s => s.Date).ToList()
 
                 };
                 return Ok(detailedDoctorViewModel);
@@ -273,31 +273,46 @@ namespace MedicalAssistant.Controllers
         [HttpPost("SearchPatiantBySurname")]
         public async Task<IActionResult> SearchPatiantBySurname([FromBody]SearchFilterViewModel searchmodel)
         {
-
-            var sessions = from s in _dbcontext.MedicalSessions
-                           select s;
-            if (!String.IsNullOrEmpty(searchmodel.searchPatientSurname) && searchmodel.DoctorId > 0)
+            try
             {
-                sessions = sessions.Where(s => s.DetailedPatient.UserSurname.Contains(searchmodel.searchPatientSurname)
-                                       && s.DetailedDoctor.Id == searchmodel.DoctorId).Include("DetailedDoctor").Include("DetailedPatient").Include("Recipe");
-            }
-
-            var medicalsessions = await sessions.AsNoTracking().ToListAsync();
-            ICollection<DoctorMedicalSessionViewModel> MedicalSessionViewModels = new List<DoctorMedicalSessionViewModel>();
-            if (medicalsessions != null)
-                foreach (var i in medicalsessions)
+                var sessions = from s in _dbcontext.MedicalSessions
+                               select s;
+                if (!String.IsNullOrEmpty(searchmodel.searchPatientSurname) && searchmodel.DoctorId > 0)
                 {
-                    MedicalSessionViewModels.Add(new DoctorMedicalSessionViewModel
-                    {
-                        SessionId = i.ID,
-                        Date = i.Date,
-                        PatientName = i.DetailedPatient.UserName,
-                        PatientSurname = i.DetailedPatient.UserSurname,
-                        Diagnos = i.Recipe.Diagnos
-                    });
+                    sessions = sessions.Where(s => s.DetailedPatient.UserSurname.Contains(searchmodel.searchPatientSurname)
+                                           && s.DetailedDoctor.Id == searchmodel.DoctorId).Include("DetailedDoctor").Include("DetailedPatient").Include("Recipe").OrderByDescending(s => s.Date);
                 }
 
-            return Ok(MedicalSessionViewModels);
+                if (String.IsNullOrEmpty(searchmodel.searchPatientSurname) && searchmodel.DoctorId > 0)
+                {
+                    sessions = sessions.Where(s => s.DetailedDoctor.Id == searchmodel.DoctorId).Include("DetailedDoctor").Include("DetailedPatient").Include("Recipe").OrderByDescending(s => s.Date);
+                }
+
+
+                var medicalsessions = await sessions.AsNoTracking().ToListAsync();
+                ICollection<DoctorMedicalSessionViewModel> MedicalSessionViewModels = new List<DoctorMedicalSessionViewModel>();
+                if (medicalsessions != null)
+                    foreach (var i in medicalsessions)
+                    {
+                        MedicalSessionViewModels.Add(new DoctorMedicalSessionViewModel
+                        {
+                            SessionId = i.ID,
+                            Date = i.Date,
+                            PatientName = i.DetailedPatient.UserName,
+                            PatientSurname = i.DetailedPatient.UserSurname,
+                            Diagnos = i.Recipe.Diagnos
+                        });
+                    }
+
+                return Ok(MedicalSessionViewModels);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.InnerException);
+            }
+          
+
+           
 
         }
 

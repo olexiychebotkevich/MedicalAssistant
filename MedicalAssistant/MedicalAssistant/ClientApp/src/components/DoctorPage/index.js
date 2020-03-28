@@ -59,7 +59,8 @@ class PageDoctor extends Component {
       patientID: null,
       IsLoading: false,
       scanQr: false,
-      scanQRresult: ""
+      scanQRresult: "",
+      searchpatientSurname:""
 
     };
 
@@ -180,7 +181,7 @@ class PageDoctor extends Component {
   }
 
 
-  SearchPatient=(patientsurname,e)=>{
+  SearchPatientBySurname=(patientsurname,e)=>{
     e.preventDefault();
     this.props.SearchPatientBySurname(this.state.detaileddoctor.id,patientsurname);
   }
@@ -209,8 +210,16 @@ class PageDoctor extends Component {
       this.props.history.push(path);
     }
 
+  }
 
 
+  updatePatientSurnameValue = (val) => {
+    console.log("val: ",val.target.value);
+    this.setState({
+      searchpatientSurname: val.target.value
+    });
+    this.props.SearchPatientBySurname(this.state.detaileddoctor.id,val.target.value);
+    
   }
 
   render() {
@@ -287,16 +296,16 @@ class PageDoctor extends Component {
             </Row>
 
 
-
-
+            
             <Row gutter={16} style={{marginTop:"2rem"}}>
             <h3 className="moreHeader">Медичні сеанси</h3>
 
-             <div className="container">
-              <div className="row">
+              <div className="row justify-content-center">
+                <div className="col-lg-2 col-xl-2 col-md-4 col-sm-6 col-6">
+                  <Input style={{ border: '1px solid rgb(49, 112, 83)' }} placeholder="Прізвище пацієнта" value={this.state.searchpatientSurname} onChange={this.updatePatientSurnameValue} />
+                </div>
               </div>
-              <Button onClick={(e) => this.SearchPatient("Галицький", e)}>Serch</Button>
-            </div>
+
 
               {this.state.detaileddoctor.sessions ?
                 this.state.detaileddoctor.sessions.map((session, index) =>

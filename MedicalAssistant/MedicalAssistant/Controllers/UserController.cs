@@ -99,7 +99,9 @@ namespace MedicalAssistant.Controllers
                             Date = i.Date,
                             DoctorName = i.DetailedDoctor.UserName,
                             DoctorSpecialty = i.DetailedDoctor.DoctorSpecialty,
-                            DoctorSurname = i.DetailedDoctor.UserSurname
+                            DoctorSurname = i.DetailedDoctor.UserSurname,
+                            Diagnos=i.Recipe.Diagnos
+                            
                         });
                     }
 

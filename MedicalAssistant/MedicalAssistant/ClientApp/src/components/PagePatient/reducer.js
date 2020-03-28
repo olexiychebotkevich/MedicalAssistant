@@ -1,4 +1,5 @@
 import PatientService from '../../services/PatientService';
+import MedicalSessionService from '../../services/MedicalSessionService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -137,14 +138,17 @@ export const changeImage = (user,patient) => {
 }
 
 
-export const showDetailedRecipe = (detailedrecipe) => {
-    console.log("recipe: ",detailedrecipe)
-    if (detailedrecipe) {
-        return (dispatch) => {
-            dispatch(patientActions.showrecipe(detailedrecipe));
-            if (detailedrecipe)
-                dispatch(push('/patient/morerecipe'));
-        }
+export const showDetailedRecipe = (RecipeId) => {
+    return (dispatch) => {
+    MedicalSessionService.getDetailedSession(RecipeId)
+    .then((response) => {
+        dispatch(patientActions.showrecipe(response));
+            dispatch(push('/patient/morerecipe'));
+    }, err => { throw err; })
+    .catch(err => {
+        if (err.response != null)
+            console.log("can`t find session")
+    });
     }
 }
 
@@ -184,10 +188,10 @@ export const patientActions = {
             type: UPDATEPATIENT_FAILURE,
         }
     },
-    showrecipe: (data) => {
+    showrecipe: (response) => {
         return {
             type: SHOWRECIPE,
-            payload: data
+            payload: response.data
         }
     }
 

@@ -166,11 +166,7 @@ class PagePatient extends Component {
     this.setState({ imagechanged: false });
   }
   SelectRecipe(id, e){
-    console.log("-------RecipeId: ",id);
-    e.preventDefault();
-    const detairecipe=this.state.detailedpatient.recipes[id];
-    console.log("detailed recipe : ",detairecipe);
-    this.props.showDetailedRecipe(detairecipe);
+    this.props.showDetailedRecipe(id);
   }
 
 
@@ -237,13 +233,13 @@ class PagePatient extends Component {
             </div>
 
                       <Row gutter={16}>
-                          {this.state.detailedpatient.recipes ?
-                              this.state.detailedpatient.recipes.map((recipe,index) =>
+                          {this.state.detailedpatient.sessions ?
+                              this.state.detailedpatient.sessions.map((session,index) =>
                                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
-                                      <Card key={index} title="Рецепт" extra={<Button type="link" onClick={(e) => this.SelectRecipe(index, e)} style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
-                                          <p className="textr">Діагноз: {recipe.diagnos.length > diagnoslength ? recipe.diagnos.substring(0, diagnoslength) + "..." : recipe.diagnos}</p>
-                                          <p className="textr">Лікар: {recipe.doctor.userSurname + " " + recipe.doctor.userName}</p>
-                                          <p className="textr">Дата:{new Date(recipe.date).toLocaleString("ua", options)}</p>
+                                      <Card key={index} title={session.doctorSpecialty} extra={<Button type="link" onClick={(e) => this.SelectRecipe(session.sessionId, e)} style={{ color: 'white' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                                          <p className="textr">Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
+                                          <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>
+                                          <p className="textr">Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
                                       </Card>
                                   </Col>
                               ) :
