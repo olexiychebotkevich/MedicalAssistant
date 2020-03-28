@@ -18,23 +18,24 @@ const propTypes = {
 const defaultProps = {};
 
 
-class NormalMoreForm extends React.Component {
+class NormalMoreForm extends Component {
   state = {
     reipe:null,
   };
 
   static getDerivedStateFromProps = (props, state) => {
     return {
-      recipe: props.recipe
+      recipe: props.location.SessionId
     };
   }
 
   render() {
 
     const { recipe } = this.state;
+    console.log("RecipeId: ",recipe);
     return (
       <div className="container divv" >
-        <h3 className="moreHeader"> Діагноз : {recipe.diagnos}</h3>
+        {/* <h3 className="moreHeader"> Діагноз : {recipe.diagnos}</h3>
         <Row gutter={16}>
 
           {this.state.recipe ?
@@ -54,7 +55,7 @@ class NormalMoreForm extends React.Component {
          
 
 
-        </Row>
+        </Row> */}
 
 
       </div>
@@ -66,15 +67,15 @@ class NormalMoreForm extends React.Component {
 
 }
 
-const mapState = (state) => {
-  return {
-      recipe: get(state, 'patientsReducer.detailedpatient.detailedrecipe')
-  }
-}
+// const mapState = (state) => {
+//   return {
+//       recipe: get(state, 'patientsReducer.detailedpatient.detailedrecipe')
+//   }
+// }
 
 
 
 
 NormalMoreForm.propTypes = propTypes;
 NormalMoreForm.defaultProps = defaultProps;
-export default connect(mapState)(NormalMoreForm);
+export default NormalMoreForm;

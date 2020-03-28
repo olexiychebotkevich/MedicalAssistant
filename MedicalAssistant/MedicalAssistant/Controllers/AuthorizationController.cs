@@ -38,6 +38,8 @@ namespace MedicalAssistant.Controllers
             _signInManager = signInManager;
         }
 
+
+        #region Login
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
@@ -72,8 +74,8 @@ namespace MedicalAssistant.Controllers
            
         }
 
+        #endregion
 
-    
 
 
         [HttpPost("refresh/{refreshToken}")]

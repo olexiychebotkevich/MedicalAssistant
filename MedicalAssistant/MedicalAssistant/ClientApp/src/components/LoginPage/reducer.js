@@ -1,4 +1,6 @@
 import UserService from '../../services/UserService';
+import PatientService from '../../services/PatientService';
+import DoctorService from '../../services/DoctorService';
 import update from '../../helpers/update';
 import isEmpty from 'lodash/isEmpty';
 import setAuthorizationToken from '../../utils/setAuthorizationToken';
@@ -135,7 +137,7 @@ export function checkPatient(dispatch)
 {
     const user = jwt.decode(localStorage.getItem('jwtToken'))
     const token = localStorage.getItem('jwtToken')
-    UserService.IsPatientExist({...user,token})
+    PatientService.IsPatientExist({...user,token})
     .then((response) => {
         dispatch(push('/patient/pagepatient'));
     }, err => { throw err; })
@@ -150,7 +152,7 @@ export function checkDoctor(dispatch)
 {
     const user = jwt.decode(localStorage.getItem('jwtToken'))
     const token = localStorage.getItem('jwtToken')
-    UserService.IsDoctorExist({...user,token})
+    DoctorService.IsDoctorExist({...user,token})
     .then((response) => {
         dispatch(push('/doctor/pagedoctor'));
     }, err => { throw err; })

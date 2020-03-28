@@ -1,5 +1,6 @@
 import UserService from '../../services/UserService';
-import MedicalSessionService from '../../services/MedicalSessionService'
+import MedicalSessionService from '../../services/MedicalSessionService';
+import DoctorService from '../../services/DoctorService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -18,9 +19,14 @@ export const UPDATEDOCTOR_REQUEST = "doctor/DOCTOR_UPDATE_REQUEST";
 export const UPDATEDOCTOR_SUCCESS = "doctor/DOCTOR_UPDATE_SUCCESS";
 export const UPDATEDOCTOR_FAILURE = "doctor/DOCTOR_UPDATE_FAILURE";
 
-export const SEARCHPATIENT_REQUEST = "patient/PATIENT_SEARCH_REQUEST";
-export const SEARCHPATIENT_SUCCESS = "patient/PATIENT_SEARCH_SUCCESS";
-export const SEARCHPATIENT_FAILURE = "patient/PATIENT_SEARCH_FAILURE";
+export const SEARCHPATIENT_REQUEST = "doctor/PATIENT_SEARCH_REQUEST";
+export const SEARCHPATIENT_SUCCESS = "doctor/PATIENT_SEARCH_SUCCESS";
+export const SEARCHPATIENT_FAILURE = "doctor/PATIENT_SEARCH_FAILURE";
+
+
+export const GETPATIENT_REQUEST = "doctor/PATIENT_GET_REQUEST";
+export const GETPATIENT_SUCCESS = "doctor/PATIENT_GET_SUCCESS";
+export const GETPATIENT_FAILURE = "doctor/PATIENT_GET_FAILURE";
 
 const initialState = {
     detaileddoctor: {
@@ -46,6 +52,13 @@ const initialState = {
         errors:{},
         statuscode:null,
         session:null
+    },
+    getpatient:{
+        failed: false,
+        loading: false,
+        success: false,  
+        statuscode:null,
+        PatientID:null
     }
 }
 
@@ -101,7 +114,7 @@ export const doctorsReducer = (state = initialState, action) => {
         case SEARCHPATIENT_SUCCESS: {
             newState = update.set(state, 'detailedpatient.loading', false);
             newState = update.set(newState, 'detailedpatient.success', true);
-            newState = update.set(newState, 'detailedpatient.patient', action.payload.data);
+            newState = update.set(newState, 'detaileddoctor.doctor.sessions', action.payload.data);
             break;
         }
 
@@ -131,6 +144,24 @@ export const doctorsReducer = (state = initialState, action) => {
             newState = update.set(newState, 'getsession.statuscode', action.statuscode);
             break;
         }
+        case GETPATIENT_REQUEST: {
+            newState = update.set(state, 'getpatient.loading', true);
+            break;
+        }
+        case GETPATIENT_SUCCESS: {
+            newState = update.set(state, 'getpatient.loading', false);
+            newState = update.set(newState, 'getpatient.success', true);
+            newState = update.set(newState, 'getpatient.PatientID', action.payload.data);
+            break;
+        }
+
+        case GETPATIENT_FAILURE: {
+            newState = update.set(state, 'getpatient.loading', false);
+            newState = update.set(newState, 'getpatient.failed', true);
+            newState = update.set(newState, 'getpatient.errors', action.errors);
+            newState = update.set(newState, 'getpatient.statuscode', action.statuscode);
+            break;
+        }
       
         default: {
             return newState;
@@ -147,7 +178,7 @@ export const doctorsReducer = (state = initialState, action) => {
 export const GetDetailedDoctor = (doctor) => {
     return (dispatch) => {
         dispatch(doctorActions.getstarted());
-        UserService.getdetaileddoctor(doctor)
+        DoctorService.getdetaileddoctor(doctor)
             .then((response) => {
                 dispatch(doctorActions.getsuccess(response));
             }, err => { throw err; })
@@ -159,12 +190,13 @@ export const GetDetailedDoctor = (doctor) => {
 }
 
 
-export const SearchPatientBySurname = (doctor,UserSurname) => {
+export const SearchPatientBySurname = (DoctorId,UserSurname) => {
     return (dispatch) => {
         dispatch(doctorActions.searchstarted());
-        UserService.SearchPatientBySurname(doctor,UserSurname)
+        DoctorService.SearchPatientBySurname(DoctorId,UserSurname)
             .then((response) => {
                 dispatch(doctorActions.searchsuccess(response));
+                console.log("search response: ")
             }, err => { throw err; })
             .catch(err => {
                 if(err.response!=null)
@@ -180,7 +212,7 @@ export const SearchPatientBySurname = (doctor,UserSurname) => {
 export const changeImage = (user,doctor) => {
     return (dispatch) => {
         dispatch(doctorActions.updatestarted());
-        UserService.UpdateDoctorImage(user,doctor)
+        DoctorService.UpdateDoctorImage(user,doctor)
             .then((response) => {
                 dispatch(doctorActions.updatesuccess(response));
             }, err => { throw err; })
@@ -195,8 +227,9 @@ export const AddMedicalSession=(user,PatientID) =>{
     return (dispatch) => {
         dispatch(doctorActions.getpatientstarted());
         const patient={token:user.token,id:PatientID}
-        UserService.IsPatientExist(patient)
+        DoctorService.IsPatientExist(patient)
             .then((response) => {
+                console.log("Is patient exist: ",response);
                 dispatch(doctorActions.getpatientsuccess(response));
                 dispatch(push('/doctor/addmedicalsession'));
                 
@@ -209,11 +242,11 @@ export const AddMedicalSession=(user,PatientID) =>{
 }
 
 
-export const getDetailedSession = (user, sesionId) => {
+export const getDetailedSession = (sesionId) => {
     return (dispatch) => {
         dispatch(doctorActions.getsessionstarted());
      
-        MedicalSessionService.getDetailedSession(user,sesionId)
+        MedicalSessionService.getDetailedSession(sesionId)
             .then((response) => {
                 dispatch(doctorActions.getsessionsuccess(response));
                 dispatch(push('/doctor/moresession'));
@@ -296,5 +329,24 @@ export const doctorActions = {
             type: SEARCHPATIENT_FAILURE,
         }
     },
+    getpatientstarted: () => {
+        return {
+            type: GETPATIENT_REQUEST
+        }
+    },
+    getpatientsuccess: (data) => {
+        return {
+            type: GETPATIENT_SUCCESS,
+            payload: data
+        }
+    },
+    getpatientfailed: (response) => {
+        return {
+            type: GETPATIENT_FAILURE,
+            errors: response.data,
+            statuscode:response.status
+        }
+    },
+    
 
 }

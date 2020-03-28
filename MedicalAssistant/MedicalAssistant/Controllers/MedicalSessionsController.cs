@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MedicalAssistant.DAL.Entities;
 using MedicalAssistant.ViewModels;
 using MedicalAssistant.ViewModels.DoctorViewModels;
+using MedicalAssistant.ViewModels.MedicalSessionsViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace MedicalAssistant.Controllers
 
         }
 
+        #region AddSession
         [Authorize]
         [HttpPost("AddSession")]
         public async Task<IActionResult> AddSession([FromBody]AddMedicalSessionViewModel session)
@@ -63,6 +65,10 @@ namespace MedicalAssistant.Controllers
 
         }
 
+        #endregion
+
+
+        #region GetSession
         [Authorize]
         [HttpGet("GetSession")]
         public async Task<IActionResult> GetDetailedSession([FromQuery] int? id)
@@ -98,6 +104,63 @@ namespace MedicalAssistant.Controllers
 
         }
 
+        #endregion
+
+
+        [Authorize]
+        [HttpGet("GetPatientSessions")]
+        public async Task<IActionResult> GetPatientSessions([FromQuery] int? PatientId)
+        {
+            if (PatientId == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                var patient = await _dbcontext.DetailedUsers.SingleOrDefaultAsync(u => u.Id == PatientId);
+
+                if (patient == null)
+                {
+                    return BadRequest(new { invalid = "Error, can`t find patient id"});
+                }
+
+                var MedicalSessions = _dbcontext.MedicalSessions
+                    .Where(m => m.DetailedPatientId == PatientId)
+                    .Include("DetailedDoctor")
+                    .Include("DetailedPatient")
+                    .Include("Recipe");
+                var ShortMedicalSessions = new List<ShortMedicalSessionViewModel>();
+                if (MedicalSessions != null)
+                {
+                    foreach (var m in MedicalSessions)
+                    {
+                        ShortMedicalSessions.Add(new ShortMedicalSessionViewModel
+                        {
+                            Id=m.ID,
+                            Date = m.Date,
+                            DoctorName = m.DetailedDoctor.UserName,
+                            DoctorSurname = m.DetailedDoctor.UserSurname,
+                            DoctorSpeciality = m.DetailedDoctor.DoctorSpecialty,
+                            PatientName = m.DetailedPatient.UserName,
+                            PatientSurname = m.DetailedPatient.UserSurname,
+                            Diagnos=m.Recipe.Diagnos
+                        });
+
+                    }
+                }
+
+
+                return Ok(ShortMedicalSessions);
+
+                
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("{0} Exception caught.", e);
+                return NotFound();
+            }
+        }
 
     }
 }

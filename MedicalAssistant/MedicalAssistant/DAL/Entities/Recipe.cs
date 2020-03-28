@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.DAL.Entities
 {
+    [Table("tblRecipies")]
     public class Recipe
     {
         [Key]

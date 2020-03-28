@@ -93,7 +93,7 @@ class PageDoctor extends Component {
   componentDidUpdate(prevProps) {
     // Популярный пример (не забудьте сравнить пропсы):
     if (this.props.doctor !== prevProps.doctor) {
-      this.setState({ ImagePath: this.state.detaileddoctor.imagePath });
+      this.setState({ ImagePath: this.state.detaileddoctor.imagePath,detaileddoctor:this.state.detaileddoctor});
     }
   }
 
@@ -176,21 +176,13 @@ class PageDoctor extends Component {
 
   getDetailedSession = (sessionid, e) => {
     e.preventDefault();
-    const doctor = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
-    this.props.getDetailedSession(doctor, sessionid);
+    this.props.getDetailedSession(sessionid);
   }
 
 
   SearchPatient=(patientsurname,e)=>{
     e.preventDefault();
-    const doctor = {
-      id: this.state.detaileddoctor.id,
-      token: this.state.token
-    }
-    this.props.SearchPatientBySurname(doctor,patientsurname);
+    this.props.SearchPatientBySurname(this.state.detaileddoctor.id,patientsurname);
   }
 
 
@@ -267,17 +259,13 @@ class PageDoctor extends Component {
               </div>
             </div>
 
-            {/* <div className="container">
-              <div className="row">
-              </div>
-              <Button onClick={(e) => this.SearchPatient("Vasyanich", e)}>Serch</Button>
-            </div> */}
+           
 
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
                 <div>
                   <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }}>
-                    Scan QR!
+                    Сканувати QR!
              </Button>
                 </div>
               </Col>
@@ -290,8 +278,8 @@ class PageDoctor extends Component {
 
                   <Col span={4}>
                     <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)' }} onClick={this.AddMedicalSession}>
-                      Add Recipe
-              </Button>
+                      Додати рецепт
+                   </Button>
                   </Col>
                 </Row>
               </Col>
@@ -303,6 +291,13 @@ class PageDoctor extends Component {
 
             <Row gutter={16} style={{marginTop:"2rem"}}>
             <h3 className="moreHeader">Медичні сеанси</h3>
+
+             <div className="container">
+              <div className="row">
+              </div>
+              <Button onClick={(e) => this.SearchPatient("Галицький", e)}>Serch</Button>
+            </div>
+
               {this.state.detaileddoctor.sessions ?
                 this.state.detaileddoctor.sessions.map((session, index) =>
                   <Col xs={25} sm={25} md={8} lg={8} xl={8}>
@@ -347,11 +342,11 @@ const mapDispatch = {
   GetDetailedDoctor: (user) => {
     return doctorActions.GetDetailedDoctor(user);
   },
-  SearchPatientBySurname: (doctor, userSurname) => {
-    return doctorActions.SearchPatientBySurname(doctor, userSurname);
+  SearchPatientBySurname: (DoctorId, userSurname) => {
+    return doctorActions.SearchPatientBySurname(DoctorId, userSurname);
   },
-  getDetailedSession: (user, patientID) => {
-    return doctorActions.getDetailedSession(user, patientID);
+  getDetailedSession: (patientID) => {
+    return doctorActions.getDetailedSession(patientID);
   },
 
   changeImage: (user, detaileduser) => {

@@ -37,7 +37,7 @@ namespace MedicalAssistant.Controllers
         }
 
 
-
+        #region IsExist
 
         [Authorize]
         [HttpGet("IsPatientExist")]
@@ -57,7 +57,7 @@ namespace MedicalAssistant.Controllers
                     return BadRequest(new { invalid = "Email does not exist" });
                 }
 
-                return Ok(detailuser);
+                return Ok(detailuser.Id);
             }
             catch (Exception e)
             {
@@ -68,34 +68,10 @@ namespace MedicalAssistant.Controllers
         }
 
 
-        [Authorize]
-        [HttpGet("IsDoctorExist")]
-        public async Task<IActionResult> IsDoctorExist([FromQuery]int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                var detailedDoctor = await _dbcontext.DetailedDoctors.Include("User").SingleOrDefaultAsync(u => u.User.Id == id);
-
-                if (detailedDoctor == null)
-                {
-                    return BadRequest(new { invalid = "Email does not exist" });
-                }
-
-                return Ok(detailedDoctor);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-                return NotFound();
-            }
-
-        }
+        #endregion
 
 
+        #region GetPatient
         [Authorize]
         [HttpGet("GetPatient")]
         public IActionResult GetPatient([FromQuery]int? id)
@@ -103,7 +79,11 @@ namespace MedicalAssistant.Controllers
 
             try
             {
-                DetailedPatient detailuser = _dbcontext.DetailedUsers.Include("User").Include("Sessions").SingleOrDefault(u => u.User.Id == id);
+                DetailedPatient detailuser = _dbcontext.DetailedUsers
+                    .Include("User")
+                    .Include("Sessions.Recipe")
+                    .Include("Sessions.DetailedDoctor")
+                    .SingleOrDefault(u => u.User.Id == id);
                 if (detailuser == null)
                 {
                     return NotFound();
@@ -151,75 +131,12 @@ namespace MedicalAssistant.Controllers
             }
 
         }
-
-
-        [Authorize]
-        [HttpGet("GetDoctor")]
-        public IActionResult GetDoctor([FromQuery] int? id)
-        {
-
-            try
-            {
-                DetailedDoctor detaildoctor = _dbcontext.DetailedDoctors
-                    .Include("User")
-                    .Include("Sessions.Recipe")
-                    .Include("Sessions.DetailedPatient")
-                    .SingleOrDefault(u => u.User.Id == id);
-
-                if (detaildoctor == null)
-                {
-                    return NotFound();
-                }
-
-                ICollection<DoctorMedicalSessionViewModel> MedicalSessionViewModels = new List<DoctorMedicalSessionViewModel>();
-                if (detaildoctor.Sessions != null && detaildoctor.Sessions.Count != 0)
-                    foreach (var i in detaildoctor.Sessions)
-                    {
-                        MedicalSessionViewModels.Add(new DoctorMedicalSessionViewModel
-                        {
-                            SessionId = i.ID,
-                            Date = i.Date,
-                            PatientName = i.DetailedPatient.UserName,
-                            PatientSurname = i.DetailedPatient.UserSurname,
-                            Diagnos=i.Recipe.Diagnos
-                        });
-                    }
-
-                DetailedDoctorViewModel detailedDoctorViewModel = new DetailedDoctorViewModel
-                {
-                    Id = detaildoctor.Id,
-                    UserName = detaildoctor.UserName,
-                    UserSurname = detaildoctor.UserSurname,
-                    DateOfBirth = detaildoctor.DateOfBirth,
-                    DoctorSpecialty = detaildoctor.DoctorSpecialty,
-                    Locality = detaildoctor.Locality,
-                    Email = detaildoctor.User.Email,
-                    PhoneNumber = detaildoctor.User.PhoneNumber,
-                    WorkExpirience = detaildoctor.WorkExpirience,
-                    ImagePath = $"Images/{detaildoctor.ImagePath}",
-                    Sessions = MedicalSessionViewModels
-
-                };
-                return Ok(detailedDoctorViewModel);
-            }
-            catch (ArgumentNullException e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-                return BadRequest(new { invalid = "Email does not exist" });
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-                return NotFound();
-            }
-
-        }
+        #endregion
 
 
 
-
-
-
+   
+        #region UpdatePatientImage
         [Authorize]
         [HttpPut("UpdatePatientImage")]
         public async Task<IActionResult> UpdatePatientImage([FromBody]UpdatePatientImageViewModel patient)
@@ -268,56 +185,12 @@ namespace MedicalAssistant.Controllers
 
         }
 
-
-
-        [Authorize]
-        [HttpPut("UpdateDoctorImage")]
-        public async Task<IActionResult> UpdateDoctorImage([FromBody]UpdateDoctorImageViewModel doctor)
-        {
-            if (doctor == null)
-            {
-                return NotFound();
-            }
-
-            var doctorToUpdate = await _dbcontext.DetailedDoctors.Include("User").SingleOrDefaultAsync(u => u.User.Id == doctor.Id);
-            try
-            {
-
-                var AddImageResultTask = Task.Run(() => AddImage(doctor.ImagePath));
-                string imageName = await AddImageResultTask;
-
-                doctorToUpdate.ImagePath = imageName;
-                if (await TryUpdateModelAsync<DetailedDoctor>(doctorToUpdate, "", s => s.ImagePath))
-                {
-
-                    try
-                    {
-                        await _dbcontext.SaveChangesAsync();
-                        return Ok(doctorToUpdate);
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        Debug.WriteLine("{0} Exception caught.", ex);
-                        ModelState.AddModelError("", "Unable to save changes. " +
-                            "Try again, and if the problem persists, " +
-                            "see your system administrator.");
-                    }
-
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("{0} Exception caught.", e);
-
-            }
-
-            return Ok(doctorToUpdate);
-
-        }
+        #endregion
 
 
 
 
+        #region AddImage
         private string AddImage(string ImagePath)
         {
 
@@ -348,37 +221,9 @@ namespace MedicalAssistant.Controllers
 
             return imageName;
         }
+        #endregion
 
 
-        //[Authorize]
-        //[HttpPost("SearchPatiantBySurname")]
-        //public async Task<IActionResult> SearchPatiantBySurname([FromBody]SearchFilterViewModel searchmodel)
-        //{
-
-        //    if (searchmodel != null)
-        //    {
-        //        Recipe recipe;
-        //        try
-        //        {
-        //            recipe = await _dbcontext.Recipes.Include("Patient").Include("Doctor").FirstAsync(r => r.Doctor.Id == searchmodel.DoctorId && r.Patient.UserSurname.Contains(searchmodel.searchPatientSurname));
-        //        }
-
-        //        catch(Exception ex)
-        //        {
-        //            return BadRequest(ex.Message);
-        //        }
-
-        //        DoctorPatiantViewModel searchedpatient = new DoctorPatiantViewModel
-        //        {
-        //            PatientID = recipe.Patient.Id,
-        //            PatientName = recipe.Patient.UserName,
-        //            PatientSurname = recipe.Patient.UserSurname
-        //        };
-        //        return Ok(searchedpatient);
-        //    }
-        //    else
-        //        return BadRequest();
-
-        //}
+       
     }
 }

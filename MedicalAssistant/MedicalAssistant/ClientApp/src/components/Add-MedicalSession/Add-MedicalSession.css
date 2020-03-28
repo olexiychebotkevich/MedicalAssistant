@@ -18,3 +18,59 @@
 
     justify-content: center;
   }
+  .tmp{
+    display: flex;
+    justify-content: center;
+  }
+
+  p.textr{
+    font-family:'Candara' ;
+    font-style: italic;
+    font-weight: 500;
+   color: rgb(227, 241, 217);
+   }
+   .ptext{
+     margin-top: '10px';
+     font-family: "Bradley Hand", cursive;
+     color:rgb(152,197,178);
+     font-size: 17px ;
+   }
+
+  .moreHeader{
+    text-align: center;
+    /* font-style: italic;  */
+    font-family: 'Candara';
+    font-size: 50px;
+    color:rgb(152, 197,178);
+    text-shadow: 0 0 2px #000; /* horizontal-offset vertical-offset 'blur' colour */
+    -moz-text-shadow: 0 0 2px #000;
+    -webkit-text-shadow: 0 0 2px #000;
+    text-align: center;
+  }
+  .ptext{
+    margin-top: '10px';
+    font-family: "Bradley Hand", cursive;
+    color:rgb(152,197,178);
+    font-size: 17px ;
+  }
+  
+  @media (max-width: 960px) {
+    .moreHeader{
+      font-size: 35px;
+    }
+  }
+  @media (max-width: 600px) {
+      .p{
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+    @media (max-width: 576px) {
+      .moreHeader{
+        font-size: 30px;
+      }
+        .ptext{
+          font-size: 15px ;
+        }
+     
+    }

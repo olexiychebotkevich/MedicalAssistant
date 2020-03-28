@@ -8,6 +8,7 @@ import { refreshReducer } from '../components/RefreshToken/reducer';
 import {patientsReducer} from '../components/PagePatient/reducer';
 import {doctorsReducer} from '../components/DoctorPage/reducer';
 import {MedicalSessionReducer} from '../components/Add-MedicalSession/reducer';
+import {medicalhistoryReducer} from '../components/PatientMedicalHistory/reducer';
 
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';
 
@@ -23,6 +24,7 @@ export default function configureStore(history, initialState) {
     patientsReducer,
     doctorsReducer,
     MedicalSessionReducer,
+    medicalhistoryReducer,
     refreshToken: refreshReducer,
 
   };

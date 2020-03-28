@@ -1,4 +1,4 @@
-import UserService from '../../services/UserService';
+import PatientService from '../../services/PatientService';
 import update from '../../helpers/update';
 import { push } from 'connected-react-router';
 
@@ -13,9 +13,9 @@ export const UPDATEPATIENT_SUCCESS = "patient/PATIENT_UPDATE_SUCCESS";
 export const UPDATEPATIENT_FAILURE = "patient/PATIENT_UPDATE_FAILURE";
 
 
-
-
 export const SHOWRECIPE = "patient/PATIENT_SHOWRECIPE";
+
+
 
 const initialState = {
     detailedpatient: {
@@ -101,7 +101,7 @@ export const patientsReducer = (state = initialState, action) => {
 export const GetDetailedPatient = (patient) => {
     return (dispatch) => {
         dispatch(patientActions.getstarted());
-        UserService.getdetailedpatient(patient)
+        PatientService.getdetailedpatient(patient)
             .then((response) => {
                 dispatch(patientActions.getsuccess(response));
             }, err => { throw err; })
@@ -124,7 +124,7 @@ export const GetDetailedPatient = (patient) => {
 export const changeImage = (user,patient) => {
     return (dispatch) => {
         dispatch(patientActions.updatestarted());
-        UserService.UpdatePatientImage(user,patient)
+        PatientService.UpdatePatientImage(user,patient)
             .then((response) => {
                 dispatch(patientActions.updatesuccess(response));
             }, err => { throw err; })
