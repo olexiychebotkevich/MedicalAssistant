@@ -27,6 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="MedicalAssistantDB.sqlite-journal" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="ClientApp\package-lock.json" />
     <Content Include="ClientApp\package.json" />
     <Content Include="ClientApp\public\manifest.json" />
