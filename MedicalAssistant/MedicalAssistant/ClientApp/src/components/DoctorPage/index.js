@@ -71,7 +71,7 @@ class PageDoctor extends Component {
     }
 
     this.props.GetDetailedDoctor(doctor);
-    
+
 
   }
 

@@ -12,7 +12,7 @@ import './index.css';
 import QRCode from 'qrcode'
 import CropperWidget from '../CropperWidgetContainer';
 import SpinnerWidget from '../spinner';
-import PushNotificationsService from '../pushnotifications/PushNotifications';
+
 
 
 
@@ -221,7 +221,7 @@ class PagePatient extends Component {
 
                           <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
-                <CropperWidget loading={isCropped} src={src} onClose={PushNotificationsService.subscribeForPushNotifications()} croppImage={this.croppImage} />
+                <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
               <div className="col-12 col-sm-6 p">
                 <p style={{ fontFamily: "Bradley Hand, cursive	", color: 'rgb(152,197,178)', fontSize: '17px' }}> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient?.userName : null} </p>      {/* <p className="homeHeader1"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient ?.userName : null} </p> */}
@@ -233,7 +233,7 @@ class PagePatient extends Component {
               </div>
             </div>
 
-           <PushNotificationsService/>
+        
 
                       <Row gutter={16}>
                           {this.state.detailedpatient ?

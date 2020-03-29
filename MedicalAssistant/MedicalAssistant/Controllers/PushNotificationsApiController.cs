@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace MedicalAssistant.Controllers
 {
-    [Route("pushnotifications")]
-    public class PushNotificationsApiController : Controller
+    [Route("api/[controller]")]
+    public class PushNotificationsController : Controller
     {
         private readonly IPushSubscriptionStore _subscriptionStore;
         private readonly IPushNotificationService _notificationService;
         private readonly IPushNotificationsQueue _pushNotificationsQueue;
 
-        public PushNotificationsApiController(IPushSubscriptionStore subscriptionStore, IPushNotificationService notificationService, IPushNotificationsQueue pushNotificationsQueue)
+        public PushNotificationsController(IPushSubscriptionStore subscriptionStore, IPushNotificationService notificationService, IPushNotificationsQueue pushNotificationsQueue)
         {
             _subscriptionStore = subscriptionStore;
             _notificationService = notificationService;

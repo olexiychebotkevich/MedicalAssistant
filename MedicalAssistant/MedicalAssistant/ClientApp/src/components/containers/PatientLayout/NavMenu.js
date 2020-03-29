@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { Menu, Icon,Typography ,Button} from 'antd';
 import 'antd/dist/antd.css';
 import * as usersActions from '../../LoginPage/reducer';
-
+import Notification from "../../notification"
 
 const { Text  } = Typography;
 
@@ -57,6 +57,10 @@ class NavMenu extends Component {
             <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(152,197,178)' }}>
                 <Menu.Item style={{ float: 'left' }} key="app" disabled>
                     <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text>
+                </Menu.Item>
+
+                <Menu.Item style={{ float: 'left' }} key="app" disabled>
+                    <Notification/>
                 </Menu.Item>
 
                 {this.state.isAuthenticated ?
