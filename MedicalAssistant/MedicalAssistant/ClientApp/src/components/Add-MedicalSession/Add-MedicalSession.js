@@ -82,10 +82,13 @@ class DynamicFieldSet extends Component {
                 const { keys, names, kd, op, krd } = values;
                 var today = new Date();
                   
-                 console.log("values: ",values);
- 
-                keys.map(key => medicines.push({ name: names[key], countdays: kd[key], receptionfeatures: op[key], counttimesaday: krd[key] }));
-                console.log('medicines: ', medicines);
+
+                for (var i = 0; i < keys.length; i++) {
+                    console.log(i);
+                    medicines.push({ name: names[i], countdays: kd[i], receptionfeatures: op[i], counttimesaday: krd[i] });
+                 }
+                
+  
                 const recipemodel = {
                     PatientID: this.props.PatientID,
                     DoctorID: this.props.DoctorID,

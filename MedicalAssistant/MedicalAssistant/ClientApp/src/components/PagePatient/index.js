@@ -175,7 +175,7 @@ class PagePatient extends Component {
 
   generateQR = e => {
     e.preventDefault();
-    let str = ("patientID:" + this.state.detailedpatient.id);
+    let str = ("Id:"+this.state.detailedpatient.id);
     console.log("QR: ", str);
     QRCode.toCanvas(document.getElementById('canvas'), str, function (error) {
       if (error) console.error(error)

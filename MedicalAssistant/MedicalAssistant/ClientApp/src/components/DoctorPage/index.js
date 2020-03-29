@@ -103,8 +103,8 @@ class PageDoctor extends Component {
     this.inputFileElement.click();
   }
 
-  AddMedicalSession = (e) => {
-    e.preventDefault();
+  AddMedicalSession = () => {
+   
     const doctor = {
       id: this.state.user.id,
       token: this.state.token
@@ -200,15 +200,18 @@ class PageDoctor extends Component {
 
   scanQRCode = e => {
     e.preventDefault();
-    this.setState({ scanQr: !this.state.scanQr });
+    this.setState({ scanQr : !this.state.scanQr });
+  }
+  handleError = err => {
+    console.error(err)
   }
 
   handleScan = data => {
     if (data) {
       console.log("handleScan: ", data);
-      this.setState({ scanQRresult: "/home" });
-      let path = `/doctor/pagedoctor`;
-      this.props.history.push(path);
+      const patId=data.slice(3);
+     this.setState({patientID:parseInt(patId)});
+     this.AddMedicalSession();
     }
 
   }
@@ -274,9 +277,18 @@ class PageDoctor extends Component {
             <Row style={{ marginTop: "5%" }} type="flex" justify="center" >
               <Col offset={4} span={4}>
                 <div>
-                  <Button type="primary" style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }}>
+                  <Button type="primary" onClick={this.scanQRCode} style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }}>
                     Сканувати QR!
-             </Button>
+                 </Button>
+                {this.state.scanQr?
+                <QrReader
+                delay={300}
+                onError={this.handleError}
+                onScan={this.handleScan}
+                style={{ width: '100%' }}
+               />
+                :null}
+                 
                 </div>
               </Col>
 
