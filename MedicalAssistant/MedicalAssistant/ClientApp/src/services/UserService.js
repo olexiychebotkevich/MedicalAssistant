@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 export default class UserService {
 
     static registerdoctor(doctor) {
-        return axios.post(`${serverUrl}api/registration/doctorregistration`, doctor);
+        return axios.post(`${serverUrl}api/Admin/doctorregistration`, doctor);
     }
 
     static registerpatient(patient) {

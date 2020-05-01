@@ -2,9 +2,9 @@ import React from 'react';
 
 const PageDoctor = React.lazy(() => import("../components/DoctorPage"));
 const WrappedDynamicFieldSet = React.lazy(() => import("../components/Add-MedicalSession/Add-MedicalSession"));
-const NormalSessionForm=React.lazy(() => import("../components/More_session"));
+const NormalSessionForm=React.lazy(() => import("../components/MoreSessionPage"));
 const MedicalHistory=React.lazy(() => import("../components/PatientMedicalHistory"));
-const NormalMoreForm=React.lazy(() => import("../components/More_Recipe"));
+const NormalMoreForm=React.lazy(() => import("../components/MoreRecipePage"));
 
 
 

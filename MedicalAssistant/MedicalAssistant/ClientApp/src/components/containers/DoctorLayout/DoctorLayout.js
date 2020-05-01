@@ -1,5 +1,5 @@
-import React, { Component, Suspense } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import React, { Component, Suspense } from './node_modules/react';
+import { Redirect, Route, Switch } from './node_modules/react-router-dom';
 import Layout from './Layout';
 import doctorRoutes from '../../../routes/doctorRoutes';
 import SpinnerWidget from '../../spinner';

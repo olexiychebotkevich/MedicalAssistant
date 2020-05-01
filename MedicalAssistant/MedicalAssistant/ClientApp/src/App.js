@@ -3,9 +3,9 @@ import {Redirect, Route, Switch } from "react-router";
 import SpinnerWidget from './components/spinner';
 
 //Containers
-import DefaultLayout from './components/containers/DefaultLayout/DefaultLayout'
-import PatientLayout from './components/containers/PatientLayout/PatientLayout'
-import DoctorLayout from './components/containers/DoctorLayout/DoctorLayout'
+import DefaultLayout from './components/Containers/DefaultLayout/DefaultLayout'
+import PatientLayout from './components/Containers/PatientLayout/PatientLayout'
+import DoctorLayout from './components/Containers/DoctorLayout/DoctorLayout'
 
 //components
 // const Home = React.lazy(() => import("./components/HomePage/Home"));

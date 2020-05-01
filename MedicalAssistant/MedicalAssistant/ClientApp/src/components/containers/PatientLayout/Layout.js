@@ -1,5 +1,5 @@
-import React from 'react';
-import { Container } from 'reactstrap';
+import React from './node_modules/react';
+import { Container } from './node_modules/reactstrap';
 import NavMenu from './NavMenu';
 
 

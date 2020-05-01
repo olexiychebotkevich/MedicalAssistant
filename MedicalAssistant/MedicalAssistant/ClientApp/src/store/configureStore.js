@@ -5,7 +5,7 @@ import createHistory from 'history/createHashHistory'
 import {usersReducer} from '../components/RegistrationPage/reducer'
 import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
-import {patientsReducer} from '../components/PagePatient/reducer';
+import {patientsReducer} from '../components/PatientPage/reducer';
 import {doctorsReducer} from '../components/DoctorPage/reducer';
 import {MedicalSessionReducer} from '../components/Add-MedicalSession/reducer';
 import {medicalhistoryReducer} from '../components/PatientMedicalHistory/reducer';

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const PagePatient = React.lazy(() => import("../components/PagePatient"));
-const NormalMoreForm=React.lazy(() => import("../components/More_Recipe"));
-const WrappedDynamicFieldSetEdit=React.lazy(() => import("../components/EditRecipe/edit_recipe"));
+const PagePatient = React.lazy(() => import("../components/PatientPage"));
+const NormalMoreForm=React.lazy(() => import("../components/MoreRecipePage"));
+const WrappedDynamicFieldSetEdit=React.lazy(() => import("../components/EditRecipePage/edit_recipe"));
 
 
 const patientRoutes=[

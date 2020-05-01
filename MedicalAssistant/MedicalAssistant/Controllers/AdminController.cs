@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using MedicalAssistant.BLL.Interfaces;
 using MedicalAssistant.DAL.Entities;
 using MedicalAssistant.Helpers;
 using MedicalAssistant.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace MedicalAssistant.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
+    [Authorize(Roles="Admin")]
+    public class AdminController : ControllerBase
     {
         private readonly UserManager<DbUser> userManager;
-        private readonly SignInManager<DbUser> signInManager;
         private readonly EFDbContext _dbcontext;
+        private readonly IConfiguration _configuration;
+        private readonly IHostingEnvironment _env;
 
-
-        public RegistrationController(UserManager<DbUser> userManager, SignInManager<DbUser> _signInManager, EFDbContext context)
+        public AdminController(UserManager<DbUser> userManager, EFDbContext context, IConfiguration configuration, IHostingEnvironment env)
         {
             this.userManager = userManager;
-            signInManager = _signInManager;
             _dbcontext = context;
-
+            _configuration = configuration;
+            _env = env;
         }
 
 
 
-        #region Patient Registration
-        [HttpPost("patientregistration")]
-        public async Task<IActionResult> PatientRegistr([FromBody]PatientRegistrationViewModel model)
+        #region Doctor Registration
+        [HttpPost("doctorregistration")]
+        public async Task<IActionResult> DoctorRegistr([FromBody]DoctorRegistrationViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -53,27 +53,20 @@ namespace MedicalAssistant.Controllers
             if (user.Succeeded)
             {
 
-                await userManager.AddToRoleAsync(userIdentity, "Patient");
-                DetailedPatient userDetailed = new DetailedPatient
+                await userManager.AddToRoleAsync(userIdentity, "Doctor");
+                DetailedDoctor doctorDetailed = new DetailedDoctor
                 {
                     UserName = model.UserName,
                     UserSurname = model.UserSurname,
                     DateOfBirth = DateTime.Parse(model.DateOfBirth.ToShortDateString()),
                     Locality = model.Locality,
                     User = userManager.FindByEmailAsync(model.Email).Result,
-                    ImagePath = "Images/DefaultImage"
+                    ImagePath = "Images/DefaultImage",
+                    DoctorSpecialty = model.DoctorSpecialty,
+                    WorkExpirience = model.WorkExpirience
                 };
-                try
-                {
-                    await _dbcontext.AddAsync(userDetailed);
-                    await _dbcontext.SaveChangesAsync();
-
-                }
-                catch(Exception ex)
-                {
-                    return BadRequest(ex);
-                }
-
+                _dbcontext.Add(doctorDetailed);
+                _dbcontext.SaveChanges();
 
             }
             else
@@ -87,15 +80,6 @@ namespace MedicalAssistant.Controllers
 
             return Ok("Account Created");
         }
-        #endregion 
-
-
-
-
-        [HttpGet("getall")]
-        public ICollection<DetailedPatient> GetAll()
-        {
-            return _dbcontext.DetailedUsers.Include("User").ToList();
-        }
+        #endregion
     }
 }
