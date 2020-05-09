@@ -25,7 +25,7 @@ class App extends Component {
           <Switch>
             <Route path="/patient" name="Patient" render={props => <PatientLayout {...props} />}/>
             <Route path="/doctor" name="Doctor" render={props => <DoctorLayout {...props} />}/>
-            <Route path="/" name="Default" render={props => <DefaultLayout {...props} />} />
+                  <Route path="/" name="Default" render={props => <DefaultLayout {...props} />} />
           </Switch>
         </Suspense>
       
