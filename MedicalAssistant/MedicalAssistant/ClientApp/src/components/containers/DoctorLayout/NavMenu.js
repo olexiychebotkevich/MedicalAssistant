@@ -1,9 +1,9 @@
-import React, { Component } from './node_modules/react';
-import { Link } from './node_modules/react-router-dom';
-import { connect } from './node_modules/react-redux';
-import PropTypes from "./node_modules/prop-types";
-import { Menu, Icon,Typography ,Button} from './node_modules/antd';
-import './node_modules/antd/dist/antd.css';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import { Menu, Icon,Typography ,Button} from 'antd';
+import 'antd/dist/antd.css';
 import * as usersActions from '../../LoginPage/reducer';
 
 
