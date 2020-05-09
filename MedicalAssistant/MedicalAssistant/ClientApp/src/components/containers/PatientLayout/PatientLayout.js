@@ -13,7 +13,7 @@ class PatientLayout extends Component {
             <Layout>
                 <Suspense fallback={<SpinnerWidget loading="true" />}>
                     <Switch>
-                        {patientRoutes.map((route, idx) => {
+                        {doctorRoutes.map((route, idx) => {
                             return (
                                 <Route
                                     key={idx}
@@ -25,7 +25,7 @@ class PatientLayout extends Component {
                                     )} />
                             );
                         })}
-                        <Redirect from="/patient" to="/pagepatient" />
+                        <Redirect from="/doctor/pagedoctor" to="/home" />
                     </Switch>
                 </Suspense>
             </Layout>
