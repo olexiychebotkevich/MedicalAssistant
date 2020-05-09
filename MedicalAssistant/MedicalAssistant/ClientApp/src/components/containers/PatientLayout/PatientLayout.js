@@ -7,11 +7,11 @@ import SpinnerWidget from '../../spinner';
 
 class PatientLayout extends Component {
 
-    render() { 
+    render() {
 
         return (
             <Layout>
-                <Suspense fallback={<SpinnerWidget loading="true"/>}>
+                <Suspense fallback={<SpinnerWidget loading="true" />}>
                     <Switch>
                         {patientRoutes.map((route, idx) => {
                             return (
@@ -25,12 +25,12 @@ class PatientLayout extends Component {
                                     )} />
                             );
                         })}
-                         <Redirect from="/patient" to="/pagepatient" />
+                        <Redirect from="/patient" to="/pagepatient" />
                     </Switch>
                 </Suspense>
             </Layout>
         );
     }
 }
- 
+
 export default PatientLayout;
