@@ -73,7 +73,7 @@ namespace MedicalAssistant.BLL.Services
             var jwt = new JwtSecurityToken(
                 signingCredentials: signingCredentials,
                 claims: claims,
-                expires: DateTime.Now.AddHours(24));
+                expires: DateTime.Now.AddHours(1));
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }

@@ -322,7 +322,7 @@ class PageDoctor extends Component {
 
               {this.state.detaileddoctor.sessions ?
                 this.state.detaileddoctor.sessions.map((session, index) =>
-                  <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                  <Col key={index} xs={25} sm={25} md={8} lg={8} xl={8}>
                     <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {session.patientName} {session.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
                       <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Дата: {new Date(session.date).toLocaleString("ua", options)}</p>
                       <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Діагноз: {session.diagnos}</p>

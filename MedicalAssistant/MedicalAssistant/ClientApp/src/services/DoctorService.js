@@ -30,7 +30,7 @@ export default class DoctorService {
     }
 
     static IsPatientExist(user) {
-        return axios.get(`${serverUrl}api/user/IsPatientExist`, { params: { id: user.id }, headers: { 'Authorization': `Bearer ${user.token}` } })
+        return axios.get(`${serverUrl}api/patient/IsPatientExist`, { params: { id: user.id }, headers: { 'Authorization': `Bearer ${user.token}` } })
     }
 
     static IsDoctorExist(user) {

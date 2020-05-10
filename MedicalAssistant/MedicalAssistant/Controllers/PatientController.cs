@@ -20,7 +20,7 @@ namespace MedicalAssistant.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class PatientController : ControllerBase
     {
 
 
@@ -28,7 +28,7 @@ namespace MedicalAssistant.Controllers
         private readonly EFDbContext _dbcontext;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _env;
-        public UserController(UserManager<DbUser> userManager, EFDbContext context, IConfiguration configuration, IHostingEnvironment env)
+        public PatientController(UserManager<DbUser> userManager, EFDbContext context, IConfiguration configuration, IHostingEnvironment env)
         {
             this.userManager = userManager;
             _dbcontext = context;

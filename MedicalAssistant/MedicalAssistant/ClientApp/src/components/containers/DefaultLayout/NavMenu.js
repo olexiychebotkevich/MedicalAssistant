@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
-import { Menu, Icon, Typography, Button, Dropdown, Row, Col } from 'antdntd';
+import { Menu, Icon, Typography, Button, Dropdown, Row, Col } from 'antd';
 import 'antd/dist/antd.css';
 import * as usersActions from '../../LoginPage/reducer';
 import './NavMenu.css';
@@ -14,14 +14,40 @@ const { Text } = Typography;
 const menu = (
     <Menu onClick={handleMenuClick} style={{ backgroundColor: 'rgb(152,197,178)' }}>
         <Menu.Item key="login" title="Login">
+            {/* <a href="login">Log in</a> */}
             <Link to="/login">Login</Link>
         </Menu.Item>
 
         <Menu.Item key="register" title="Register">
             <Link to="/registr">Registration</Link>
+            {/* <Link to="/registr" /> */}
         </Menu.Item>
     </Menu>
 );
+
+
+function handleMenuClick(e) {
+    console.log('click', e);
+}
+
+
+// const RegistrationLink = (
+
+//     <Menu.Item key="solution" title="Registration">
+//         <Icon type="solution" />
+//         <Link to="/registr" />
+//     </Menu.Item>
+
+// );
+
+// const LoginLink = (
+
+//     <Menu.Item key="login" title="Login">
+//         <Icon type="login" />
+//         <Link to="/login" />
+//     </Menu.Item>
+
+// );
 
 
 
@@ -61,23 +87,25 @@ class NavMenu extends Component {
     };
     render() {
         return (
-            <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(174,214,187)' } }>
-                  
+            <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(174,214,187)' }}>
+
+
                 <Menu.Item style={{ float: 'left' }} key="app" >
-                    <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text> 
-                </Menu.Item> 
+                    {/* <img className="imgL" src={require("../images/logo.png")} /> */}
+                    <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text>
+                </Menu.Item>
 
 
                 <Menu.Item style={{ float: 'right' }}>
                     <Row type="flex" justify="center" align="middle">
-                        <Dropdown overlay={menu} placement="topRight" style={{backgroundColor:'rgb(255,213,195)'}}>
-                            <Button type="primary" shape="circle" size="large" style={{ backgroundColor: 'rgb(157,181,176)', margin: '10px', border: '1px solid rgb(49, 112, 83)' }}><Icon style={{ fontSize: '18px', color:'rgb(49, 112, 83)'}} className="icon" type="bank" /></Button>
+                        <Dropdown overlay={menu} placement="topRight" style={{ backgroundColor: 'rgb(255,213,195)' }}>
+                            <Button type="primary" shape="circle" size="large" style={{ backgroundColor: 'rgb(157,181,176)', margin: '10px', border: '1px solid rgb(49, 112, 83)' }}><Icon style={{ fontSize: '18px', color: 'rgb(49, 112, 83)' }} className="icon" type="bank" /></Button>
                         </Dropdown>
                     </Row>
                 </Menu.Item>
 
             </Menu>
-            
+
         );
     }
 }

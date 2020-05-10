@@ -235,7 +235,7 @@ class PagePatient extends Component {
                     <Row gutter={16}>
                         {this.state.detailedpatient.sessions ?
                             this.state.detailedpatient.sessions.map((session,index) =>
-                                <Col xs={25} sm={25} md={8} lg={8} xl={8}>
+                                <Col key={index} xs={25} sm={25} md={8} lg={8} xl={8}>
                                     <Card key={index} title={session.doctorSpecialty} extra={<Button type="link" onClick={(e) => this.SelectRecipe(session.sessionId, e)} style={{ color:'rgb(221, 252, 200)' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
                                         <p className="textr">Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
                                         <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>

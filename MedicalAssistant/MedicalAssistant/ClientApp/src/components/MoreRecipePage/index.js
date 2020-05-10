@@ -46,7 +46,7 @@ class NormalMoreForm extends Component {
         <Row gutter={16}>
           {session ?
             session.recipe.tablets.map((pill, index) =>
-              <Col xs={25} sm={25} md={12} lg={8} xl={8}>
+              <Col key={index} xs={25} sm={25} md={12} lg={8} xl={8}>
                 <Card key={index} className="cards" title={pill.name} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }} >
                   <p className="pstyle" >Кількість днів: {pill.countdays}</p>
                   <p className="pstyle">Особливості прийому: {pill.receptionfeatures}</p>
