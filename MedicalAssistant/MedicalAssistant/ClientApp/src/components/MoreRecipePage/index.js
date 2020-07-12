@@ -32,13 +32,7 @@ class NormalMoreForm extends Component {
 
   render() {
 
-    const { session } = this.state;
-    const options = {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    };
-    const diagnoslength = 30;
+   const { session } = this.state;
    console.log("mor recipe: ",session);
     return (
       <div className="container divv" >
@@ -51,9 +45,7 @@ class NormalMoreForm extends Component {
                   <p className="pstyle" >Кількість днів: {pill.countdays}</p>
                   <p className="pstyle">Особливості прийому: {pill.receptionfeatures}</p>
                   <p className="pstyle">Кількість разів в день: {pill.counttimesaday}</p>
-
                 </Card>
-
               </Col>
             ) :
             null

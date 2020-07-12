@@ -45,9 +45,9 @@ class PagePatient extends Component {
       errorsServer: {},
       token: localStorage.getItem('jwtToken'),
       ImagePath: "",
-      CroppedImage:"",
+      CroppedImage: "",
       imagechanged: false,
-      imagesaved:false,
+      imagesaved: false,
       isCropped: false,
       src: '',
       serverurl: "http://localhost:54849",
@@ -58,7 +58,7 @@ class PagePatient extends Component {
       GetID: false,
       IsLoading: false,
       IsSuccess: false,
-      detailedrecipe:null
+      detailedrecipe: null
     };
 
 
@@ -92,7 +92,7 @@ class PagePatient extends Component {
   componentDidUpdate(prevProps) {
     // Популярный пример (не забудьте сравнить пропсы):
     if (this.props.patient !== prevProps.patient) {
-     this.setState({ImagePath:this.state.detailedpatient.imagePath});
+      this.setState({ ImagePath: this.state.detailedpatient.imagePath });
     }
   }
 
@@ -106,7 +106,7 @@ class PagePatient extends Component {
 
 
   croppImage = (value) => {
-    this.setState({CroppedImage: value, imagechanged: true, isCropped: false });
+    this.setState({ CroppedImage: value, imagechanged: true, isCropped: false });
   }
 
   onCloseCropper = (e) => {
@@ -151,11 +151,11 @@ class PagePatient extends Component {
       id: this.state.user.id,
       token: this.state.token
     }
-    this.setState({ imagechanged: false,imagesaved:true});
-  
-      const changeImageModel = {
-      Id:this.state.detailedpatient.id,
-      ImagePath:this.state.CroppedImage
+    this.setState({ imagechanged: false, imagesaved: true });
+
+    const changeImageModel = {
+      Id: this.state.detailedpatient.id,
+      ImagePath: this.state.CroppedImage
     }
     this.props.changeImage(user, changeImageModel);
 
@@ -165,23 +165,19 @@ class PagePatient extends Component {
     e.preventDefault();
     this.setState({ imagechanged: false });
   }
-  SelectRecipe(id, e){
+  SelectRecipe(id, e) {
     this.props.showDetailedRecipe(id);
   }
 
-
-
-
-
   generateQR = e => {
     e.preventDefault();
-    let str = ("Id:"+this.state.detailedpatient.id);
+    let str = ("Id:" + this.state.detailedpatient.id);
     console.log("QR: ", str);
     QRCode.toCanvas(document.getElementById('canvas'), str, function (error) {
       if (error) console.error(error)
     })
   }
-  
+
 
   render() {
     let GetID = false;
@@ -191,86 +187,84 @@ class PagePatient extends Component {
       month: 'numeric',
       day: 'numeric',
     };
-    
-      const diagnoslength = 30;
-      return(
-        <div>
+
+    const diagnoslength = 30;
+    return (
+      <div>
 
         {this.state.IsLoading === false && this.state.detailedpatient ?
-                <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
+          <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
-          <h3 className="moreHeader"> Особистий профіль</h3>
-
-
-                <div className="row" >
-                    <div className="col-12 col-sm-6" >
+            <h3 className="moreHeader"> Особистий профіль</h3>
 
 
-              <img
-                onClick={this.onselectImage}
-                className="imgUpload"
-                src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
-                onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
-                width="500px">
-              </img>
-<div align="center" style={{marginTop: '5px'}}>
-              {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
-              {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+            <div className="row" >
+              <div className="col-12 col-sm-6">
+                <img
+                  onClick={this.onselectImage}
+                  className="imgUpload"
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
+                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  width="500px">
+                </img>
+                <div align="center" style={{ marginTop: '5px' }}>
+                  {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
+                  {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
+                </div>
+
+                <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
+
+                <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
-
-                        <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
-
-              <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
+              <div className="col-12 col-md-6 p ">
+                <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>
+                <p className="ptext"> Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
+                <p className="ptext">Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
+                <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.email : null}</p>
+                <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.phoneNumber : null} </p>
+                <p className="ptext">Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
+              </div>
             </div>
-            <div className="col-12 col-md-6 p ">
-              <p className="ptext"> Ім'я:  {this.state.detailedpatient ? this.state.detailedpatient.userName : null} </p>     
-              <p className="ptext"> Прізвище: {this.state.detailedpatient ? this.state.detailedpatient.userSurname : null}</p>
-              <p className="ptext">Дата народження: {this.state.detailedpatient ? new Date(this.state.detailedpatient.dateOfBirth).toLocaleString("ua", options) : null}</p>
-              <p className="ptext">Email: {this.state.detailedpatient ? this.state.detailedpatient.email : null}</p>
-              <p className="ptext">Номер телефону: {this.state.detailedpatient ? this.state.detailedpatient.phoneNumber : null} </p>
-              <p className="ptext">Місто: {this.state.detailedpatient ? this.state.detailedpatient.locality : null}</p>
-            </div>
+
+            <Row gutter={16}>
+              {this.state.detailedpatient.sessions ?
+                this.state.detailedpatient.sessions.map((session, index) =>
+                  <Col key={index} xs={25} sm={25} md={8} lg={8} xl={8}>
+                    <Card key={index} title={session.doctorSpecialty} extra={<Button type="link" onClick={(e) => this.SelectRecipe(session.sessionId, e)} style={{ color: 'rgb(221, 252, 200)' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
+                      <p className="textr">Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
+                      <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>
+                      <p className="textr">Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
+                    </Card>
+                  </Col>
+                ) :
+                null}
+            </Row>
+
+
+
+            <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center" >
+
+              <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
+                <div style={{ width: "100%" }} >
+                  <Button style={{ backgroundColor: 'rgb(157, 181,167)', border: '1px solid rgb(49, 112, 83)', fontFamily: 'Candara', color: 'rgb(49,112,83)' }} onClick={this.generateQR}>
+                    Згенерувати QR-код!
+                 </Button>
+                </div>
+                <canvas className="QrCanvas" id="canvas" />
+              </Col>
+              <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
+                <div>
+                  <Button style={{ backgroundColor: 'rgb(157, 181,167)', border: '1px solid rgb(49, 112, 83)', fontFamily: 'Candara', color: 'rgb(49,112,83)' }} onClick={this.GetMyID}>
+                    Згенерувати простий код
+                 </Button>
+                  {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
+                </div>
+              </Col>
+            </Row>
           </div>
-
-                    <Row gutter={16}>
-                        {this.state.detailedpatient.sessions ?
-                            this.state.detailedpatient.sessions.map((session,index) =>
-                                <Col key={index} xs={25} sm={25} md={8} lg={8} xl={8}>
-                                    <Card key={index} title={session.doctorSpecialty} extra={<Button type="link" onClick={(e) => this.SelectRecipe(session.sessionId, e)} style={{ color:'rgb(221, 252, 200)' }}>More</Button>} headStyle={{ color: ' rgb(221, 252, 200)', fontFamily: 'Candara' }} style={{ backgroundColor: 'rgb(157,181,167)', fontFamily: 'Candara', fontWeight: '500', marginTop: "10px" }}>
-                                        <p className="textr">Діагноз: {session.diagnos.length > diagnoslength ? session.diagnos.substring(0, diagnoslength) + "..." : session.diagnos}</p>
-                                        <p className="textr">Лікар: {session.doctorSurname + " " + session.doctorName}</p>
-                                        <p className="textr">Дата:{new Date(session.date).toLocaleString("ua", options)}</p>
-                                    </Card>
-                                </Col>
-                            ) :
-                            null}
-                    </Row>
-
-
-
-          <Row align="middle" style={{ marginTop: "5%" }} type="flex" justify="center" >
-
-            <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
-              <div style={{ width: "100%" }} >
-                <Button style={{backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)'}} onClick={this.generateQR}>
-                  Згенерувати QR-код!
-                 </Button>
-              </div>
-              <canvas className="QrCanvas" id="canvas" />
-            </Col>
-            <Col style={{ height: "10rem" }} xs={{ span: 24, offset: 2 }} lg={{ span: 6, offset: 2 }}>
-              <div>
-              <Button style={{backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)'}} onClick={this.GetMyID}>
-                  Згенерувати простий код
-                 </Button>
-                {this.state.GetID ? <Input value={this.state.user.id} disabled placeholder="Your ID" /> : null}
-              </div>
-            </Col>
-          </Row>
-        </div>
-        : <SpinnerWidget loading="true" />}
-    </div>
-      );
+          : <SpinnerWidget loading="true" />}
+      </div>
+    );
   }
 }
 

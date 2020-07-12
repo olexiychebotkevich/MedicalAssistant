@@ -154,7 +154,6 @@ namespace MedicalAssistant.Controllers
             {
 
                 var AddImageResultTask = Task.Run(() => AddImage(patient.ImagePath));
-                //string imageName = AddImage(user.ImagePath);
                 string imageName = await AddImageResultTask;
 
                 userToUpdate.ImagePath = imageName;

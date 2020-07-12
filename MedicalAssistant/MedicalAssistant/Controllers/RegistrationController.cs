@@ -91,11 +91,5 @@ namespace MedicalAssistant.Controllers
 
 
 
-
-        [HttpGet("getall")]
-        public ICollection<DetailedPatient> GetAll()
-        {
-            return _dbcontext.DetailedUsers.Include("User").ToList();
-        }
     }
 }

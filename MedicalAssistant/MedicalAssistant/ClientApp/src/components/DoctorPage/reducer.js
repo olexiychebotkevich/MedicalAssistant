@@ -175,10 +175,10 @@ export const doctorsReducer = (state = initialState, action) => {
 
 
 
-export const GetDetailedDoctor = (doctor) => {
+export const GetDetailedDoctor = (doctorId) => {
     return (dispatch) => {
         dispatch(doctorActions.getstarted());
-        DoctorService.getdetaileddoctor(doctor)
+        DoctorService.getdetaileddoctor(doctorId)
             .then((response) => {
                 dispatch(doctorActions.getsuccess(response));
             }, err => { throw err; })
@@ -209,25 +209,26 @@ export const SearchPatientBySurname = (DoctorId,UserSurname) => {
 
 
 
-export const changeImage = (user,doctor) => {
+export const changeImage = (newdoctor) => {
     return (dispatch) => {
         dispatch(doctorActions.updatestarted());
-        DoctorService.UpdateDoctorImage(user,doctor)
+        DoctorService.UpdateDoctorImage(newdoctor)
             .then((response) => {
                 dispatch(doctorActions.updatesuccess(response));
             }, err => { throw err; })
             .catch(err => {
+                console.log("changeImage err: ",err);
+                if(err.response!=null)
                 dispatch(doctorActions.updatefailed(err.response));
             });
     }
 }
 
 
-export const AddMedicalSession=(user,PatientID) =>{
+export const AddMedicalSession=(PatientID) =>{
     return (dispatch) => {
         dispatch(doctorActions.getpatientstarted());
-        const patient={token:user.token,id:PatientID}
-        DoctorService.IsPatientExist(patient)
+        DoctorService.IsPatientExist(PatientID)
             .then((response) => {
                 console.log("Is patient exist: ",response);
                 dispatch(doctorActions.getpatientsuccess(response));

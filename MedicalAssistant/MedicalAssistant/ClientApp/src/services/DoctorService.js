@@ -5,17 +5,21 @@ import jwt from 'jsonwebtoken';
 
 export default class DoctorService {
 
-    static user = jwt.decode(localStorage.getItem('jwtToken'));
-    static token =  localStorage.getItem('jwtToken');
+  
+        static user=null;
+        static token=null;
+     
 
-    static getdetaileddoctor(user) {
-        return axios.get(`${serverUrl}api/doctor/GetDoctor`, { params: { id: user.id }, headers: { 'Authorization': `Bearer ${user.token}` } })
+    static getdetaileddoctor(doctorId) {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
+        return axios.get(`${serverUrl}api/doctor/GetDoctor`, { params: { id: doctorId }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
     static SearchPatientBySurname(DoctorId,UserSurname) {
         const Model =
         {
-            DoctorId:DoctorId,
+            DoctorId:this.user.id,
             searchPatientSurname:UserSurname
         }
         return axios.post(`${serverUrl}api/Doctor/SearchPatiantBySurname`, Model, {
@@ -23,14 +27,14 @@ export default class DoctorService {
         });
     }
 
-    static UpdateDoctorImage(user, detaileddoctor) {
+    static UpdateDoctorImage(detaileddoctor) {
         return axios.put(`${serverUrl}api/doctor/UpdateDoctorImage`, detaileddoctor, {
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${user.token}` }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` }
         });
     }
 
-    static IsPatientExist(user) {
-        return axios.get(`${serverUrl}api/patient/IsPatientExist`, { params: { id: user.id }, headers: { 'Authorization': `Bearer ${user.token}` } })
+    static IsPatientExist(PatientID) {
+        return axios.get(`${serverUrl}api/patient/IsPatientExist`, { params: { id: PatientID }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
     static IsDoctorExist(user) {
@@ -49,4 +53,5 @@ export default class DoctorService {
     }
 
 }
+
 

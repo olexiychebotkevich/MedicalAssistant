@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Card, Col, Button, Input } from 'antd';
-import { Link } from "react-router-dom";
 import 'antd/dist/antd.css';
 import * as doctorActions from './reducer';
 import { push } from 'connected-react-router';
@@ -23,13 +22,9 @@ const propTypes = {
   IsLoading: PropTypes.bool.isRequired,
   IsFailed: PropTypes.bool.isRequired,
   IsSuccess: PropTypes.bool.isRequired,
-  errors: PropTypes.object,
   statuscode: PropTypes.number,
   user: PropTypes.object,
-  doctor: PropTypes.object,
-  UpdatedoctorLoading: PropTypes.bool.isRequired,
-  UpdatedoctorFailed: PropTypes.bool.isRequired,
-  UpdatedoctorSuccess: PropTypes.bool.isRequired
+  doctor: PropTypes.object
 
 };
 
@@ -42,42 +37,22 @@ class PageDoctor extends Component {
     this.state = {
       user: null,
       detaileddoctor: null,
-      errors: {},
-      errorsServer: {},
-      token: localStorage.getItem('jwtToken'),
       ImagePath: "",
       CroppedImage: "",
       imagechanged: false,
       imagesaved: false,
       isCropped: false,
       src: '',
-      serverurl: "http://localhost:54849",
-      startimage: require("../images/Placeholder.jpg"),
-      UpdatedoctorLoading: false,
-      UpdatedoctorFailed: false,
-      UpdatedoctorSuccess: false,
       patientID: null,
-      patientSurname: null,
       IsLoading: false,
       scanQr: false,
-      scanQRresult: "",
       searchpatientSurname:""
-
     };
-
-
 
   }
 
   componentDidMount() {
-    const doctor = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
-
-    this.props.GetDetailedDoctor(doctor);
-
-
+    this.props.GetDetailedDoctor(this.state.user.id);
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -95,21 +70,15 @@ class PageDoctor extends Component {
   componentDidUpdate(prevProps) {
     // Популярный пример (не забудьте сравнить пропсы):
     if (this.props.doctor !== prevProps.doctor) {
-      this.setState({ ImagePath: this.state.detaileddoctor.imagePath,detaileddoctor:this.state.detaileddoctor});
+      this.setState({detaileddoctor:this.state.detaileddoctor});
     }
   }
 
+
+//--------------------------------------------------------------
+  //Operations with images
   onselectImage = (e) => {
     this.inputFileElement.click();
-  }
-
-  AddMedicalSession = () => {
-   
-    const doctor = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
-    this.props.AddMedicalSession(doctor, this.state.patientID);
   }
 
   croppImage = (value) => {
@@ -122,23 +91,21 @@ class PageDoctor extends Component {
 
   }
 
-  updatePatientIDValue = (val) => {
-    this.setState({
-      patientID: val.target.value
-    });
-  }
-  
   onChangeSelectFile = (e) => {
     e.preventDefault();
-
+    console.log("---------croppimage 0");
     let files;
     if (e.dataTransfer) {
+      console.log("---------croppimage 1");
       files = e.dataTransfer.files;
     } else if (e.target) {
+      console.log("---------croppimage 2");
       files = e.target.files;
     }
     if (files && files[0]) {
+      console.log("---------croppimage 3");
       if (files[0].type.match(/^image\//)) {
+        console.log("---------croppimage 4");
         const reader = new FileReader();
         reader.onload = () => {
 
@@ -147,7 +114,7 @@ class PageDoctor extends Component {
 
         };
         reader.readAsDataURL(files[0]);
-
+       
       }
       else {
         alert("Невірний тип файлу");
@@ -158,50 +125,68 @@ class PageDoctor extends Component {
     }
   }
 
-
   changeImage = e => {
     e.preventDefault();
-    const user = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
     this.setState({ imagechanged: false, imagesaved: true });
     const updateimagemodel = {
       id: this.state.detaileddoctor.id,
       ImagePath: this.state.CroppedImage
     }
-
-    this.props.changeImage(user, updateimagemodel);
+    this.props.changeImage(updateimagemodel);
 
   }
 
+  cancelchangeImage = e => {
+    e.preventDefault();
+    this.setState({ imagechanged: false,src: '' });
+  }
+
+  scanQRCode = e => {
+    e.preventDefault();
+    this.setState({ scanQr : !this.state.scanQr });
+  }
+
+//--------------------------------------------------------------
+  //Medical Sessions
+
+  AddMedicalSession = () => {
+    this.props.AddMedicalSession(this.state.patientID);
+  }
 
   getDetailedSession = (sessionid, e) => {
     e.preventDefault();
     this.props.getDetailedSession(sessionid);
   }
-
+ 
+  updatePatientIDValue = (val) => {
+    this.setState({
+      patientID: val.target.value
+    });
+  }
+  
+//--------------------------------------------------------------
+  //Search patient
+ 
 
   SearchPatientBySurname=(patientsurname,e)=>{
     e.preventDefault();
     this.props.SearchPatientBySurname(this.state.detaileddoctor.id,patientsurname);
   }
 
-
-  cancelchangeImage = e => {
-    e.preventDefault();
-    this.setState({ imagechanged: false, src: '' });
+  updatePatientSurnameValue = (val) => {
+    console.log("val: ",val.target.value);
+    this.setState({
+      searchpatientSurname: val.target.value
+    });
+    this.props.SearchPatientBySurname(this.state.detaileddoctor.id,val.target.value);
+    
   }
 
-  // routeChange=()=> {
-  //   let path = ``;
-  //   this.props.history.push(path);
-  // }
 
-  scanQRCode = e => {
-    e.preventDefault();
-    this.setState({ scanQr : !this.state.scanQr });
-  }
+//--------------------------------------------------------------
+  //Operations with QR-code
+
+
   handleError = err => {
     console.error(err)
   }
@@ -217,19 +202,16 @@ class PageDoctor extends Component {
   }
 
 
-  updatePatientSurnameValue = (val) => {
-    console.log("val: ",val.target.value);
-    this.setState({
-      searchpatientSurname: val.target.value
-    });
-    this.props.SearchPatientBySurname(this.state.detaileddoctor.id,val.target.value);
-    
-  }
+  // routeChange=()=> {
+  //   let path = ``;
+  //   this.props.history.push(path);
+  // }
+
 
   render() {
 
 
-    const { src, isCropped, scanQr } = this.state;
+    const { src, isCropped,scanQr,detaileddoctor} = this.state;
     const options = {
       year: 'numeric',
       month: 'numeric',
@@ -237,7 +219,7 @@ class PageDoctor extends Component {
     };
     return (
       <div>
-        {this.state.IsLoading === false && this.state.detaileddoctor ?
+        {detaileddoctor ?
           <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
             <h3 className="moreHeader"> Особистий профіль</h3>
             <div className="row" >
@@ -246,29 +228,27 @@ class PageDoctor extends Component {
                 <img
                   onClick={this.onselectImage}
                   className="imgUpload"
-                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
-                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
+                  src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : detaileddoctor.imagePath}
                   width="500px">
-
                 </img>
                 <div align="center" style={{ marginTop: '5px' }}>
                   {this.state.imagechanged ? <Button type="primary" onClick={this.changeImage}>Save</Button> : null}
                   {this.state.imagechanged ? <Button type="danger" onClick={this.cancelchangeImage}>Cancel</Button> : null}
                 </div>
 
-                <input ref={input => this.inputFileElement = input} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
+                <input ref={input => this.inputFileElement = input} value="" autoComplete={"new-password"} onChange={this.onChangeSelectFile} type="file" className="d-none"></input>
 
                 <CropperWidget loading={isCropped} src={src} onClose={this.onCloseCropper} croppImage={this.croppImage} />
               </div>
               <div className="col-12 col-md-6 p">
-                <p className="ptext">Ім'я: {this.state.detaileddoctor ? this.state.detaileddoctor.userName : null}</p>
-                <p className="ptext">Призвіще: {this.state.detaileddoctor ? this.state.detaileddoctor.userSurname : null}</p>
-                <p className="ptext">Дата народження: {this.state.detaileddoctor ? new Date(this.state.detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
-                <p className="ptext">Пошта: {this.state.detaileddoctor ? this.state.detaileddoctor.email : null}</p>
-                <p className="ptext">Телефон:{this.state.detaileddoctor ? this.state.detaileddoctor.phoneNumber : null} </p>
-                <p className="ptext">Посада: {this.state.detaileddoctor ? this.state.detaileddoctor.doctorSpecialty : null}</p>
-                <p className="ptext">Адреса:{this.state.detaileddoctor ? this.state.detaileddoctor.locality : null}</p>
-                <p className="ptext">Робочий досвід:{this.state.detaileddoctor ? this.state.detaileddoctor.workExpirience : null} </p>
+                <p className="ptext">Ім'я: {detaileddoctor ? detaileddoctor.userName : null}</p>
+                <p className="ptext">Призвіще: {detaileddoctor ? detaileddoctor.userSurname : null}</p>
+                <p className="ptext">Дата народження: {detaileddoctor ? new Date(detaileddoctor.dateOfBirth).toLocaleString("ua", options) : null} </p>
+                <p className="ptext">Пошта: {detaileddoctor ? detaileddoctor.email : null}</p>
+                <p className="ptext">Телефон:{detaileddoctor ? detaileddoctor.phoneNumber : null} </p>
+                <p className="ptext">Посада: {detaileddoctor ? detaileddoctor.doctorSpecialty : null}</p>
+                <p className="ptext">Адреса:{detaileddoctor ? detaileddoctor.locality : null}</p>
+                <p className="ptext">Робочий досвід:{detaileddoctor ? detaileddoctor.workExpirience : null} </p>
               </div>
             </div>
 
@@ -280,7 +260,7 @@ class PageDoctor extends Component {
                   <Button type="primary" onClick={this.scanQRCode} style={{ backgroundColor: 'rgb(157, 181,167)',border:'1px solid rgb(49, 112, 83)',fontFamily:'Candara',color:'rgb(49,112,83)' }}>
                     Сканувати QR!
                  </Button>
-                {this.state.scanQr?
+                {scanQr?
                 <QrReader
                 delay={300}
                 onError={this.handleError}
@@ -320,8 +300,8 @@ class PageDoctor extends Component {
               </div>
 
 
-              {this.state.detaileddoctor.sessions ?
-                this.state.detaileddoctor.sessions.map((session, index) =>
+              {detaileddoctor.sessions ?
+                detaileddoctor.sessions.map((session, index) =>
                   <Col key={index} xs={25} sm={25} md={8} lg={8} xl={8}>
                     <Card key={index} title={<p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Пацієнт: {session.patientName} {session.patientSurname}</p>} style={{ backgroundColor: 'rgb(157,181,167)', marginTop: "10px", fontFamily: 'Candara' }}>
                       <p style={{ color: 'rgb(221, 252, 200)', fontStyle: 'Italic' }}>Дата: {new Date(session.date).toLocaleString("ua", options)}</p>
@@ -349,20 +329,14 @@ const mapState = (state) => {
     user: get(state, 'loginReducer.user'),
     errors: get(state, 'doctorsReducer.detaileddoctor.errors'),
     statuscode: get(state, 'doctorsReducer.detaileddoctor.statuscode'),
-    doctor: get(state, 'doctorsReducer.detaileddoctor.doctor'),
-    UpdatedoctorLoading: get(state, 'doctorsReducer.detaileddoctor.loading'),
-    UpdatedoctorFailed: get(state, 'doctorsReducer.detaileddoctor.failed'),
-    UpdatedoctorSuccess: get(state, 'doctorsReducer.detaileddoctor.success')
-
-
-
+    doctor: get(state, 'doctorsReducer.detaileddoctor.doctor')
   }
 }
 
 const mapDispatch = {
 
-  GetDetailedDoctor: (user) => {
-    return doctorActions.GetDetailedDoctor(user);
+  GetDetailedDoctor: (doctorId) => {
+    return doctorActions.GetDetailedDoctor(doctorId);
   },
   SearchPatientBySurname: (DoctorId, userSurname) => {
     return doctorActions.SearchPatientBySurname(DoctorId, userSurname);
@@ -370,12 +344,11 @@ const mapDispatch = {
   getDetailedSession: (patientID) => {
     return doctorActions.getDetailedSession(patientID);
   },
-
-  changeImage: (user, detaileduser) => {
-    return doctorActions.changeImage(user, detaileduser);
+  changeImage: (newdoctor) => {
+    return doctorActions.changeImage(newdoctor);
   },
-  AddMedicalSession: (user, patientID) => {
-    return doctorActions.AddMedicalSession(user, patientID);
+  AddMedicalSession: (patientID) => {
+    return doctorActions.AddMedicalSession(patientID);
   },
   push: (url) => {
     return (dispatch) => {
