@@ -4,7 +4,6 @@ import '../HomePage/home.css';
 import PropTypes from "prop-types";
 import get from 'lodash.get';
 import { connect } from "react-redux";
-import SpinnerWidget from '../spinner';
 import './index.css';
 import {
   Row, Card, Col

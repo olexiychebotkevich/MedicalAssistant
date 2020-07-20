@@ -175,10 +175,10 @@ export const doctorsReducer = (state = initialState, action) => {
 
 
 
-export const GetDetailedDoctor = (doctorId) => {
+export const GetDetailedDoctor = () => {
     return (dispatch) => {
         dispatch(doctorActions.getstarted());
-        DoctorService.getdetaileddoctor(doctorId)
+        DoctorService.getdetaileddoctor()
             .then((response) => {
                 dispatch(doctorActions.getsuccess(response));
             }, err => { throw err; })

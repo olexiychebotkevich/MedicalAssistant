@@ -52,7 +52,7 @@ class PageDoctor extends Component {
   }
 
   componentDidMount() {
-    this.props.GetDetailedDoctor(this.state.user.id);
+    this.props.GetDetailedDoctor();
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -93,19 +93,14 @@ class PageDoctor extends Component {
 
   onChangeSelectFile = (e) => {
     e.preventDefault();
-    console.log("---------croppimage 0");
     let files;
     if (e.dataTransfer) {
-      console.log("---------croppimage 1");
       files = e.dataTransfer.files;
     } else if (e.target) {
-      console.log("---------croppimage 2");
       files = e.target.files;
     }
     if (files && files[0]) {
-      console.log("---------croppimage 3");
       if (files[0].type.match(/^image\//)) {
-        console.log("---------croppimage 4");
         const reader = new FileReader();
         reader.onload = () => {
 
@@ -335,8 +330,8 @@ const mapState = (state) => {
 
 const mapDispatch = {
 
-  GetDetailedDoctor: (doctorId) => {
-    return doctorActions.GetDetailedDoctor(doctorId);
+  GetDetailedDoctor: () => {
+    return doctorActions.GetDetailedDoctor();
   },
   SearchPatientBySurname: (DoctorId, userSurname) => {
     return doctorActions.SearchPatientBySurname(DoctorId, userSurname);

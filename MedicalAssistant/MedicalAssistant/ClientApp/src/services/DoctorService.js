@@ -10,13 +10,15 @@ export default class DoctorService {
         static token=null;
      
 
-    static getdetaileddoctor(doctorId) {
+    static getdetaileddoctor() {
         this.token=localStorage.getItem('jwtToken');
         this.user=jwt.decode(localStorage.getItem('jwtToken'));
-        return axios.get(`${serverUrl}api/doctor/GetDoctor`, { params: { id: doctorId }, headers: { 'Authorization': `Bearer ${this.token}` } })
+        return axios.get(`${serverUrl}api/doctor/GetDoctor`, { params: { id: this.user.id}, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
     static SearchPatientBySurname(DoctorId,UserSurname) {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
         const Model =
         {
             DoctorId:this.user.id,
@@ -28,27 +30,35 @@ export default class DoctorService {
     }
 
     static UpdateDoctorImage(detaileddoctor) {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
         return axios.put(`${serverUrl}api/doctor/UpdateDoctorImage`, detaileddoctor, {
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}` }
         });
     }
 
     static IsPatientExist(PatientID) {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
         return axios.get(`${serverUrl}api/patient/IsPatientExist`, { params: { id: PatientID }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
-    static IsDoctorExist(user) {
-        return axios.get(`${serverUrl}api/doctor/IsDoctorExist`, { params: { id: user.id }, headers: { 'Authorization': `Bearer ${user.token}` } })
+    static IsDoctorExist() {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
+        return axios.get(`${serverUrl}api/doctor/IsDoctorExist`, { params: { id: this.user.id }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
-    static GetDetailedPatinet(user,PatientId) {
-        return axios.get(`${serverUrl}api/doctor/GetDoctorPatient`, { params: { id: PatientId }, headers: { 'Authorization': `Bearer ${user.token}` } })
+    static GetDetailedPatinet(PatientId) {
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
+        return axios.get(`${serverUrl}api/doctor/GetDoctorPatient`, { params: { id: PatientId }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 
     static GetPatientSessions(PatientId)
     {
-        console.log("---GetPatientSessions");
-        console.log("user: ",this.token);
+        this.token=localStorage.getItem('jwtToken');
+        this.user=jwt.decode(localStorage.getItem('jwtToken'));
         return axios.get(`${serverUrl}api/MedicalSessions/GetPatientSessions`, { params: { PatientId: PatientId }, headers: { 'Authorization': `Bearer ${this.token}` } })
     }
 

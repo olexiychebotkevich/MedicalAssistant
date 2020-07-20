@@ -7,7 +7,7 @@ import {loginReducer} from '../components/LoginPage/reducer'
 import { refreshReducer } from '../components/RefreshToken/reducer';
 import {patientsReducer} from '../components/PatientPage/reducer';
 import {doctorsReducer} from '../components/DoctorPage/reducer';
-import {MedicalSessionReducer} from '../components/Add-MedicalSession/reducer';
+import {MedicalSessionReducer} from '../components/AddMedicalSessionPage/reducer';
 import {medicalhistoryReducer} from '../components/PatientMedicalHistory/reducer';
 
 import refreshTokenMiddleware from './middleware/refreshTokenMiddleware';

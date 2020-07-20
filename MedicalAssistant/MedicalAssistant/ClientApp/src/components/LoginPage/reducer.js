@@ -84,7 +84,6 @@ export const loginUser = (user) => {
                 dispatch(loginActions.success());
                 loginByJWT(response.data, dispatch);
                 const userjwt = jwt.decode(localStorage.getItem('jwtToken'));
-                console.log("-----login user ",userjwt);
                 if(userjwt.roles==="Doctor")
                 {
                     checkDoctor(dispatch);
@@ -135,9 +134,7 @@ export const loginActions = {
 
 export function checkPatient(dispatch)
 {
-    const user = jwt.decode(localStorage.getItem('jwtToken'))
-    const token = localStorage.getItem('jwtToken')
-    PatientService.IsPatientExist({...user,token})
+    PatientService.IsPatientExist()
     .then((response) => {
         dispatch(push('/patient/pagepatient'));
     }, err => { throw err; })
@@ -150,9 +147,7 @@ export function checkPatient(dispatch)
 
 export function checkDoctor(dispatch)
 {
-    const user = jwt.decode(localStorage.getItem('jwtToken'))
-    const token = localStorage.getItem('jwtToken')
-    DoctorService.IsDoctorExist({...user,token})
+    DoctorService.IsDoctorExist()
     .then((response) => {
         dispatch(push('/doctor/pagedoctor'));
     }, err => { throw err; })
@@ -172,16 +167,13 @@ export function logout() {
 }
 
 export const loginByJWT = (tokens, dispatch) => {
-    console.log("-------login by jwt", tokens);
     const {token, refToken}=tokens;
     var user = jwt.decode(token);
     if (!Array.isArray(user.roles)) {
         user.roles = Array.of(user.roles);
     }
-    console.log('Hello app', user);
     localStorage.setItem('jwtToken', token);
     localStorage.setItem('refreshToken', refToken);
-    console.log("-------user--------", user);
     setAuthorizationToken(token);
     dispatch(loginActions.setCurrentUser(user));
 }

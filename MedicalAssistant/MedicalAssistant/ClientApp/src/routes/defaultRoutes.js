@@ -1,8 +1,8 @@
 import React from 'react';
 
 
-const NormalHomeForm = React.lazy(() => import("../components/HomePage/Home"));
-const WrappedNormalLoginForm = React.lazy(() => import("../components/LoginPage/Login"));
+const NormalHomeForm = React.lazy(() => import("../components/HomePage"));
+const WrappedNormalLoginForm = React.lazy(() => import("../components/LoginPage"));
 const WrappedRegistrationForm = React.lazy(() => import("../components/RegistrationPage"));
 
 

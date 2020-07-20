@@ -99,10 +99,10 @@ export const patientsReducer = (state = initialState, action) => {
 
 
 
-export const GetDetailedPatient = (patient) => {
+export const GetDetailedPatient = () => {
     return (dispatch) => {
         dispatch(patientActions.getstarted());
-        PatientService.getdetailedpatient(patient)
+        PatientService.getdetailedpatient()
             .then((response) => {
                 dispatch(patientActions.getsuccess(response));
             }, err => { throw err; })
@@ -118,14 +118,10 @@ export const GetDetailedPatient = (patient) => {
 
 
 
-
-
-
-
-export const changeImage = (user,patient) => {
+export const changeImage = (imagePath) => {
     return (dispatch) => {
         dispatch(patientActions.updatestarted());
-        PatientService.UpdatePatientImage(user,patient)
+        PatientService.UpdatePatientImage(imagePath)
             .then((response) => {
                 dispatch(patientActions.updatesuccess(response));
             }, err => { throw err; })

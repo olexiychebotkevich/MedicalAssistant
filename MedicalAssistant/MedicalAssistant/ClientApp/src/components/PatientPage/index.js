@@ -24,11 +24,7 @@ const propTypes = {
   IsSuccess: PropTypes.bool.isRequired,
   errors: PropTypes.object,
   user: PropTypes.object,
-  patient: PropTypes.object,
-  UpdatepatientLoading: PropTypes.bool.isRequired,
-  UpdatepatientFailed: PropTypes.bool.isRequired,
-  UpdatepatientSuccess: PropTypes.bool.isRequired
-
+  patient: PropTypes.object
 };
 
 const defaultProps = {};
@@ -42,38 +38,21 @@ class PagePatient extends Component {
     this.state = {
       user: null,
       detailedpatient: null,
-      errorsServer: {},
-      token: localStorage.getItem('jwtToken'),
       ImagePath: "",
       CroppedImage: "",
       imagechanged: false,
       imagesaved: false,
       isCropped: false,
       src: '',
-      serverurl: "http://localhost:54849",
-      startimage: require("../images/Placeholder.jpg"),
-      UpdatepatientLoading: false,
-      UpdatepatientFailed: false,
-      UpdatepatientSuccess: false,
-      GetID: false,
-      IsLoading: false,
-      IsSuccess: false,
-      detailedrecipe: null
+      GetID: false
     };
-
 
   }
 
 
 
   componentDidMount() {
-    const patient = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
-
-    this.props.GetDetailedPatient(patient);
-
+    this.props.GetDetailedPatient();
   }
 
   static getDerivedStateFromProps = (props, state) => {
@@ -81,9 +60,6 @@ class PagePatient extends Component {
       user: props.user,
       errorsServer: props.errors,
       detailedpatient: props.patient,
-      UpdatepatientLoading: props.UpdatepatientLoading,
-      UpdatepatientFailed: props.UpdatepatientFailed,
-      UpdatepatientSuccess: props.UpdatepatientSuccess,
       IsLoading: props.IsLoading
     };
   }
@@ -96,14 +72,12 @@ class PagePatient extends Component {
     }
   }
 
+  //--------------------------------------------------------------
+  //Operations with images
+
   onselectImage = (e) => {
     this.inputFileElement.click();
   }
-
-  GetMyID = (e) => {
-    { this.state.GetID ? this.setState({ GetID: false }) : this.setState({ GetID: true }) };
-  }
-
 
   croppImage = (value) => {
     this.setState({ CroppedImage: value, imagechanged: true, isCropped: false });
@@ -147,28 +121,30 @@ class PagePatient extends Component {
 
   changeImage = e => {
     e.preventDefault();
-    const user = {
-      id: this.state.user.id,
-      token: this.state.token
-    }
     this.setState({ imagechanged: false, imagesaved: true });
-
-    const changeImageModel = {
-      Id: this.state.detailedpatient.id,
-      ImagePath: this.state.CroppedImage
-    }
-    this.props.changeImage(user, changeImageModel);
-
+    const ImagePath = this.state.CroppedImage;
+    this.props.changeImage(ImagePath);
   }
 
   cancelchangeImage = e => {
     e.preventDefault();
     this.setState({ imagechanged: false });
   }
+
+
+  //--------------------------------------------------------------
+  //other operations
+
+  GetMyID = (e) => {
+    { this.state.GetID ? this.setState({ GetID: false }) : this.setState({ GetID: true }) };
+  }
+  
+  //--------------------------------------------------------------
   SelectRecipe(id, e) {
     this.props.showDetailedRecipe(id);
   }
 
+  //--------------------------------------------------------------
   generateQR = e => {
     e.preventDefault();
     let str = ("Id:" + this.state.detailedpatient.id);
@@ -192,7 +168,7 @@ class PagePatient extends Component {
     return (
       <div>
 
-        {this.state.IsLoading === false && this.state.detailedpatient ?
+        {this.state.detailedpatient ?
           <div style={{ backgroundColor: 'transparent', padding: '30px', marginBottom: '25px', marginTop: '5px' }}>
 
             <h3 className="moreHeader"> Особистий профіль</h3>
@@ -204,7 +180,6 @@ class PagePatient extends Component {
                   onClick={this.onselectImage}
                   className="imgUpload"
                   src={this.state.imagesaved || this.state.imagechanged ? this.state.CroppedImage : this.state.ImagePath}
-                  onError={(e) => { e.target.onerror = null; e.target.src = this.state.startimage }}
                   width="500px">
                 </img>
                 <div align="center" style={{ marginTop: '5px' }}>
@@ -277,27 +252,21 @@ const mapState = (state) => {
     IsSuccess: get(state, 'patientsReducer.detailedpatient.success'),
     user: get(state, 'loginReducer.user'),
     errors: get(state, 'patientsReducer.detailedpatient.errors'),
-    patient: get(state, 'patientsReducer.detailedpatient.patient'),
-    UpdatepatientLoading: get(state, 'patientsReducer.updatepatient.loading'),
-    UpdatepatientFailed: get(state, 'patientsReducer.detailedpatient.failed'),
-    UpdatepatientSuccess: get(state, 'patientsReducer.detailedpatient.success')
-
-
-
+    patient: get(state, 'patientsReducer.detailedpatient.patient')
   }
 }
 
 const mapDispatch = {
 
-  GetDetailedPatient: (user) => {
-    return patientActions.GetDetailedPatient(user);
+  GetDetailedPatient: () => {
+    return patientActions.GetDetailedPatient();
   },
   showDetailedRecipe: (detairecipe) => {
     return patientActions.showDetailedRecipe(detairecipe);
   },
 
-  changeImage: (user, detaileduser) => {
-    return patientActions.changeImage(user, detaileduser);
+  changeImage: (imagePath) => {
+    return patientActions.changeImage(imagePath);
   },
 
   push: (url) => {
