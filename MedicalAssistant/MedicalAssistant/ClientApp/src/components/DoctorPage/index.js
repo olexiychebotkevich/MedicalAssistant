@@ -285,7 +285,7 @@ class PageDoctor extends Component {
 
 
             
-            <Row gutter={16} style={{marginTop:"2rem"}}>
+            {/* <Row gutter={16} style={{marginTop:"2rem"}}>
             <h3 className="moreHeader">Медичні сеанси</h3>
 
               <div className="row justify-content-center">
@@ -307,7 +307,7 @@ class PageDoctor extends Component {
                 ) :
                 null
               }
-            </Row>
+            </Row> */}
 
           </div>
           : <SpinnerWidget loading="true" />}

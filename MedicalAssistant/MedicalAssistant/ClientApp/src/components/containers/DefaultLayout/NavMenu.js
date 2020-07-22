@@ -89,9 +89,9 @@ class NavMenu extends Component {
         return (
             <Menu onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal" style={{ backgroundColor: 'rgb(174,214,187)' }}>
 
-
-                <Menu.Item style={{ float: 'left' }} key="app" >
+                <Menu.Item  style={{ float: 'left' }} key="app" >
                     {/* <img className="imgL" src={require("../images/logo.png")} /> */}
+                    {/* <Link to="home" style={{ , fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Link> */}
                     <Text style={{ fontFamily: 'Footlight MT', fontWeight: '400', fontSize: '24px', fontStyle: 'Italic' }}>Medical Assistant</Text>
                 </Menu.Item>
 
