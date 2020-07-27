@@ -98,6 +98,9 @@ namespace MedicalAssistant
 
             services.AddDistributedMemoryCache();
             services.AddSession();
+            services.AddPushSubscriptionStore(Configuration)
+             .AddPushNotificationService(Configuration)
+             .AddPushNotificationsQueue();
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

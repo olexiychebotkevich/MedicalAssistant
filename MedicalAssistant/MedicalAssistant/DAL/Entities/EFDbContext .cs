@@ -23,8 +23,7 @@ namespace MedicalAssistant.DAL.Entities
         public DbSet<DetailedDoctor> DetailedDoctors { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<MedicalSession> MedicalSessions { get; set; }
-        //[NotMapped]
-        //public DbSet<PushSubscription> Subscriptions { get; set; }
+
 
         
 
