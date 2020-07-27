@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Lib.Net.Http.WebPush;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +23,8 @@ namespace MedicalAssistant.DAL.Entities
         public DbSet<DetailedDoctor> DetailedDoctors { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<MedicalSession> MedicalSessions { get; set; }
+        //[NotMapped]
+        //public DbSet<PushSubscription> Subscriptions { get; set; }
 
         
 
